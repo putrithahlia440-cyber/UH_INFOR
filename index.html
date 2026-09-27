@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asesmen Sumatif HOTS - Sistem Komputer & OS</title>
+<title>ULANGAN HARIAN - Sistem Komputer & OS</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1c2d;--text:#eff8ff;--muted:#aec2d5;--cyan:#48ddff;--violet:#9c7dff;--green:#55e6a5;--yellow:#ffd166;--red:#ff7180;--line:#ffffff1c}
 *{box-sizing:border-box}
@@ -28,13 +28,13 @@ textarea{min-height:100px;resize:vertical;}
 <div class="container">
   <!-- START SCREEN -->
   <div id="start-screen">
-    <h2>🚀 Asesmen Sumatif HOTS Informatika</h2>
+    <h2>ULANGAN HARIAN Informatika</h2>
     <p style="color:var(--muted)">Materi: Arsitektur Von Neumann, Hardware, & Sistem Operasi (30 PG + 5 Esai Studi Kasus)</p>
     <div class="card">
       <label>Nama Lengkap Siswa:</label>
       <input type="text" id="student-name" placeholder="Masukkan nama lengkap..." required>
       <label>Kelas:</label>
-      <input type="text" id="student-class" placeholder="Contoh: X-1" required>
+      <input type="text" id="student-class" placeholder="Contoh: X A" required>
       <button class="btn" type="button" onclick="startExam()">Mulai Ujian</button>
     </div>
   </div>
@@ -74,7 +74,7 @@ textarea{min-height:100px;resize:vertical;}
 // =========================================================================
 // PASTE LINK WEB APP GOOGLE APPS SCRIPT ANDA DI DALAM TANDA PETIK DI BAWAH INI:
 // =========================================================================
-const GOOGLE_SCRIPT_URL = "ISI_LINK_WEB_APP_GOOGLE_SCRIPT_ANDA_DI_SINI";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec";
 
 const pgQuestions = [
   { q: "1. Komputer lambat saat multitasking banyak aplikasi. Komponen Von Neumann yang mengelola alokasi instruksi dan jadwal prosesor adalah...", options: ["A. Control Unit & OS", "B. ALU", "C. Harddisk", "D. Power Supply"], ans: 0 },
@@ -237,7 +237,7 @@ function calculateAndShowResults() {
 function sendDataToSpreadsheet(correctPgCount) {
   const statusElem = document.getElementById("send-status");
   
-  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec")) {
+  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("ISI_LINK")) {
     statusElem.textContent = "*Nilai tidak terkirim otomatis ke Spreadsheet (URL Google Script belum diatur).";
     statusElem.style.color = "var(--red)";
     return;
