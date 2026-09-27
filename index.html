@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asesmen Sumatif HOTS - Sistem Komputer & OS</title>
+<title>ULANGAN HARIAN - Sistem Komputer & OS</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1c2d;--text:#eff8ff;--muted:#aec2d5;--cyan:#48ddff;--violet:#9c7dff;--green:#55e6a5;--yellow:#ffd166;--red:#ff7180;--line:#ffffff1c}
 *{box-sizing:border-box}
@@ -30,7 +30,6 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
 <body>
 
 <div class="container">
-  <!-- FORM IDENTITAS -->
   <div id="start-screen">
     <h2>🚀 Asesmen Sumatif HOTS Informatika</h2>
     <p style="color:var(--muted)">Materi: Arsitektur Von Neumann, Hardware, & Sistem Operasi (Durasi: 90 Menit)</p>
@@ -39,11 +38,10 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
       <input type="text" id="student-name" placeholder="Masukkan nama..." required>
       <label>Kelas:</label>
       <input type="text" id="student-class" placeholder="Contoh: X-1" required>
-      <button class="btn" id="start-btn">Mulai Ujian</button>
+      <button class="btn" type="button" onclick="startExam()">Mulai Ujian</button>
     </div>
   </div>
 
-  <!-- AREA UJIAN -->
   <div id="exam-screen" style="display:none;">
     <header>
       <div><b id="q-number">Soal 1/10</b></div>
@@ -55,11 +53,10 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
       <h3 id="question-text">Teks Soal...</h3>
       <div id="options-container"></div>
       <div id="feedback" class="feedback-box"></div>
-      <button id="next-btn" class="btn" style="display:none;">Soal Berikutnya →</button>
+      <button id="next-btn" class="btn" style="display:none;" onclick="nextQuestion()">Soal Berikutnya →</button>
     </div>
   </div>
 
-  <!-- HASIL AKHIR -->
   <div id="result-screen" style="display:none; text-align:center;">
     <h2>🏆 Ujian Selesai!</h2>
     <div class="card">
@@ -69,288 +66,15 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
   </div>
 </div>
 
-<!-- MODAL PERINGATAN KELUAR TAB -->
 <div id="warn-modal" class="modal">
   <div class="modal-content">
     <h3 style="color:var(--red); margin-top:0;">⚠️ PERINGATAN PELANGGARAN!</h3>
     <p>Anda terdeteksi keluar dari aplikasi/pindah tab browser!</p>
     <p>Pelanggaran Ke: <b id="modal-warn-num" style="color:var(--yellow); font-size:1.2rem;">1</b> / 3</p>
-    <p style="font-size:13px; color:var(--muted)">Jika mencapai 3 kali pelanggaran, lembar jawaban akan <b>OTOMATIS TER-SUBMIT</b> secara permanen.</p>
-    <button class="btn" id="close-modal-btn">Saya Mengerti & Lanjutkan</button>
+    <button class="btn" onclick="closeModal()">Saya Mengerti & Lanjutkan</button>
   </div>
 </div>
 
-<script>
-const GOOGLE_SCRIPT_URL = "";
-
-const questions = [
-  {
-    q: "Sebuah sistem komputer mikro mengalami kemacetan (lag) parah saat membuka video editor dan browser secara bersamaan. Setelah diperiksa, alokasi memori penuh. Berdasarkan model Arsitektur Von Neumann, bagian sistem manakah yang bertugas mengatur alokasi pemrosesan dan memori agar aplikasi tidak berebut sumber daya?",
-    options: [
-      "A. ALU (Arithmetic Logic Unit) memproses ulang perhitungan instruksi.",
-      "B. Sistem Operasi mengalokasikan ruang memori dan penjadwalan CPU.",
-      "C. Control Unit menggandakan kapasitas RAM secara fisik.",
-      "D. Harddisk secara otomatis menggantikan fungsi utama prosesor."
-    ],
-    answer: 1,
-    explainWrong: "ALU dan Control Unit adalah bagian hardware CPU yang mengeksekusi instruksi fisik, bukan pengelola memori perangkat lunak secara keseluruhan. Harddisk juga hanya bertugas menyimpan data sekunder.",
-    explainCorrect: "Tepat! Sistem Operasi bertugas sebagai pengelola sumber daya (Resource Manager) yang mengatur alokasi memori (RAM) dan penjadwalan giliran eksekusi pada CPU."
-  },
-  {
-    q: "Komputer generasi pertama (1946–1959) menggunakan tabung vakum dan silinder magnetik, sedangkan komputer generasi ke-3 mulai menggunakan IC dan Sistem Operasi Multitasking. Mengapa komputer generasi pertama TIDAK dapat menjalankan Sistem Operasi Multitasking?",
-    options: [
-      "A. Karena belum ditemukan teknologi mouse dan monitor warna.",
-      "B. Karena arsitekturnya belum memiliki memori fisik sama sekali.",
-      "C. Karena keterbatasan komponen vakum yang besar, panas, dan instruksi masih sekuensial tunggal.",
-      "D. Karena komputer generasi pertama hanya digunakan untuk mencetak dokumen kertas."
-    ],
-    answer: 2,
-    explainWrong: "Keberadaan mouse/monitor bukan syarat utama multitasking OS. Komputer generasi pertama memiliki memori (seperti magnetic drum), namun kapasitas & kecepatan sangat terbatas secara sekuensial.",
-    explainCorrect: "Benar! Komputer generasi ke-1 berukuran besar, cepat panas, dan pemrosesannya bersifat mono-tasking sekuensial tunggal. Multitasking OS baru lahir pada generasi ke-3 dengan ditemukannya teknologi chip/IC."
-  },
-  {
-    q: "Seorang desainer menggunakan Barcode Scanner dan Camera Digital untuk menginput data, lalu melihat hasilnya di Monitor dan Plotter. Berdasarkan klasifikasi Von Neumann, manakah pengelompokan yang TEPAT?",
-    options: [
-      "A. Input: Barcode, Kamera | Output: Monitor, Plotter",
-      "B. Input: Monitor, Plotter | Output: Barcode, Kamera",
-      "C. Proses: Kamera, Plotter | Input: Barcode, Monitor",
-      "D. Input: Barcode, Plotter | Output: Kamera, Monitor"
-    ],
-    answer: 0,
-    explainWrong: "Ingat kembali: Alat yang memasukkan perintah/data ke komputer adalah Input Device, sedangkan alat penyaji hasil komputasi adalah Output Device.",
-    explainCorrect: "Sangat Tepat! Barcode Scanner & Digital Camera menangkap data ke komputer (Input), sedangkan Monitor & Plotter menampilkan/mencetak hasil komputasi (Output)."
-  },
-  {
-    q: "Arsitektur Von Neumann memiliki siklus eksekusi: Ambil Instruksi (Fetch) -> Dekode (Decode) -> Eksekusi (Execute). Apa yang terjadi jika Control Unit (CU) mengalami kegagalan pada tahap 'Dekode Instruksi'?",
-    options: [
-      "A. ALU tetap dapat menghitung data matematika dengan benar secara otomatis.",
-      "B. CPU tidak dapat menerjemahkan maksud instruksi sehingga langkah eksekusi gagal berjalan.",
-      "C. Data langsung tersimpan secara permanen ke dalam Harddisk.",
-      "D. Sistem operasi otomatis meningkatkan kecepatan clock pemrosesan."
-    ],
-    answer: 1,
-    explainWrong: "ALU tidak dapat bekerja tanpa sinyal kendali dari Control Unit. Jika tahap dekode gagal, sinyal instruksi tidak akan pernah sampai ke ALU.",
-    explainCorrect: "Hebat! Control Unit (CU) berfungsi menerjemahkan (dekode) instruksi dari memori. Jika dekode gagal, CPU tidak tahu operasi apa yang harus dilakukan sehingga eksekusi terhenti."
-  },
-  {
-    q: "Perusahaan finansial besar memilih menggunakan Komputer Mainframe (seperti IBM System/390) dibandingkan Komputer Mikro (PC/Laptop). Mengapa Komputer Mikro TIDAK cocok digunakan untuk menggantikan Mainframe perusahaan tersebut?",
-    options: [
-      "A. Komputer mikro tidak memiliki Sistem Operasi sama sekali.",
-      "B. Komputer mikro tidak mampu melayani transaksi finansial ratusan hingga ribuan pengguna secara bersamaan.",
-      "C. Komputer mikro menggunakan daya listrik jauh lebih besar dari Mainframe.",
-      "D. Komputer mikro hanya bisa menggunakan perangkat input berupa keyboard."
-    ],
-    answer: 1,
-    explainWrong: "Komputer mikro memiliki OS dan sangat hemat daya dibanding Mainframe. Alasan utamanya terletak pada skala kapasitas pemrosesan concurrent user.",
-    explainCorrect: "Tepat! Komputer Mainframe dirancang khusus untuk memproses data skala besar dan melayani ratusan pengguna bersamaan secara optimal (seperti perbankan/sensus), yang tidak sanggup ditangani PC mikro biasa."
-  },
-  {
-    q: "Komputer Super (seperti Titan) digunakan untuk simulasi iklim dan kriptanalisis. Mengapa Komputer Super dapat memproses data jauh lebih cepat dibandingkan Komputer Mainframe biasa?",
-    options: [
-      "A. Karena Komputer Super tidak menggunakan Arsitektur Von Neumann.",
-      "B. Karena Komputer Super hanya memproses data berformat teks sederhana.",
-      "C. Karena Komputer Super menggunakan ribuan prosesor terdistribusi untuk kalkulasi intensif secara paralel.",
-      "D. Karena Komputer Super tidak memerlukan komponen Input/Output."
-    ],
-    answer: 2,
-    explainWrong: "Komputer super tetap menggunakan evolusi arsitektur komputer mendasar dan tetap memerlukan I/O untuk menerima data riset.",
-    explainCorrect: "Benar! Komputer Super menggabungkan ribuan inti prosesor (parallel processing) khusus untuk menangani perhitungan matematika/fisika yang sangat intensif dalam skala tinggi."
-  },
-  {
-    q: "Saat mengetik tugas di word processor, karakter muncul di layar monitor setelah tombol keyboard ditekan. Manakah alur logika interaksi sumber daya yang TEPAT yang dikelola oleh Sistem Operasi?",
-    options: [
-      "A. User -> Perangkat I/O (Keyboard) -> Sistem Operasi -> Aplikasi / CPU -> Output (Layar)",
-      "B. User -> Output (Layar) -> Harddisk -> Perangkat I/O -> Sistem Operasi",
-      "C. Sistem Operasi -> Harddisk -> User -> Perangkat I/O -> CPU",
-      "D. User -> ALU -> Control Unit -> Harddisk -> User"
-    ],
-    answer: 0,
-    explainWrong: "Ingat hirarki interaksi: Input dari user diterima oleh hardware I/O, lalu OS menjembatani sinyal tersebut ke aplikasi dan CPU sebelum diteruskan ke output.",
-    explainCorrect: "Luar Biasa! OS memegang peran kunci sebagai perantara antara perangkat input (keyboard), pemroses (CPU/aplikasi), dan perangkat output (layar)."
-  },
-  {
-    q: "Kelemahan utama Arsitektur Von Neumann sering disebut dengan istilah 'Von Neumann Bottleneck'. Masalah utama apakah yang menyebabkan kelemahan tersebut?",
-    options: [
-      "A. Harga pembuatan prosesor yang terlalu mahal.",
-      "B. Keterbatasan lalu lintas data (bus) yang menghubungkan CPU dan Memori saat mentransfer instruksi sekuensial.",
-      "C. Ketidakmampuan CPU untuk terhubung dengan printer dan perangkat input.",
-      "D. Ukuran fisik komponen yang tidak bisa diperkecil lagi."
-    ],
-    answer: 1,
-    explainWrong: "Von Neumann Bottleneck bukan terkait harga atau bentuk fisik, melainkan kecepatan transfer data pada Jalur Bus antara CPU dan Memori Utama.",
-    explainCorrect: "Sangat Tepat! Von Neumann Bottleneck terjadi karena CPU dan Memori berbagi bus data yang sama, sehingga kecepatan eksekusi CPU yang sangat tinggi sering terhambat oleh antrean transfer data memori."
-  },
-  {
-    q: "Sebuah sekolah ingin memasang OS di komputer laboratorium tanpa harddisk internal di tiap PC, melainkan terhubung ke jaringan server pusat. Fungsi OS manakah yang paling kritikal dalam skenario ini?",
-    options: [
-      "A. Manajemen Media Penyimpanan Lokal secara offline.",
-      "B. Manajemen Komunikasi Jaringan & Akses Sumber Daya Terdistribusi.",
-      "C. Pengaturan Kecerahan Layar Komputer secara otomatis.",
-      "D. Format Ulang Disk Drive secara otomatis setiap kali dinyalakan."
-    ],
-    answer: 1,
-    explainWrong: "Komputer tanpa disk lokal membutuhkan pengelolaan protokol komunikasi jaringan dan I/O terdistribusi, bukan sekadar format disk lokal.",
-    explainCorrect: "Benar! OS bertindak mengelola akses sumber daya I/O terdistribusi dan komunikasi jaringan server-client sehingga komputer dapat melakukan booting dan eksekusi program tanpa disk lokal."
-  },
-  {
-    q: "Pengguna ingin menyimpan file 'Laporan_Informatika.pdf' ke dalam flashdisk. Sistem Operasi menolak dengan pesan 'Write Protected / Storage Full'. Sumber daya manakah yang sedang diproteksi/dikelola oleh OS?",
-    options: [
-      "A. Penjadwalan Waktu CPU (CPU Scheduling)",
-      "B. Manajemen Penyimpanan Sekunder & Hak Akses Berkas (File System & Storage)",
-      "C. Alokasi Memori Utama (RAM Allocation)",
-      "D. Manajemen Pengontrol Suhu Prosesor"
-    ],
-    answer: 1,
-    explainWrong: "Pesan kesalahan file system dan kapasitas media simpan adalah ranah File Management, bukan alokasi RAM atau suhu CPU.",
-    explainCorrect: "Tepat Sekali! OS bertanggung jawab atas File System Management, yaitu mengatur pembuatan, hak akses baca/tulis, serta kapasitas penyimpanan pada media sekunder."
-  }
-];
-
-let currentQ = 0, score = 0, violations = 0, timeRemaining = 5400;
-let student = { nama: "", kelas: "" }, timerInterval = null, isSubmitted = false;
-
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("start-btn").addEventListener("click", startExam);
-  document.getElementById("next-btn").addEventListener("click", nextQuestion);
-  document.getElementById("close-modal-btn").addEventListener("click", closeModal);
-});
-
-function startExam() {
-  const nameInput = document.getElementById("student-name").value.trim();
-  const classInput = document.getElementById("student-class").value.trim();
-  if(!nameInput || !classInput) {
-    alert("Harap isi Nama dan Kelas terlebih dahulu!");
-    return;
-  }
-  student.nama = nameInput; 
-  student.kelas = classInput;
-  document.getElementById("start-screen").style.display = "none";
-  document.getElementById("exam-screen").style.display = "block";
-  
-  startTimer();
-  loadQuestion();
-  setupAntiCheat();
-}
-
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timeRemaining--;
-    let h = Math.floor(timeRemaining / 3600);
-    let m = Math.floor((timeRemaining % 3600) / 60);
-    let s = timeRemaining % 60;
-    document.getElementById("timer").textContent = 
-      `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    
-    if(timeRemaining <= 0) {
-      clearInterval(timerInterval);
-      forceSubmit("Waktu Habis");
-    }
-  }, 1000);
-}
-
-function loadQuestion() {
-  const qData = questions[currentQ];
-  document.getElementById("q-number").textContent = `Soal ${currentQ + 1} / ${questions.length}`;
-  document.getElementById("question-text").textContent = qData.q;
-  
-  const container = document.getElementById("options-container");
-  container.innerHTML = "";
-  document.getElementById("feedback").style.display = "none";
-  document.getElementById("next-btn").style.display = "none";
-  
-  qData.options.forEach((opt, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "option-btn";
-    btn.textContent = opt;
-    btn.onclick = () => checkAnswer(idx);
-    container.appendChild(btn);
-  });
-}
-
-function checkAnswer(selectedIdx) {
-  const qData = questions[currentQ];
-  const buttons = document.querySelectorAll(".option-btn");
-  buttons.forEach(btn => btn.disabled = true);
-  
-  const fbBox = document.getElementById("feedback");
-  fbBox.style.display = "block";
-  
-  if(selectedIdx === qData.answer) {
-    buttons[selectedIdx].classList.add("correct");
-    fbBox.className = "feedback-box ok";
-    fbBox.innerHTML = `<b>✅ JAWABAN BENAR:</b><br>${qData.explainCorrect}`;
-    score += 10;
-  } else {
-    buttons[selectedIdx].classList.add("wrong");
-    buttons[qData.answer].classList.add("correct");
-    fbBox.className = "feedback-box no";
-    fbBox.innerHTML = `<b>❌ JAWABAN KURANG TEPAT:</b><br>${qData.explainWrong}`;
-  }
-  
-  document.getElementById("next-btn").style.display = "block";
-}
-
-function nextQuestion() {
-  currentQ++;
-  if(currentQ < questions.length) {
-    loadQuestion();
-  } else {
-    forceSubmit("Selesai Normal");
-  }
-}
-
-function setupAntiCheat() {
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) handleViolation();
-  });
-  window.addEventListener("blur", () => {
-    handleViolation();
-  });
-}
-
-function handleViolation() {
-  if(isSubmitted) return;
-  violations++;
-  document.getElementById("warn-count").textContent = violations;
-  
-  if(violations >= 3) {
-    alert("🚨 Anda telah keluar dari halaman sebanyak 3 kali! Ujian otomatis ter-submit.");
-    forceSubmit("Otomatis Ter-submit (3x Violations)");
-  } else {
-    document.getElementById("modal-warn-num").textContent = violations;
-    document.getElementById("warn-modal").style.display = "grid";
-  }
-}
-
-function closeModal() {
-  document.getElementById("warn-modal").style.display = "none";
-}
-
-function forceSubmit(statusReason) {
-  if(isSubmitted) return;
-  isSubmitted = true;
-  clearInterval(timerInterval);
-  
-  document.getElementById("exam-screen").style.display = "none";
-  document.getElementById("warn-modal").style.display = "none";
-  document.getElementById("result-screen").style.display = "block";
-  document.getElementById("final-score").textContent = score;
-  
-  if(GOOGLE_SCRIPT_URL) {
-    fetch(https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nama: student.nama,
-        kelas: student.kelas,
-        skor: score,
-        pelanggaran: violations,
-        status: statusReason
-      })
-    });
-  }
-}
-</script>
+<script src="script.js"></script>
 </body>
 </html>
