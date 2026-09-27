@@ -21,6 +21,8 @@ input[type="text"], textarea{width:100%;padding:12px;background:#162c43;border:1
 textarea{min-height:100px;resize:vertical;}
 .essay-box{margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:15px;}
 .rubrik-box{background:#55e6a512;border:1px solid var(--green);color:#a8ffda;padding:12px;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.5;}
+.q-image{text-align:center;margin:15px 0;padding:10px;background:#00000033;border-radius:10px;border:1px dashed var(--line)}
+.q-image svg{max-width:100%;height:auto}
 </style>
 </head>
 <body>
@@ -28,8 +30,8 @@ textarea{min-height:100px;resize:vertical;}
 <div class="container">
   <!-- START SCREEN -->
   <div id="start-screen">
-    <h2>ULANGAN HARIAN Informatika</h2>
-    <p style="color:var(--muted)">Materi: Arsitektur Von Neumann, Hardware, & Sistem Operasi (30 PG + 5 Esai Studi Kasus)</p>
+    <h2>🚀 ULANGAN HARIAN HOTS Informatika SMA</h2>
+    <p style="color:var(--muted)">Materi: Arsitektur Von Neumann, Hardware, & Sistem Operasi (30 PG Pilihan A-E + 5 Esai Studi Kasus)</p>
     <div class="card">
       <label>Nama Lengkap Siswa:</label>
       <input type="text" id="student-name" placeholder="Masukkan nama lengkap..." required>
@@ -48,6 +50,7 @@ textarea{min-height:100px;resize:vertical;}
 
     <div class="card">
       <h3 id="question-text">Teks Soal...</h3>
+      <div id="image-container" class="q-image" style="display:none;"></div>
       <div id="options-container"></div>
       <div id="essay-container" style="display:none;">
         <textarea id="essay-answer" placeholder="Tuliskan jawaban analisis studi kasus Anda di sini..."></textarea>
@@ -77,58 +80,361 @@ textarea{min-height:100px;resize:vertical;}
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec";
 
 const pgQuestions = [
-  { q: "1. Komputer lambat saat multitasking banyak aplikasi. Komponen Von Neumann yang mengelola alokasi instruksi dan jadwal prosesor adalah...", options: ["A. Control Unit & OS", "B. ALU", "C. Harddisk", "D. Power Supply"], ans: 0 },
-  { q: "2. Komputer Generasi Pertama tidak bisa multitasking OS karena...", options: ["A. Belum ada monitor warna", "B. Keterbatasan komponen vakum & pemrosesan sekuensial tunggal", "C. Tidak ada RAM", "D. Menggunakan mouse analog"], ans: 1 },
-  { q: "3. Manakah yang termasuk pengelompokan Input & Output yang TEPAT?", options: ["A. Input: Scanner, Kamera | Output: Monitor, Plotter", "B. Input: Monitor | Output: Barcode", "C. Input: Plotter | Output: Keyboard", "D. Input: Speaker | Output: Mouse"], ans: 0 },
-  { q: "4. Apa yang terjadi jika Control Unit (CU) gagal pada tahap 'Decode'?", options: ["A. Data langsung tersimpan", "B. CPU tidak bisa menerjemahkan instruksi sehingga eksekusi gagal", "C. ALU menghitung otomatis", "D. RAM bertambah"], ans: 1 },
-  { q: "5. Perbankan memilih Mainframe dibanding Komputer Mikro (PC) karena...", options: ["A. Mainframe lebih murah", "B. Mampu melayani ribuan transaksi bersamaan secara stabil", "C. PC tidak punya OS", "D. PC cepat panas"], ans: 1 },
-  { q: "6. Komputer Super dipasangi ribuan prosesor terdistribusi untuk...", options: ["A. Menghemat daya", "B. Menjalankan komputasi matematika paralel intensif", "C. Mengetik dokumen", "D. Mengganti RAM"], ans: 1 },
-  { q: "7. Alur logika interaksi sumber daya OS yang benar saat menekan keyboard adalah...", options: ["A. User -> Input -> OS -> CPU/Aplikasi -> Output", "B. User -> Output -> CPU -> OS", "C. OS -> Harddisk -> User -> Keyboard", "D. Input -> Output -> OS"], ans: 0 },
-  { q: "8. Penyebab utama kelemahan 'Von Neumann Bottleneck' adalah...", options: ["A. Harga CPU mahal", "B. Keterbatasan bus data antara CPU dan Memori Utama", "C. Tidak ada printer", "D. Layar terlalu kecil"], ans: 1 },
-  { q: "9. Lab komputer tanpa harddisk lokal membutuhkan fungsi OS dalam hal...", options: ["A. Format disk otomatis", "B. Manajemen Jaringan & Akses Sumber Daya Terdistribusi", "C. Kecerahan layar", "D. Pendingin CPU"], ans: 1 },
-  { q: "10. Muncul pesan 'Storage Full' saat simpan file. OS sedang menjalankan fungsi...", options: ["A. Penjadwalan CPU", "B. File System & Secondary Storage Management", "C. RAM Allocation", "D. GPU Tuning"], ans: 1 },
-  { q: "11. Komponen Von Neumann yang bertugas melakukan operasi aritmatika dan logika adalah...", options: ["A. ALU", "B. Control Unit", "C. Register", "D. ROM"], ans: 0 },
-  { q: "12. Memori volatil yang menyimpan data sementara saat program berjalan adalah...", options: ["A. ROM", "B. RAM", "C. SSD", "D. Flashdisk"], ans: 1 },
-  { q: "13. Fungsi utama dari BIOS/UEFI pada saat komputer pertama kali dinyalakan adalah...", options: ["A. Mengedit foto", "B. POST (Power-On Self-Test) & Bootstrapping OS", "C. Mematikan listrik", "D. Mengirim email"], ans: 1 },
-  { q: "14. Perangkat lunak yang bertindak sebagai jembatan antara hardware dan pengguna adalah...", options: ["A. Application Software", "B. Operating System", "C. Driver Printer", "D. Antivirus"], ans: 1 },
-  { q: "15. Karakteristik utama arsitektur komputer Von Neumann adalah...", options: ["A. Program dan data disimpan dalam memori utama yang sama", "B. Memori terpisah untuk data dan instruksi", "C. Tanpa memori utama", "D. Hanya bisa membaca data"], ans: 0 },
-  { q: "16. Eksekusi instruksi CPU secara urut terdiri dari siklus...", options: ["A. Fetch -> Decode -> Execute", "B. Read -> Write -> Save", "C. Start -> Run -> Stop", "D. Input -> Process -> Store"], ans: 0 },
-  { q: "17. Komponen hardware yang menyimpan instruksi booting awal yang tidak hilang saat mati listrik adalah...", options: ["A. RAM", "B. ROM", "C. Cache", "D. Virtual Memory"], ans: 1 },
-  { q: "18. Jenis sistem operasi yang dapat melayani banyak pengguna dalam waktu bersamaan adalah...", options: ["A. Single-user", "B. Multi-user", "C. Single-tasking", "D. Standalone"], ans: 1 },
-  { q: "19. Perangkat tambahan seperti Printer dan Barcode Scanner dikategorikan sebagai...", options: ["A. Central Processing Unit", "B. Peripherals Device", "C. Primary Memory", "D. Internal Bus"], ans: 1 },
-  { q: "20. Fungsi 'Virtual Memory' pada sistem operasi adalah...", options: ["A. Menambah daya listrik", "B. Meminjam sebagian ruang Harddisk/SSD saat RAM penuh", "C. Mengganti layar", "D. Mempercepat koneksi internet"], ans: 1 },
-  { q: "21. Struktur file dalam sistem operasi diatur menggunakan...", options: ["A. File System (NTFS/FAT32/ext4)", "B. Control Panel", "C. Task Manager", "D. Device Manager"], ans: 0 },
-  { q: "22. Jenis arsitektur prosesor yang memiliki instruksi lebih ringkas dan hemat energi pada Smartphone adalah...", options: ["A. CISC", "B. RISC (ARM)", "C. Vacuum Tube", "D. Quantum"], ans: 1 },
-  { q: "23. Apa yang dimaksud dengan 'Interrupt' dalam sistem operasi?", options: ["A. Kerusakan harddisk", "B. Sinyal yang menghentikan sementara proses CPU untuk menangani event khusus", "C. Pemadaman listrik", "D. Penghapusan file"], ans: 1 },
-  { q: "24. Komponen memori tercepat yang berada langsung di dalam chip CPU adalah...", options: ["A. Cache Memory & Register", "B. RAM", "C. Harddisk", "D. SSD NVMe"], ans: 0 },
-  { q: "25. Perangkat keras yang berfungsi mengubah sinyal digital menjadi tampilan visual adalah...", options: ["A. Sound Card", "B. GPU / VGA Card", "C. Network Card", "D. Power Supply"], ans: 1 },
-  { q: "26. Teknik sistem operasi menjalankan beberapa proses secara bergantian dengan sangat cepat disebut...", options: ["A. Time Sharing / Multitasking", "B. Formatting", "C. Overclocking", "D. Partitioning"], ans: 0 },
-  { q: "27. Program kecil yang berfungsi memberitahu OS cara berkomunikasi dengan hardware tertentu disebut...", options: ["A. Application", "B. Driver", "C. Firmware", "D. Kernel"], ans: 1 },
-  { q: "28. Bagian inti (core) dari sistem operasi yang mengelola memori, CPU, dan hardware adalah...", options: ["A. Shell", "B. Kernel", "C. GUI", "D. Desktop"], ans: 1 },
-  { q: "29. Media penyimpanan sekunder yang tidak memiliki komponen bergerak dan sangat cepat adalah...", options: ["A. HDD", "B. SSD", "C. Disket", "D. Pita Magnetik"], ans: 1 },
-  { q: "30. Mekanisme OS untuk mencegah satu aplikasi merusak aplikasi lain di RAM disebut...", options: ["A. Memory Protection", "B. Disk Cleanup", "C. Defrag", "D. Compression"], ans: 0 }
+  { 
+    q: "1. (Menganalisis) Seorang teknisi merakit unit PC server untuk sekolah. Saat pengujian, CPU mampu memproses instruksi dengan sangat cepat, namun pergerakan transfer data menuju memori utama mengalami hambatan (delay) karena keterbatasan bus tunggal. Berdasarkan analisis arsitektur Von Neumann, fenomena ini dikenal sebagai...", 
+    options: [
+      "A. Thermal Throttling", 
+      "B. Von Neumann Bottleneck", 
+      "C. Multi-threading Lag", 
+      "D. Interrupt Request Conflict", 
+      "E. Cache Miss Overload"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "2. (Menevaluasi) Perhatikan diagram arsitektur Von Neumann di bawah ini. Jika Control Unit (CU) mengalami kegagalan pada tahap 'Decode', dampak utama yang terjadi pada alur pemrosesan instruksi adalah...", 
+    img: `<svg width="400" height="130" viewBox="0 0 400 130"><rect x="10" y="10" width="110" height="110" fill="#162c43" stroke="#48ddff" rx="8"/><text x="65" y="45" fill="#fff" font-size="12" text-anchor="middle">CPU</text><rect x="20" y="55" width="90" height="25" fill="#48ddff33" rx="4"/><text x="65" y="72" fill="#48ddff" font-size="10" text-anchor="middle">Control Unit</text><rect x="20" y="85" width="90" height="25" fill="#55e6a533" rx="4"/><text x="65" y="102" fill="#55e6a5" font-size="10" text-anchor="middle">ALU</text><line x1="120" y1="65" x2="170" y2="65" stroke="#ffd166" stroke-width="3" marker-end="url(#arrow)"/><rect x="170" y="35" width="100" height="60" fill="#162c43" stroke="#ffd166" rx="8"/><text x="220" y="70" fill="#ffd166" font-size="11" text-anchor="middle">Memori Utama</text><line x1="270" y1="65" x2="310" y2="65" stroke="#48ddff" stroke-width="3"/><rect x="310" y="35" width="80" height="60" fill="#162c43" stroke="#9c7dff" rx="8"/><text x="350" y="70" fill="#9c7dff" font-size="11" text-anchor="middle">I/O Device</text></svg>`,
+    options: [
+      "A. ALU akan langsung mengambil alih tugas menerjemahkan biner", 
+      "B. CPU tidak dapat mengartikan maksud instruksi sehingga eksekusi gagal", 
+      "C. Data otomatis tersimpan langsung ke dalam Secondary Storage", 
+      "D. Memori Utama akan otomatis menambah kapasitas RAM secara dinamis", 
+      "E. Siklus Fetch akan diulang terus menerus tanpa henti"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "3. (Menerapkan) Tim robotik SMA sedang merancang robot pemadam api yang membutuhkan pemrosesan logis cepat (seperti membandingkan suhu sensor dengan ambang batas). Komponen CPU yang bertugas melakukan perhitungan matematis dan keputusan logika tersebut adalah...", 
+    options: [
+      "A. Control Unit (CU)", 
+      "B. Register", 
+      "C. Arithmetic Logic Unit (ALU)", 
+      "D. System Bus", 
+      "E. Read Only Memory (ROM)"
+    ], 
+    ans: 2 
+  },
+  { 
+    q: "4. (Menganalisis) Komputer generasi pertama (menggunakan tabung hampa udara) belum mampu menerapkan Sistem Operasi Multitasking modern. Faktor penyebab utamanya adalah...", 
+    options: [
+      "A. Belum dikembangkannya teknologi monitor berlayar warna", 
+      "B. Ukuran fisik komponen besar serta pemrosesan data masih sekuensial tunggal (batch)", 
+      "C. Tidak tersedianya perangkat lunak bahasa pemrograman tingkat tinggi", 
+      "D. Belum ada keyboard mekanik untuk input data", 
+      "E. Kecepatan kipas pendingin yang tidak mencukupi"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "5. (Menevaluasi) Sebuah bank nasional memproses jutaan transaksi transfer uang per detik secara bersamaan. Mengapa pihak bank memilih Supercomputer/Mainframe ketimbang jajaran PC Desktop kelas atas?", 
+    options: [
+      "A. Mainframe mengkonsumsi daya listrik yang jauh lebih hemat", 
+      "B. Mainframe memiliki harga per unit yang jauh lebih murah dibanding ribuan PC", 
+      "C. Mainframe dirancang khusus untuk throughput I/O tinggi dan keandalan pemrosesan transaksi paralel tanpa downtime", 
+      "D. PC Desktop tidak dapat dihubungkan ke jaringan internet", 
+      "E. PC Desktop tidak mendukung Sistem Operasi berbasis GUI"
+    ], 
+    ans: 2 
+  },
+  { 
+    q: "6. (Menerapkan) Dalam laboratorium multimedia, siswa menggambar menggunakan graphic tablet. Alur logika interaksi antara peranti lunak, hardware, dan OS saat pena menyentuh tablet hingga muncul garis di layar adalah...", 
+    options: [
+      "A. Input Device -> Interrupt OS -> CPU/Aplikasi Grafis -> Framebuffer GPU -> Output Device", 
+      "B. OS -> Input Device -> GPU -> Secondary Storage -> Output Device", 
+      "C. CPU -> Input Device -> OS -> RAM -> Display Monitor", 
+      "D. Application -> Harddisk -> Input Device -> OS -> Output Device", 
+      "E. Output Device -> CPU -> OS -> Input Device -> RAM"
+    ], 
+    ans: 0 
+  },
+  { 
+    q: "7. (Menganalisis) Lab komputer sekolah menerapkan sistem 'Diskless' (tanpa Harddisk/SSD di tiap PC client). Agar semua PC dapat booting dan menjalankan aplikasi, fungsi OS yang sangat krusial dimanfaatkan adalah...", 
+    options: [
+      "A. Virtual Memory Management & Disk Defragmenter", 
+      "B. Network Operating System & Remote Resource Allocation", 
+      "C. Plug and Play Hardware Driver Management", 
+      "D. Local File Allocation Table (FAT32)", 
+      "E. Processor Overclocking & Tuning Control"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "8. (Menerapkan) Andi ingin menyimpan berkas video 8GB ke flashdisk, namun muncul pesan kesalahan 'File is too large for the destination file system', padahal kapasitas kosong flashdisk masih 16GB. Analisis penyebab teknis fenomena ini adalah...", 
+    options: [
+      "A. Flashdisk mengalami kerusakan sektor fisik (Bad Sector)", 
+      "B. Flashdisk menggunakan file system FAT32 yang memiliki batas maksimum ukuran per file 4GB", 
+      "C. RAM komputer Andi tidak mencukupi untuk memindahkan file 8GB", 
+      "D. CPU tidak mendukung transfer data di atas 5GB", 
+      "E. File system NTFS pada flashdisk menolak file video"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "9. (Menevaluasi) Perhatikan grafik pemakaian sumber daya komputer saat membuka 30 tab browser bersamaan berikut. Apa yang terjadi pada kinerja OS ketika grafik RAM mencapai 99% dan sistem mulai menggunakan Virtual Memory (Paging File)?", 
+    img: `<svg width="350" height="100" viewBox="0 0 350 100"><rect x="10" y="10" width="330" height="80" fill="#162c43" stroke="#ffffff1c" rx="6"/><text x="25" y="30" fill="#48ddff" font-size="11">CPU Usage: 45%</text><rect x="25" y="35" width="120" height="10" fill="#48ddff33" rx="3"/><rect x="25" y="35" width="54" height="10" fill="#48ddff" rx="3"/><text x="25" y="65" fill="#ff7180" font-size="11">RAM Usage: 99% (CRITICAL)</text><rect x="25" y="70" width="290" height="10" fill="#ff718033" rx="3"/><rect x="25" y="70" width="287" height="10" fill="#ff7180" rx="3"/></svg>`,
+    options: [
+      "A. Komputer berjalan 2x lebih cepat karena memori bertambah", 
+      "B. Terjadi Thrashing (penurunan performa drastis) akibat laju I/O swap data antara RAM dan Storage yang lambat", 
+      "C. CPU otomatis mematikan daya secara mendadak (Thermal Shutdown)", 
+      "D. Sistem Operasi menghapus seluruh file pengguna di harddisk", 
+      "E. Monitor berpindah otomatis ke mode resolusi terendah"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "10. (Menjelaskan) Karakteristik utama arsitektur komputer Von Neumann yang membedakannya secara mendasar dari arsitektur Harvard adalah...", 
+    options: [
+      "A. Penggunaan transistor alih-alih tabung hampa udara", 
+      "B. Data dan instruksi program disimpan dalam memori utama yang sama dan berbagi bus data", 
+      "C. Memiliki jalur bus terpisah antara instruksi dan data", 
+      "D. Hanya bisa digunakan untuk menghitung persamaan matematika tanpa input pengguna", 
+      "E. Wajib menggunakan media penyimpanan sekunder berupa pita magnetik"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "11. (Menerapkan) Saat menekan tombol Power pada PC, layar tidak langsung menampilkan desktop, melainkan melakukan proses awal booting. Urutan alur kerja hardware & firmware yang benar pada tahap awal tersebut adalah...", 
+    options: [
+      "A. Power On -> BIOS/UEFI -> POST -> Load Bootloader OS -> Kernel OS Aktif", 
+      "B. Power On -> Load Kernel OS -> POST -> BIOS -> Aplikasi", 
+      "C. BIOS -> Load Application -> Power On -> POST -> OS", 
+      "D. Power On -> RAM Load -> GPU Active -> POST -> BIOS", 
+      "E. Kernel OS -> POST -> BIOS -> Power On -> Desktop"
+    ], 
+    ans: 0 
+  },
+  { 
+    q: "12. (Menganalisis) Saat melakukan rendering animasi 3D, suhu prosesor meningkat drastis hingga 95°C. Mekanisme pertahanan diri yang dilakukan oleh CPU dan Sistem Operasi untuk mencegah kerusakan fisik hardware adalah...", 
+    options: [
+      "A. Overclocking Frekuensi Clock", 
+      "B. Thermal Throttling (menurunkan kecepatan clock CPU secara otomatis)", 
+      "C. Memperbesar kapasitas Cache L3", 
+      "D. Mengubah RAM Volatil menjadi Non-Volatil", 
+      "E. Menghapus Driver Kartu Grafis"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "13. (Menevaluasi) Smartphone modern saat ini menggunakan prosesor berbahan dasar arsitektur RISC (ARM) sedangkan PC Desktop mayoritas menggunakan CISC (x86/x64). Alasan utama pemilihan RISC pada smartphone adalah...", 
+    options: [
+      "A. RISC memiliki instruksi lebih kompleks sehingga aplikasi berjalan lebih rumit", 
+      "B. RISC memerlukan set instruksi yang lebih ringkas, efisien daya, dan menghasilkan panas lebih rendah", 
+      "C. CISC tidak bisa digunakan untuk menjalankan layar sentuh (touchscreen)", 
+      "D. RISC tidak membutuhkan memori RAM untuk mengolah data", 
+      "E. Arsitektur CISC tidak mendukung koneksi jaringan 5G"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "14. (Menerapkan) Budi ingin meningkatkan kecepatan akses game favoritnya yang lambat saat loading scene. Komponen secondary storage yang paling tepat di-upgrade dari Harddisk HDD konvensional adalah...", 
+    options: [
+      "A. M.2 NVMe SSD", 
+      "B. Flashdisk USB 2.0", 
+      "C. RAM DDR3", 
+      "D. Compact Disc (CD-ROM)", 
+      "E. SD Card Class 4"
+    ], 
+    ans: 0 
+  },
+  { 
+    q: "15. (Menganalisis) Mengapa Cache Memory L1, L2, dan L3 diletakkan sangat dekat (bahkan di dalam) chip CPU?", 
+    options: [
+      "A. Agar harga CPU menjadi lebih terjangkau", 
+      "B. Meminimalkan latensi akses data yang sering digunakan CPU dibanding mengambil dari RAM", 
+      "C. Menggantikan fungsi harddisk dalam menyimpan file permanen", 
+      "D. Mencegah malware masuk ke dalam memori utama", 
+      "E. Mengatur daya listrik yang masuk ke Motherboard"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "16. (Menevaluasi) Ketika sebuah program aplikasi hang/unresponsive, Anda membuka Task Manager dan memilih 'End Task'. Di tingkat kernel Sistem Operasi, proses yang terjadi adalah...", 
+    options: [
+      "A. OS mengirim sinyal Interrupt (SIGKILL) untuk menghentikan Process ID (PID) dan membebaskan alokasi RAM-nya", 
+      "B. OS menghapus berkas program dari harddisk secara permanen", 
+      "C. OS mereset ulang seluruh BIOS dan firmware motherboard", 
+      "D. OS mematikan pasokan daya listrik ke komponen RAM", 
+      "E. OS mengubah hak akses berkas aplikasi menjadi Read-Only"
+    ], 
+    ans: 0 
+  },
+  { 
+    q: "17. (Menerapkan) Sebuah komputer kantor digunakan oleh 5 pegawai secara bergantian dengan akun login masing-masing. Fungsi Sistem Operasi yang menjaga agar pegawai A tidak bisa membuka folder pribadi pegawai B adalah...", 
+    options: [
+      "A. Memory Protection & Defragmentation", 
+      "B. User Authentication & File Access Permission (ACL)", 
+      "C. CPU Time-Sharing Scheduling", 
+      "D. Interrupt Handling Service", 
+      "E. Device Driver Management"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "18. (Menganalisis) Saat mengetik di keyboard, tombol yang ditekan mengirimkan sinyal khusus yang memaksa CPU menghentikan sejenak pekerjaan utamanya untuk mencetak karakter di layar. Sinyal ini disebut...", 
+    options: [
+      "A. Paging Request", 
+      "B. Hardware Interrupt (IRQ)", 
+      "C. Cache Miss Signal", 
+      "D. System Bootstrapping", 
+      "E. Direct Memory Access (DMA)"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "19. (Menjelaskan) Komponen memori yang bersifat Non-Volatil dan menyimpan instruksi dasar seperti POST dan program Bootstrapping adalah...", 
+    options: [
+      "A. Synchronous DRAM", 
+      "B. Read-Only Memory (ROM / NVRAM)", 
+      "C. Level 1 Cache", 
+      "D. Virtual Swap Space", 
+      "E. Solid State Drive (SSD)"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "20. (Menevaluasi) Apa keunggulan utama arsitektur pemrosesan 'Multicore' (misal Octa-Core) dibanding peningkatan kecepatan clock pada prosesor Single-Core?", 
+    options: [
+      "A. Menghemat penggunaan kapasitas ruang harddisk", 
+      "B. Mampu mengeksekusi banyak thread instruksi secara paralel sejati tanpa panas berlebih dari clock ekstrem", 
+      "C. Menghilangkan kebutuhan akan Sistem Operasi", 
+      "D. Memastikan tidak akan pernah terkena serangan virus", 
+      "E. Secara otomatis mempercepat koneksi internet"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "21. (Menerapkan) Anda menyambungkan printer baru ke PC ber-OS Linux, namun printer tidak merespons perintah cetak. Langkah penanganan software yang paling tepat dilakukan adalah...", 
+    options: [
+      "A. Mengganti power supply PC", 
+      "B. Menginstal Driver printer yang sesuai dengan Kernel OS", 
+      "C. Menformat ulang harddisk utama", 
+      "D. Mengganti RAM dengan kapasitas lebih besar", 
+      "E. Mematikan fitur Firewall pada OS"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "22. (Menganalisis) Apa akibatnya jika Sistem Operasi tidak memiliki fitur 'Memory Protection' saat menjalankan banyak aplikasi bersamaan?", 
+    options: [
+      "A. Aplikasi A dapat menulis/merusak area alamat RAM yang sedang digunakan Aplikasi B sehingga sistem gampang crash", 
+      "B. Kecepatan kipas CPU akan menurun tajam", 
+      "C. Kapasitas harddisk akan berkurang secara mendadak", 
+      "D. Monitor tidak menampilkan warna dengan akurat", 
+      "E. Koneksi USB menjadi sangat lambat"
+    ], 
+    ans: 0 
+  },
+  { 
+    q: "23. (Menevaluasi) Perhatikan diagram lapisan Sistem Operasi berikut. Posisi 'Kernel' berada tepat di antara...", 
+    img: `<svg width="300" height="110" viewBox="0 0 300 110"><rect x="10" y="10" width="280" height="20" fill="#48ddff33" stroke="#48ddff" rx="4"/><text x="150" y="24" fill="#48ddff" font-size="10" text-anchor="middle">User / Application Interface (GUI/CLI)</text><rect x="10" y="40" width="280" height="25" fill="#ffd16633" stroke="#ffd166" rx="4"/><text x="150" y="57" fill="#ffd166" font-size="11" font-weight="bold" text-anchor="middle">??? [ BAGIAN INTI ] ???</text><rect x="10" y="75" width="280" height="20" fill="#55e6a533" stroke="#55e6a5" rx="4"/><text x="150" y="89" fill="#55e6a5" font-size="10" text-anchor="middle">Hardware (CPU, RAM, Storage, Devices)</text></svg>`,
+    options: [
+      "A. User Application dan GUI Shell", 
+      "B. Application/User Space dan Perangkat Keras (Hardware)", 
+      "C. Power Supply dan BIOS", 
+      "D. Monitor dan Kartu Grafis", 
+      "E. Keyboard dan Mouse"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "24. (Menerapkan) Struktur sistem berkas pada OS Linux diawali dengan direktori paling atas yang disimbolkan dengan tanda garis miring '/'. Direktori utama tersebut dinamakan...", 
+    options: [
+      "A. Home Directory", 
+      "B. Root Directory", 
+      "C. System32 Directory", 
+      "D. Administrator Directory", 
+      "E. Boot Partition"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "25. (Menganalisis) Sebuah server web dapat melayani ribuan permintaan halaman web sekaligus dari pengguna yang berbeda. Teknik manajemen proses OS yang memungkinkan hal tersebut terjadi adalah...", 
+    options: [
+      "A. Single-tasking Sequential Processing", 
+      "B. Multithreading & Time-Sharing Scheduling", 
+      "C. Manual Process Switching", 
+      "D. Batch Processing Mode", 
+      "E. Cold Booting Strategy"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "26. (Menevaluasi) Mengapa GPU (Graphics Processing Unit) jauh lebih efektif dibanding CPU dalam mengolah grafis 3D dan pemrosesan Machine Learning?", 
+    options: [
+      "A. GPU memiliki ukuran fisik yang jauh lebih kecil dari CPU", 
+      "B. GPU memiliki ribuan core kecil yang dirancang khusus untuk pemrosesan matematika paralel sederhana secara masif", 
+      "C. GPU tidak membutuhkan energi listrik", 
+      "D. GPU dapat bekerja tanpa bantuan RAM", 
+      "E. GPU langsung memproses data tanpa melalui Sistem Operasi"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "27. (Menjelaskan) Mekanisme OS dalam memindahkan data sementara dari RAM ke ruang swap di Secondary Storage saat RAM penuh dinamakan...", 
+    options: [
+      "A. Defragmenting", 
+      "B. Paging / Swapping", 
+      "C. Formatting", 
+      "D. Overclocking", 
+      "E. Partitioning"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "28. (Menerapkan) Anda ingin memisahkan ruang penyimpanan data pribadi dengan file sistem OS di harddisk 1TB. Fitur manajemen media penyimpanan OS yang digunakan untuk membagi ruang tersebut menjadi drive C: dan D: dinamakan...", 
+    options: [
+      "A. Disk Partitioning", 
+      "B. Disk Cleaning", 
+      "C. Memory Allocation", 
+      "D. File Compression", 
+      "E. System Restore"
+    ], 
+    ans: 0 
+  },
+  { 
+    q: "29. (Menganalisis) Apa fungsi dari Register di dalam CPU bila dibandingkan dengan RAM?", 
+    options: [
+      "A. Register menyimpan data dalam jumlah terabyte untuk jangka panjang", 
+      "B. Register adalah lokasi memori terkecil dan tercepat yang berada di dalam CPU untuk menampung operand instruksi yang sedang dieksekusi", 
+      "C. Register bertugas menggantikan fungsi pendingin fan CPU", 
+      "D. Register bertugas menerima input suara dari mikrofon", 
+      "E. Register menyimpan seluruh berkas gambar sistem operasi"
+    ], 
+    ans: 1 
+  },
+  { 
+    q: "30. (Menevaluasi) Sebuah laptop sekolah sering mengalami penurunan kecepatan drastis setelah dinyalakan selama 8 jam nonstop. Setelah diperiksa, ternyata banyak aplikasi latar belakang yang tidak tertutup sempurna. Tindakan optimal yang direkomendasikan pada OS untuk memulihkan performa RAM secara instan adalah...", 
+    options: [
+      "A. Menghapus folder System32", 
+      "B. Melakukan Restart / Reboot Sistem Operasi", 
+      "C. Mematikan layar monitor", 
+      "D. Mengisolasi file dokumen ke Flashdisk", 
+      "E. Mengganti keyboard dan mouse"
+    ], 
+    ans: 1 
+  }
 ];
 
 const essayQuestions = [
   {
-    q: "ESAI 1 (Studi Kasus - Bottleneck & Upgrade Hardware):\nSebuah lab komputer sekolah digunakan untuk editing video 4K. Saat pemrosesan render, indikator CPU berada di 100%, RAM terpakai 98%, sedangkan penggunaan SSD hanya 5%. Jelaskan analisis Anda mengenai letak 'bottleneck' sistem tersebut dan berikan saran solusi upgrade yang paling tepat!",
-    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Analisis Bottleneck (3 Poin): Bottleneck terjadi pada CPU dan RAM karena terpakai maksimal (100% & 98%), sedangkan SSD tidak bermasalah.\n- Solusi Upgrade (3 Poin): Menambah kapasitas RAM (misal dari 8GB ke 16/32GB) dan meng-upgrade CPU ke generasi lebih tinggi/banyak core."
+    q: "ESAI 1 (Menganalisis & Memberikan Solusi - Studi Kasus Bottleneck):\nSebuah lab komputer SMA digunakan untuk tugas rendering video 4K. Saat proses rendering berlangsung, indikator Task Manager menunjukkan: CPU Usage 100%, RAM Usage 98% (8GB terpakai penuh), sedangkan SSD Usage hanya 4%. Analisis masalah utama sistem tersebut, jelaskan dampaknya pada kecepatan kerja, dan tentukan skema upgrade hardware paling efektif!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Analisis Bottleneck (3 Poin): Terjadi bottleneck berat pada CPU dan RAM (terpakai penuh 100% & 98%), sedangkan SSD tidak mengalami kendala bandwidth (hanya 4%).\n- Solusi Upgrade (3 Poin): Menambah kapasitas RAM (misal menjadi 16GB/32GB) agar tidak terjadi thrashing/swapping, serta meng-upgrade CPU ke seri yang memiliki core/thread lebih banyak."
   },
   {
-    q: "ESAI 2 (Studi Kasus - Kegagalan Booting OS):\nSaat komputer dihidupkan, kipas berputar dan lampu menyala, tetapi layar tetap hitam dan terdengar bunyi bip berulang 3 kali dari motherboard. Berdasarkan siklus awal booting hardware & BIOS/UEFI, analisis apa yang sedang terjadi pada komponen komputer tersebut?",
-    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Diagnosis POST (3 Poin): Komputer gagal pada tahap Power-On Self-Test (POST) yang dilakukan BIOS/UEFI.\n- Analisis Hardware (3 Poin): Bunyi bip berulang umumnya menandakan masalah kegagalan pembacaan memori utama (RAM tidak terpasang sempurna/kotor/rusak) atau masalah VGA."
+    q: "ESAI 2 (Menevaluasi & Mendiagnosis - Studi Kasus Booting Failed):\nSaat tombol Power sebuah PC laboratorium ditekan, kipas pendingin berputar dan LED menyala. Namun, layar monitor tetap hitam (No Signal) dan motherboard mengeluarkan bunyi bip panjang berulang 3 kali. Berdasarkan alur kerja BIOS/UEFI pada tahap POST (Power-On Self-Test), analisislah komponen hardware apa yang bermasalah dan jelaskan langkah perbaikannya!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Diagnosis POST (3 Poin): Komputer gagal melewati tahap POST. Bunyi bip 3 kali berulang mengindikasikan kegagalan inisialisasi memori utama (RAM) atau modul VGA/Grafis.\n- Langkah Perbaikan (3 Poin): Mematikan daya, melepas RAM, membersihkan pin emas RAM dengan penghapus/kain, lalu memasang kembali secara presisi pada slot Motherboard (atau mencoba slot lain)."
   },
   {
-    q: "ESAI 3 (Studi Kasus - Manajemen Sumber Daya OS):\nSebuah server e-commerce mengalami lonjakan pengunjung saat promo. Tiba-tiba server menjadi sangat lambat dan respon berhenti (crash). Jelaskan bagaimana Sistem Operasi mengelola 'Resource Allocation' (CPU & RAM) saat kondisi beban tinggi dan solusi OS untuk mencegah crash!",
-    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Pengelolaan OS (3 Poin): OS menggunakan CPU Scheduling dan RAM Virtual Memory untuk membagi antrean proses.\n- Solusi OS/Sistem (3 Poin): OS perlu menerapkan Throttling/Load Balancing, menambah Swap Space, atau membatasi batas maksimum antrean request aplikasi."
+    q: "ESAI 3 (Menerapkan & Merancang - Manajemen Sumber Daya OS Server):\nSebuah server pendaftaran SPMB online sekolah mendadak lumpuh (crash/unresponsive) saat ribuan calon siswa mengakses situs bersamaan pada pukul 08.00. Jelaskan bagaimana Sistem Operasi mengelola 'CPU Scheduling' dan 'Virtual Memory Allocation' dalam kondisi beban ekstrem tersebut, serta usulkan 2 konfigurasi OS/Sistem untuk mencegah kejatuhan server di masa depan!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Penjelasan OS (3 Poin): Saat beban ekstrem, antrean proses menumpuk pada CPU Scheduler, dan RAM yang meluap memaksa OS melakukan Paging berlebih ke Disk (Thrashing) hingga I/O terblokir.\n- Solusi Konfigurasi (3 Poin): Menerapkan Rate Limiting/Throttling request, menambah Swap File/Virtual Memory, atau menggunakan strategi Load Balancing."
   },
   {
-    q: "ESAI 4 (Studi Kasus - Arsitektur Von Neumann vs Modern):\nArsitektur Von Neumann menggunakan bus tunggal untuk mentransfer data dan instruksi dari memori ke CPU. Bandingkanlah masalah yang muncul akibat arsitektur ini dengan solusi teknologi arsitektur modern (seperti Cache L1/L2/L3 atau Arsitektur Harvard)!",
-    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Kelemahan Von Neumann (3 Poin): Von Neumann Bottleneck, yaitu antrean data akibat jalur (bus) pemrosesan data dan instruksi yang sama.\n- Solusi Modern (3 Poin): Penggunaan Cache Memory bertingkat (L1, L2, L3) di dalam chip CPU serta Arsitektur Harvard yang memisahkan bus data dan instruksi."
+    q: "ESAI 4 (Mengevaluasi & Membandingkan - Von Neumann vs Arsitektur Modern):\nArsitektur Von Neumann tradisional menggunakan bus tunggal bersama untuk instruksi dan data. Evaluasilah keterbatasan utama dari arsitektur ini saat diterapkan pada komputasi modern berkecepatan tinggi, lalu jelaskan bagaimana teknologi Cache L1/L2/L3 dan Arsitektur Harvard mengatasi kelemahan tersebut!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Evaluasi Von Neumann (3 Poin): Terjadi 'Von Neumann Bottleneck', yaitu CPU harus mengantre saat mengambil data dan instruksi bergantian melalui bus tunggal yang sama.\n- Solusi Modern (3 Poin): Cache Memory (L1, L2, L3) menyimpan instruksi/data lokal di dalam chip CPU untuk akses super cepat, sedangkan Arsitektur Harvard memisahkan bus data dan bus instruksi secara independen."
   },
   {
-    q: "ESAI 5 (Studi Kasus - Keamanan File System OS):\nSebuah perusahaan mengalami serangan Malware yang mengubah semua hak akses berkas (File Permission) menjadi 'Read-Only' dan mengenkripsi drive. Jelaskan peran File System pada Sistem Operasi dalam mengatur Hak Akses (Read/Write/Execute) dan bagaimana cara pemulihannya!",
-    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Peran File System (3 Poin): Mengatur metadata berkas termasuk permission (Read, Write, Execute) dan Access Control List (ACL) untuk membatasi eksekusi file.\n- Pemulihan (3 Poin): Melakukan Boot via Live Media/Safe Mode, mereset Access Control Permission melalui Administrator/Root, serta restore data dari Backup Offline."
+    q: "ESAI 5 (Menciptakan & Menerapkan - Keamanan File System OS):\nKomputer di ruang Guru terinfeksi malware ransomware yang mengubah permission berkas nilai menjadi 'Read-Only' serta mengenkripsi drive data. Jelaskan peran File Access Permission (Read, Write, Execute) pada File System OS (NTFS/ext4) dan buatlah prosedur pemulihan data (Data Recovery Plan) yang runtut!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Peran File System (3 Poin): Menentukan kontrol akses user/proses terhadap berkas (Read = membaca, Write = mengubah/menghapus, Execute = menjalankan program) melalui Access Control List (ACL).\n- Prosedur Pemulihan (3 Poin): Isolasi komputer dari jaringan -> Booting via Safe Mode/Live USB OS -> Mereset hak akses ACL sebagai Administrator -> Melakukan Restore data bersih dari Backup Offline/Cloud."
   }
 ];
 
@@ -156,14 +462,24 @@ function renderQuestion() {
   
   const optionsContainer = document.getElementById("options-container");
   const essayContainer = document.getElementById("essay-container");
+  const imgContainer = document.getElementById("image-container");
   
   if(currentIdx < pgQuestions.length) {
     optionsContainer.style.display = "block";
     essayContainer.style.display = "none";
     const qData = pgQuestions[currentIdx];
     document.getElementById("question-text").textContent = qData.q;
-    optionsContainer.innerHTML = "";
     
+    // Render gambar jika ada
+    if(qData.img) {
+      imgContainer.style.display = "block";
+      imgContainer.innerHTML = qData.img;
+    } else {
+      imgContainer.style.display = "none";
+      imgContainer.innerHTML = "";
+    }
+
+    optionsContainer.innerHTML = "";
     qData.options.forEach((opt, oIdx) => {
       const btn = document.createElement("button");
       btn.className = "option-btn" + (userPgAnswers[currentIdx] === oIdx ? " selected" : "");
@@ -176,6 +492,7 @@ function renderQuestion() {
     });
   } else {
     optionsContainer.style.display = "none";
+    imgContainer.style.display = "none";
     essayContainer.style.display = "block";
     const eIdx = currentIdx - pgQuestions.length;
     const eData = essayQuestions[eIdx];
