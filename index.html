@@ -8,32 +8,32 @@
 :root{--bg:#07111f;--panel:#0d1c2d;--text:#eff8ff;--muted:#aec2d5;--cyan:#48ddff;--violet:#9c7dff;--green:#55e6a5;--yellow:#ffd166;--red:#ff7180;--line:#ffffff1c}
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(circle at 10% 10%,#173a5b 0,transparent 40%),radial-gradient(circle at 90% 90%,#292052 0,transparent 40%),var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding:20px}
-.container{max-width:900px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 15px 35px #0008}
+.container{max-width:920px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 15px 35px #0008}
 header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:20px;flex-wrap:wrap;gap:10px}
 .timer-badge{background:#162c43;padding:8px 15px;border-radius:30px;border:1px solid var(--cyan);color:var(--cyan);font-weight:bold}
 .cheat-badge{background:#431616;padding:8px 15px;border-radius:30px;border:1px solid var(--red);color:var(--red);font-weight:bold;font-size:13px}
 .card{background:#ffffff05;border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:20px}
 .btn{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#000;font-weight:bold;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:16px;width:100%;margin-top:15px;transition:.2s}
 .btn:hover{opacity:0.9}
-.option-btn{display:block;width:100%;text-align:left;background:#ffffff08;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:8px;margin:8px 0;cursor:pointer;transition:.2s}
+.option-btn{display:block;width:100%;text-align:left;background:#ffffff08;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:8px;margin:8px 0;cursor:pointer;transition:.2s;line-height:1.4}
 .option-btn:hover{border-color:var(--cyan);background:#ffffff12}
 .option-btn.selected{border-color:var(--cyan);background:#48ddff22}
 input[type="text"], textarea{width:100%;padding:12px;background:#162c43;border:1px solid var(--line);color:var(--text);border-radius:8px;margin:8px 0 15px;font-size:15px}
-textarea{min-height:100px;resize:vertical}
+textarea{min-height:110px;resize:vertical}
 .essay-box{margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:15px}
 .rubrik-box{background:#55e6a512;border:1px solid var(--green);color:#a8ffda;padding:12px;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.5}
 .q-image{text-align:center;margin:15px 0;padding:10px;background:#00000033;border-radius:10px;border:1px dashed var(--line)}
 .q-image svg{max-width:100%;height:auto}
 .alert-warning{color:var(--red);font-size:14px;margin-top:10px;display:none;font-weight:bold}
 
-/* GRID STYLING UNTUK TTS */
-.tts-container{display:flex;flex-direction:column;align-items:center;margin:20px 0}
+/* GRID STYLING TEKA TEKI SILANG (TTS) */
+.tts-container{display:flex;flex-direction:column;align-items:center;margin:20px 0;overflow-x:auto}
 .tts-grid{display:grid;grid-template-columns:repeat(10, 36px);grid-template-rows:repeat(10, 36px);gap:3px;background:#050c14;padding:10px;border-radius:10px;border:1px solid var(--cyan)}
 .tts-cell{width:36px;height:36px;background:#0d1c2d;border:1px solid #ffffff22;position:relative;border-radius:4px}
 .tts-cell.active{background:#162c43;border-color:var(--cyan)}
 .tts-cell.black{background:#040910;border:none}
 .tts-cell input{width:100%;height:100%;background:transparent;border:none;text-align:center;color:var(--cyan);font-weight:bold;font-size:16px;text-transform:uppercase;outline:none}
-.tts-num{position:absolute;top:2px;left:3px;font-size:9px;color:var(--yellow);font-weight:bold;pointer-events:none}
+.tts-num{position:absolute;top:1px;left:2px;font-size:9px;color:var(--yellow);font-weight:bold;pointer-events:none}
 </style>
 </head>
 <body>
@@ -42,13 +42,13 @@ textarea{min-height:100px;resize:vertical}
   <!-- START SCREEN -->
   <div id="start-screen">
     <h2>🚀 ULANGAN HARIAN & CHALLENGE TTS</h2>
-    <p style="color:var(--muted)">Materi: Arsitektur Sistem Komputer, Hardware & OS (Durasi Total: 90 Menit)</p>
+    <p style="color:var(--muted)">Materi: Arsitektur Sistem Komputer, Generasi Komputer & OS (Durasi: 90 Menit)</p>
     <div class="card">
       <p style="color:var(--yellow); font-size:14px; line-height:1.6;">
-        ⚠️ <b>PETUNJUK KELENGKAPAN & ATURAN:</b><br>
+        ⚠️ <b>PETUNJUK KELENGKAPAN & ATURAN UJIAN:</b><br>
         1. Anda wajib memilih/mengisi jawaban sebelum berpindah ke soal berikutnya.<br>
-        2. Batas Pelanggaran Pindah Tab / Keluar Fullscreen masing-masing maksimal <b>3 kali</b>.<br>
-        3. Setelah Esai, Anda dapat mengerjakan <b>15 Soal TTS Interaktif</b> untuk poin bonus (Maksimal +30 Poin).
+        2. Batas Maksimal Pelanggaran Pindah Tab / Keluar Fullscreen adalah <b>3 kali</b>.<br>
+        3. Setelah menyelesaikan Esai, lanjutkan ke <b>15 Soal TTS Interaktif</b> untuk poin bonus (+30 Poin).
       </p>
       <label>Nama Lengkap Siswa:</label>
       <input type="text" id="student-name" placeholder="Masukkan nama lengkap..." required>
@@ -69,11 +69,11 @@ textarea{min-height:100px;resize:vertical}
     </header>
 
     <div class="card">
-      <h3 id="question-text">Teks Soal...</h3>
+      <h3 id="question-text" style="line-height: 1.5;">Teks Soal...</h3>
       <div id="image-container" class="q-image" style="display:none;"></div>
       <div id="options-container"></div>
       <div id="essay-container" style="display:none;">
-        <textarea id="essay-answer" placeholder="Tuliskan jawaban analisis studi kasus Anda di sini..."></textarea>
+        <textarea id="essay-answer" placeholder="Tuliskan jawaban analisis Anda di sini..."></textarea>
       </div>
       <p id="validation-msg" class="alert-warning">⚠️ Silakan isi atau pilih jawaban terlebih dahulu sebelum melanjutkan!</p>
       <button id="next-btn" class="btn" onclick="nextQuestion()">Soal Berikutnya →</button>
@@ -88,60 +88,59 @@ textarea{min-height:100px;resize:vertical}
     </header>
     <div class="card">
       <p style="color:var(--green); font-size:14px;">
-        Isilah kotak-kotak TTS di bawah ini untuk mendapatkan nilai tambahan hingga <b>+30 Poin</b>!
+        Isilah kotak TTS di bawah ini berdasarkan bahan bacaan untuk mendapatkan bonus hingga <b>+30 Poin</b>!
       </p>
-      
-      <!-- VISUAL HEADER TTS SVG -->
+
+      <!-- VISUAL SVG HEADER TTS -->
       <div class="q-image">
-        <svg width="340" height="80" viewBox="0 0 340 80">
+        <svg width="340" height="70" viewBox="0 0 340 70">
           <rect x="10" y="10" width="60" height="40" rx="4" fill="#162c43" stroke="#48ddff" stroke-width="2"/>
-          <path d="M40 50 L40 65 M25 65 L55 65" stroke="#48ddff" stroke-width="2"/>
-          <text x="40" y="34" fill="#48ddff" font-size="8" text-anchor="middle">MONITOR</text>
+          <text x="40" y="34" fill="#48ddff" font-size="8" text-anchor="middle">INPUT</text>
           
           <circle cx="110" cy="30" r="20" fill="#ffd16622" stroke="#ffd166" stroke-width="2"/>
-          <text x="110" y="34" fill="#ffd166" font-size="9" font-weight="bold" text-anchor="middle">LINUX</text>
+          <text x="110" y="34" fill="#ffd166" font-size="8" font-weight="bold" text-anchor="middle">NEUMANN</text>
           
           <rect x="160" y="10" width="45" height="45" rx="5" fill="#162c43" stroke="#55e6a5" stroke-width="2"/>
-          <text x="182" y="36" fill="#55e6a5" font-size="9" text-anchor="middle">CPU</text>
+          <text x="182" y="36" fill="#55e6a5" font-size="8" text-anchor="middle">CHIP</text>
 
           <rect x="230" y="20" width="50" height="20" rx="2" fill="#9c7dff33" stroke="#9c7dff" stroke-width="2"/>
-          <text x="255" y="34" fill="#9c7dff" font-size="8" text-anchor="middle">RAM</text>
+          <text x="255" y="34" fill="#9c7dff" font-size="8" text-anchor="middle">OUTPUT</text>
           
           <rect x="295" y="20" width="35" height="20" rx="2" fill="#ff718033" stroke="#ff7180" stroke-width="2"/>
-          <text x="312" y="34" fill="#ff7180" font-size="8" text-anchor="middle">SSD</text>
+          <text x="312" y="34" fill="#ff7180" font-size="8" text-anchor="middle">SUPER</text>
         </svg>
       </div>
 
-      <!-- GRID INTERAKTIF TTS -->
+      <!-- GRID TTS INTERAKTIF 10x10 -->
       <div class="tts-container">
         <div id="tts-grid-board" class="tts-grid"></div>
       </div>
 
-      <!-- DAFTAR PETUNJUK SOAL TTS -->
+      <!-- PETUNJUK SOAL TTS -->
       <div style="display:flex; gap:15px; flex-wrap:wrap; margin-top:15px;">
         <div style="flex:1; min-width:260px;">
-          <h4 style="color:var(--cyan); margin-bottom:8px;">➡️ Mendatar (Across):</h4>
+          <h4 style="color:var(--cyan); margin-bottom:8px;">➡️ MENDATAR:</h4>
           <ol style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:18px;">
-            <li><b>(1)</b> Perangkat penampil visual layar utama</li>
-            <li><b>(2)</b> OS Open Source berlogo Penguin</li>
-            <li><b>(3)</b> Otak pemroses utama sistem komputer</li>
-            <li><b>(4)</b> Memori acak bersifat sementara / volatil</li>
-            <li><b>(5)</b> Media penyimpan flash super cepat modern</li>
-            <li><b>(6)</b> Firmware awal pembaca hardware saat booting</li>
-            <li><b>(7)</b> Prosesor pengolah grafis dan gambar 3D</li>
-            <li><b>(8)</b> Gerbang utama pintu jaringan internet</li>
+            <li><b>(1)</b> Memasukkan perintah ke dalam komputer</li>
+            <li><b>(3)</b> Menampilkan hasil komputasi</li>
+            <li><b>(5)</b> Tokoh penggagas arsitektur komputer</li>
+            <li><b>(7)</b> Pengganti tube vakum generasi kedua</li>
+            <li><b>(9)</b> Komputer ukuran kecil (laptop/smartphone)</li>
+            <li><b>(11)</b> Melayani ratusan pengguna bersamaan</li>
+            <li><b>(13)</b> Komputer perhitungan intensif (cuaca/iklim)</li>
+            <li><b>(15)</b> Tahap CPU melakukan operasi/perhitungan</li>
           </ol>
         </div>
         <div style="flex:1; min-width:260px;">
-          <h4 style="color:var(--violet); margin-bottom:8px;">⬇️ Menurun (Down):</h4>
-          <ol start="9" style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:18px;">
-            <li><b>(9)</b> Unit kalkulasi matematika & logika di CPU</li>
-            <li><b>(10)</b> Memori non-volatil tempat menyimpan BIOS</li>
-            <li><b>(11)</b> Inti terdalam dari sebuah Sistem Operasi</li>
-            <li><b>(12)</b> Sinyal selaan instruksi keras ke CPU</li>
-            <li><b>(13)</b> Proses membagi harddisk jadi drive C & D</li>
-            <li><b>(14)</b> Format berkas flashdisk batas max 4GB</li>
-            <li><b>(15)</b> Penurunan kecepatan CPU akibat panas berlebih</li>
+          <h4 style="color:var(--violet); margin-bottom:8px;">⬇️ MENURUN:</h4>
+          <ol start="2" style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:18px;">
+            <li><b>(2)</b> Tahap CPU mengambil instruksi dari memori</li>
+            <li><b>(4)</b> Tahap CPU menerjemahkan instruksi</li>
+            <li><b>(6)</b> Komponen penyimpan gen-1: silinder ....</li>
+            <li><b>(8)</b> Komponen gen-3 dipadatkan ke dalam ....</li>
+            <li><b>(10)</b> Komputer gen-5 menerima perintah secara ....</li>
+            <li><b>(12)</b> Ukuran sedikit lebih besar dari mikro</li>
+            <li><b>(14)</b> Contoh komputer super milik Amerika Serikat</li>
           </ol>
         </div>
       </div>
@@ -171,64 +170,82 @@ textarea{min-height:100px;resize:vertical}
 <script>
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec";
 
+// SOAL PILIHAN GANDA DENGAN FORMAT CERITA & STUDI KASUS KONTEKSTUAL
 const pgQuestions = [
-  { q: "1. Seorang teknisi merakit unit PC server untuk sekolah. Saat pengujian, CPU mampu memproses instruksi dengan sangat cepat, namun pergerakan transfer data menuju memori utama mengalami hambatan (delay) karena keterbatasan bus tunggal. Berdasarkan analisis arsitektur Von Neumann, fenomena ini dikenal sebagai...", options: ["A. Thermal Throttling", "B. Von Neumann Bottleneck", "C. Multi-threading Lag", "D. Interrupt Request Conflict", "E. Cache Miss Overload"], ans: 1 },
-  { q: "2. Perhatikan diagram arsitektur Von Neumann di bawah ini. Jika Control Unit (CU) mengalami kegagalan pada tahap 'Decode', dampak utama yang terjadi pada alur pemrosesan instruksi adalah...", img: `<svg width="360" height="110" viewBox="0 0 360 110"><rect x="10" y="10" width="100" height="90" fill="#162c43" stroke="#48ddff" rx="6"/><text x="60" y="32" fill="#fff" font-size="11" text-anchor="middle">CPU</text><rect x="20" y="40" width="80" height="20" fill="#48ddff33" rx="3"/><text x="60" y="54" fill="#48ddff" font-size="9" text-anchor="middle">Control Unit</text><rect x="20" y="68" width="80" height="20" fill="#55e6a533" rx="3"/><text x="60" y="82" fill="#55e6a5" font-size="9" text-anchor="middle">ALU</text><line x1="110" y1="55" x2="160" y2="55" stroke="#ffd166" stroke-width="3"/><rect x="160" y="25" width="90" height="60" fill="#162c43" stroke="#ffd166" rx="6"/><text x="205" y="60" fill="#ffd166" font-size="10" text-anchor="middle">Memori Utama</text></svg>`, options: ["A. ALU akan langsung mengambil alih tugas menerjemahkan biner", "B. CPU tidak dapat mengartikan maksud instruksi sehingga eksekusi gagal", "C. Data otomatis tersimpan langsung ke dalam Secondary Storage", "D. Memori Utama akan otomatis menambah kapasitas RAM secara dinamis", "E. Siklus Fetch akan diulang terus menerus tanpa henti"], ans: 1 },
-  { q: "3. Tim robotik SMA sedang merancang robot pemadam api. Komponen CPU yang bertugas melakukan perhitungan matematis dan keputusan logika adalah...", options: ["A. Control Unit (CU)", "B. Register", "C. Arithmetic Logic Unit (ALU)", "D. System Bus", "E. ROM"], ans: 2 },
-  { q: "4. Komputer generasi pertama (menggunakan tabung hampa udara) belum mampu menerapkan Multitasking modern karena...", options: ["A. Belum dikembangkannya monitor warna", "B. Ukuran fisik komponen besar & pemrosesan masih sekuensial (batch)", "C. Tidak ada bahasa pemrograman", "D. Belum ada keyboard mekanik", "E. Kipas pendingin kurang"], ans: 1 },
-  { q: "5. Sebuah bank nasional memproses jutaan transaksi per detik secara bersamaan. Mengapa pihak bank memilih Mainframe ketimbang PC Desktop?", options: ["A. Mainframe lebih hemat listrik", "B. Mainframe lebih murah", "C. Mainframe dirancang untuk throughput I/O tinggi & reliabilitas tanpa downtime", "D. PC Desktop tidak bisa internet", "E. PC Desktop tidak punya GUI"], ans: 2 },
-  { q: "6. Alur logika saat pena graphic tablet ditekan hingga muncul garis di layar monitor adalah...", options: ["A. Input Device -> Interrupt OS -> CPU/Aplikasi -> Framebuffer GPU -> Display Monitor", "B. OS -> Input -> GPU -> Storage -> Display", "C. CPU -> Input -> OS -> RAM -> Display", "D. Application -> Harddisk -> Input -> OS -> Display", "E. Output -> CPU -> OS -> Input -> RAM"], ans: 0 },
-  { q: "7. Lab komputer menerapkan sistem 'Diskless' (tanpa Harddisk di tiap client). Fungsi OS yang dimanfaatkan adalah...", options: ["A. Virtual Memory & Defragmenter", "B. Network Operating System & Remote Resource Allocation", "C. Plug and Play Driver", "D. Local FAT32", "E. Processor Overclocking"], ans: 1 },
-  { q: "8. Berkas 8GB tidak bisa disalin ke Flashdisk 16GB berkategori FAT32 karena...", options: ["A. Flashdisk rusak", "B. Format FAT32 membatasi ukuran maksimum file sebesar 4GB", "C. RAM komputer kurang", "D. CPU tidak mendukung", "E. Format NTFS menolak"], ans: 1 },
-  { q: "9. Apa yang terjadi ketika RAM mencapai 99% dan sistem mulai menggunakan Paging File (Virtual Memory)?", options: ["A. Komputer berjalan 2x lebih cepat", "B. Terjadi Thrashing (penurunan performa drastis) akibat laju I/O swap lambat", "C. CPU otomatis mati", "D. OS menghapus berkas", "E. Layar berubah resolusi"], ans: 1 },
-  { q: "10. Ciri khas arsitektur Von Neumann dibanding Harvard adalah...", options: ["A. Memakai transistor", "B. Data dan instruksi disimpan dalam memori utama yang sama & berbagi bus", "C. Jalur bus data dan instruksi terpisah", "D. Tanpa input pengguna", "E. Wajib pita magnetik"], ans: 1 },
-  { q: "11. Urutan alur kerja booting yang benar saat tombol Power ditekan adalah...", options: ["A. Power On -> BIOS/UEFI -> POST -> Load Bootloader OS -> Kernel OS", "B. Power On -> Kernel OS -> POST -> BIOS", "C. BIOS -> Application -> Power On -> POST", "D. Power On -> RAM Load -> GPU -> POST", "E. Kernel -> POST -> BIOS -> Power On"], ans: 0 },
-  { q: "12. Saat rendering 3D, suhu CPU mencapai 95°C. Mekanisme OS & CPU untuk mencegah kerusakan adalah...", options: ["A. Overclocking", "B. Thermal Throttling (menurunkan kecepatan clock CPU)", "C. Memperbesar Cache L3", "D. Mengubah RAM jadi Non-Volatil", "E. Menghapus Driver VGA"], ans: 1 },
-  { q: "13. Alasan utama penggunaan arsitektur RISC (ARM) pada smartphone dibanding CISC (x86) adalah...", options: ["A. RISC instruksinya lebih rumit", "B. RISC memerlukan set instruksi ringkas, hemat energi & suhu lebih rendah", "C. CISC tidak mendukung touchscreen", "D. RISC tidak butuh RAM", "E. CISC tidak mendukung 5G"], ans: 1 },
-  { q: "14. Media penyimpan secondary storage tercepat untuk mempercepat loading game adalah...", options: ["A. M.2 NVMe SSD", "B. Flashdisk USB 2.0", "C. RAM DDR3", "D. CD-ROM", "E. SD Card"], ans: 0 },
-  { q: "15. Mengapa Cache Memory L1, L2, L3 berada sangat dekat/di dalam chip CPU?", options: ["A. Supaya harga CPU murah", "B. Meminimalkan latensi akses data dibanding mengambil dari RAM", "C. Menggantikan Harddisk", "D. Mencegah virus", "E. Mengatur daya motherboard"], ans: 1 },
-  { q: "16. Ketika memilih 'End Task' pada Task Manager, hal yang dilakukan Kernel OS adalah...", options: ["A. Mengirim sinyal Interrupt (SIGKILL) untuk menghentikan Process ID (PID) & melepas RAM", "B. Menghapus program dari harddisk", "C. Mereset BIOS", "D. Mematikan listrik RAM", "E. Mengubah berkas jadi Read-Only"], ans: 0 },
-  { q: "17. Fitur OS yang mencegah pengguna A membuka folder milik pengguna B pada komputer bersama adalah...", options: ["A. Memory Protection", "B. User Authentication & File Access Permission (ACL)", "C. CPU Time-Sharing", "D. Interrupt Handling", "E. Driver Management"], ans: 1 },
-  { q: "18. Sinyal khusus dari tombol keyboard yang memaksa CPU menghentikan tugas sejenak dinamakan...", options: ["A. Paging Request", "B. Hardware Interrupt (IRQ)", "C. Cache Miss", "D. Bootstrapping", "E. Direct Memory Access"], ans: 1 },
-  { q: "19. Memori bersifat Non-Volatil yang menyimpan Firmware BIOS/POST adalah...", options: ["A. SDRAM", "B. ROM / NVRAM", "C. L1 Cache", "D. Virtual Swap Space", "E. SSD"], ans: 1 },
-  { q: "20. Keunggulan utama pemrosesan Multicore dibanding Single-Core clock tinggi adalah...", options: ["A. Hemat harddisk", "B. Mampu mengeksekusi banyak thread paralel tanpa panas ekstrem", "C. Tanpa butuh OS", "D. Anti virus", "E. Internet lebih cepat"], ans: 1 },
-  { q: "21. Printer baru tidak merespons di Linux. Langkah software yang dilakukan adalah...", options: ["A. Ganti Power Supply", "B. Menginstal Driver printer yang sesuai Kernel OS", "C. Format Harddisk", "D. Ganti RAM", "E. Matikan Firewall"], ans: 1 },
-  { q: "22. Tanpa fitur 'Memory Protection' pada OS, risiko utamanya adalah...", options: ["A. Aplikasi A dapat merusak/menulis memori Aplikasi B sehingga crash", "B. Kipas CPU mati", "C. Kapasitas HDD berkurang", "D. Layar buram", "E. USB lambat"], ans: 0 },
-  { q: "23. Posisi Kernel pada lapisan arsitektur sistem operasi berada di antara...", options: ["A. User App dan GUI Shell", "B. Application Space dan Hardware", "C. Power Supply dan BIOS", "D. Monitor dan VGA", "E. Keyboard dan Mouse"], ans: 1 },
-  { q: "24. Direktori paling atas pada sistem berkas OS Linux disimbolkan dengan...", options: ["A. Home /", "B. Root /", "C. System32", "D. Admin", "E. Boot"], ans: 1 },
-  { q: "25. Fitur OS yang memungkinkan server melayani ribuan akses siswa bersamaan adalah...", options: ["A. Single-tasking", "B. Multithreading & Time-Sharing Scheduling", "C. Manual Switch", "D. Batch Mode", "E. Cold Boot"], ans: 1 },
-  { q: "26. Alasan GPU lebih unggul untuk grafis 3D & AI dibanding CPU adalah...", options: ["A. Fisik lebih kecil", "B. Memiliki ribuan core kecil untuk kalkulasi matematika paralel masif", "C. Tanpa listrik", "D. Tanpa RAM", "E. Tanpa OS"], ans: 1 },
-  { q: "27. Proses memindahkan data RAM ke ruang swap di Secondary Storage saat RAM penuh disebut...", options: ["A. Defragmenting", "B. Paging / Swapping", "C. Formatting", "D. Overclocking", "E. Partitioning"], ans: 1 },
-  { q: "28. Membagi media penyimpanan 1TB menjadi Drive C: dan D: dinamakan...", options: ["A. Disk Partitioning", "B. Disk Cleaning", "C. Memory Allocation", "D. Compression", "E. System Restore"], ans: 0 },
-  { q: "29. Peran Register di dalam chip CPU adalah...", options: ["A. Menyimpan data Terabyte", "B. Memori terkecil & tercepat di CPU untuk menampung operand yang sedang diolah", "C. Kipas pendingin", "D. Audio input", "E. Simpan wallpaper"], ans: 1 },
-  { q: "30. Langkah tercepat memulihkan performa RAM yang mengalami kebocoran memori (memory leak) adalah...", options: ["A. Hapus System32", "B. Restart / Reboot Sistem Operasi", "C. Matikan Monitor", "D. Pindah file ke Flashdisk", "E. Ganti Keyboard"], ans: 1 }
+  { q: "1. Andi adalah seorang siswa yang sedang menyusun laporan di laptopnya. Ketika ia mengetik tombol pada keyboard, huruf langsung muncul di layar monitor. Berdasarkan arsitektur Von Neumann, komponen yang bertugas menerima ketikan dari Andi disebut...", options: ["A. Output Device", "B. Input Device", "C. Storage Unit", "D. Central Processing Unit", "E. Memory Unit"], ans: 1 },
+  { q: "2. Budi mengamati bahwa komputer sekolah membutuhkan waktu cukup lama saat membuka aplikasi pengolah kata. CPU memanggil data dari memori utama melalui bus yang sama secara bergantian sehingga terjadi hambatan antrean. Fenomena hambatan pada arsitektur Von Neumann ini dikenal dengan istilah...", options: ["A. Cache Overload", "B. Thermal Throttling", "C. Von Neumann Bottleneck", "D. System Interrupt Error", "E. Paging Fault"], ans: 2 },
+  { q: "3. Tim laboratorium sains sekolah membutuhkan komputer yang sanggup melakukan simulasi prediksi cuaca ekstrim dan analisis iklim global dengan triliunan kalkulasi per detik. Jenis komputer yang paling tepat digunakan untuk kebutuhan tersebut adalah...", options: ["A. Mikro Komputer", "B. Mini Komputer", "C. Mainframe", "D. Superkomputer", "E. Workstation"], ans: 3 },
+  { q: "4. Sebuah perusahaan perbankan memiliki sistem pusat yang harus melayani transaksi ATM dari ribuan nasabah secara bersamaan tanpa boleh mengalami krisis lag. Jenis komputer yang dirancang khusus untuk melayani ratusan hingga ribuan pengguna bersamaan ini adalah...", options: ["A. Komputer Mikro", "B. Mainframe", "C. Komputer Mini", "D. Laptop", "E. Embedded System"], ans: 1 },
+  { q: "5. Pak Raden mengenang komputer masa lalu yang ia gunakan pada era 1950-an. Komputer generasi pertama tersebut memiliki ukuran fisik sangat besar hingga memenuhi satu ruangan penuh. Penyebab utama besarnya ukuran komputer generasi pertama adalah penggunaan...", options: ["A. Transistor", "B. Integrated Circuit (IC)", "C. Microprocessor", "D. Tube Vakum", "E. Chip Silicon"], ans: 3 },
+  { q: "6. Pada generasi kedua, teknologi komputer mengalami lompatan besar. Tube vakum yang mudah panas dan berukuran besar mulai digantikan oleh komponen yang lebih kecil dan efisien, yaitu...", options: ["A. Microprocessor", "B. Silicon IC", "C. Transistor", "D. Silinder Magnetic", "E. AI Processor"], ans: 2 },
+  { q: "7. Perkembangan komputer generasi ketiga ditandai dengan ditemukannya cara memadatkan puluhan hingga ratusan komponen elektronik ke dalam satu lempengan kecil yang disebut...", options: ["A. Tube Vakum", "B. Magnetic Drum", "C. Chip (Integrated Circuit)", "D. Harddisk", "E. Motherboard"], ans: 2 },
+  { q: "8. Dewasa ini, Siti cukup mengucapkan kata 'Buka Kamera' pada smartphone-nya, dan aplikasi kamera langsung terbuka. Kemampuan komputer/smartphone menerima perintah secara lisan dan meniru nalar manusia merupakan ciri utama komputer generasi...", options: ["A. Pertama", "B. Kedua", "C. Ketiga", "D. Keempat", "E. Kelima"], ans: 4 },
+  { q: "9. Amerika Serikat pernah mengembangkan salah satu superkomputer paling canggih yang digunakan untuk riset energi dan sains tingkat tinggi yang dinamakan...", options: ["A. ENIAC", "B. IBM PC", "C. TITAN", "D. APPLE II", "E. ALTAIR"], ans: 2 },
+  { q: "10. Saat CPU mengeksekusi sebuah program, langkah awal yang dilakukan oleh CPU adalah mengambil instruksi dari memori utama berdasarkan alamat program yang sedang berjalan. Tahapan ini disebut...", options: ["A. Ambil (Fetch)", "B. Dekode (Decode)", "C. Eksekusi (Execute)", "D. Simpan (Store)", "E. Interrupt"], ans: 0 },
+  { q: "11. Setelah instruksi berhasil diambil dari memori, Control Unit pada CPU akan menerjemahkan kode biner instruksi tersebut serta menyiapkan langkah operasi berikutnya. Tahapan penerjemahan ini dinamakan...", options: ["A. Ambil", "B. Dekode", "C. Eksekusi", "D. Upload", "E. Processing"], ans: 1 },
+  { q: "12. Tahapan terakhir dalam siklus instruksi CPU adalah ketika ALU melakukan perhitungan matematika atau menjalankan perintah logika sesuai instruksi. Tahap ini disebut...", options: ["A. Fetch", "B. Decode", "C. Eksekusi", "D. Booting", "E. Paging"], ans: 2 },
+  { q: "13. Pada komputer generasi pertama, media penyimpan data luar yang berbentuk tabung silinder terbungkus bahan magnetik dinamakan...", options: ["A. Harddisk Drive", "B. Solid State Drive", "C. Silinder Magnetic", "D. Flashdisk", "E. Optical Disc"], ans: 2 },
+  { q: "14. Perangkat seperti Laptop, Desktop PC, dan Smartphone yang sering kita gunakan sehari-hari untuk aktivitas belajar masuk ke dalam kategori komputer...", options: ["A. Mainframe", "B. Superkomputer", "C. Mikro Komputer", "D. Mini Komputer", "E. Quantum Computer"], ans: 2 },
+  { q: "15. Komputer jenis Mini memiliki ukuran dan kapasitas yang berada di tengah-tengah. Ukuran komputer ini sedikit lebih besar daripada komputer mikro, namun digunakan untuk...", options: ["A. Mengontrol mesin pabrik / server skala menengah", "B. Meniru lisan manusia", "C. Prediksi iklim dunia", "D. Pengganti smartphone", "E. Komputer saku"], ans: 0 },
+  { q: "16. Ketika seorang siswa menekan tombol print pada aplikasi Microsoft Word, hasil cetakan dokumen keluar melalui kertas dari mesin printer. Dalam konsep Von Neumann, printer berungsi sebagai...", options: ["A. Input Unit", "B. Output Unit", "C. Processing Unit", "D. Storage Unit", "E. Control Unit"], ans: 1 },
+  { q: "17. Seorang peneliti merancang arsitektur komputer modern. Ia mengacu pada konsep arsitektur di mana instruksi dan data disimpan dalam satu memori yang sama. Tokoh pencetus konsep ini adalah...", options: ["A. Alan Turing", "B. Charles Babbage", "C. John von Neumann", "D. Bill Gates", "E. Steve Jobs"], ans: 2 },
+  { q: "18. Sebuah komputer di ruang sekretariat sekolah dapat melayani 15 komputer client sekaligus untuk berbagi file dan printer. Komputer menengah ini termasuk kategori...", options: ["A. Komputer Mikro", "B. Komputer Mini", "C. Superkomputer", "D. Mainframe", "E. Calculator"], ans: 1 },
+  { q: "19. Sistem Operasi bertugas mengatur giliran penggunaan prosesor agar semua program berjalan lancar. Fungsi ini dinamakan manajemen...", options: ["A. CPU / Proses", "B. Penyimpanan", "C. Keamanan", "D. Antarmuka", "E. Input/Output"], ans: 0 },
+  { q: "20. Ketika RAM fisik komputer hampir penuh saat membuka banyak aplikasi, Sistem Operasi akan memanfaatkan sebagian kecil ruang SSD sebagai memori buatan yang dikenal dengan...", options: ["A. Cache Memory", "B. Virtual Memory (Paging File)", "C. Read Only Memory", "D. Firmware", "E. External Storage"], ans: 1 },
+  { q: "21. Seorang siswa menyambungkan Flashdisk ke komputer lab. Sistem Operasi langsung mengenali perangkat tersebut dan menyiapkan jalur komunikasi data. Fungsi OS yang bekerja adalah...", options: ["A. Manajemen Keamanan", "B. Manajemen Input/Output (I/O)", "C. Antarmuka Pengguna", "D. Manajemen Lisensi", "E. Defragmentasi"], ans: 1 },
+  { q: "22. Layar tampilan Desktop, icon aplikasi, dan tombol menu yang memudahkan pengguna berinteraksi dengan komputer tanpa harus mengetik kode rumit disediakan oleh OS melalui fungsi...", options: ["A. Antarmuka (User Interface)", "B. Manajemen RAM", "C. CPU Scheduling", "D. File System", "E. Access Control"], ans: 0 },
+  { q: "23. Fitur Sistem Operasi yang mewajibkan pengguna memasukkan password saat login agar file pribadi tidak bisa dibaca orang lain merupakan bagian dari manajemen...", options: ["A. RAM", "B. Keamanan (Security)", "C. CPU", "D. Output", "E. Bootloader"], ans: 1 },
+  { q: "24. Mengapa ruang kosong pada SSD/Harddisk tidak boleh benar-benar habis (misalnya tersisa < 5GB)?", options: ["A. Karena komputer tidak bisa terhubung ke WiFi", "B. Karena OS kesulitan membuat file sementara & memori virtual sehingga komputer lambat", "C. Karena monitor akan mati otomatis", "D. Karena keyboard tidak berfungsi", "E. Karena file dokumen akan terhapus otomatis"], ans: 1 },
+  { q: "25. Saat mengunduh file dari website tidak resmi, sering kali komputer tiba-tiba terinstal program iklan yang memunculkan pop-up terus menerus. Jenis malware tersebut adalah...", options: ["A. Ransomware", "B. Adware / Trojan", "C. Boot Virus", "D. Worm Network", "E. Spyware Camera"], ans: 1 },
+  { q: "26. Fungsi Sistem Operasi dalam mengelola penyimpanan (Storage Management) adalah...", options: ["A. Menghapus semua file otomatis setiap minggu", "B. Mengatur struktur direktori, pembuatan file, dan pengalokasian ruang simpan", "C. Mempercepat koneksi internet", "D. Mencegah layar panas", "E. Mengubah berkas menjadi gambar"], ans: 1 },
+  { q: "27. Urutan tiga tahap utama siklus pemrosesan instruksi oleh CPU secara berurutan adalah...", options: ["A. Eksekusi -> Dekode -> Ambil", "B. Ambil -> Dekode -> Eksekusi", "C. Dekode -> Ambil -> Eksekusi", "D. Ambil -> Eksekusi -> Dekode", "E. Simpan -> Ambil -> Eksekusi"], ans: 1 },
+  { q: "28. Salah satu contoh penerapan teknologi komputer generasi kelima dalam kehidupan sehari-hari adalah...", options: ["A. Penggunaan pita magnetik untuk menyimpan lagu", "B. Fitur asisten virtual suara seperti Google Assistant / Siri", "C. Penggunaan lampu tabung vakum pada TV tua", "D. Pengisian data menggunakan kartu berlubang (Punched Card)", "E. Komputer yang hanya bisa menghitung angka"], ans: 1 },
+  { q: "29. Apabila sebuah komputer tidak memiliki Sistem Operasi sama sekali di dalam penyimpanannya, maka hal yang terjadi adalah...", options: ["A. Komputer tetap dapat digunakan untuk mengetik", "B. Komputer tidak dapat booting dan tidak dapat mengelola perangkat keras", "C. Komputer langsung terhubung ke internet", "D. Komputer hanya bisa menampilkan gambar warna merah", "E. Layar akan otomatis berubah jadi touchscreen"], ans: 1 },
+  { q: "30. Tindakan pencegahan terbaik agar komputer lab sekolah tidak mudah terinfeksi malware saat mengunduh file dari internet adalah...", options: ["A. Mematikan monitor saat mengunduh", "B. Mengaktifkan Firewall & Antivirus serta tidak mengunduh dari sumber tidak terpercaya", "C. Mencabut kabel power komputer", "D. Mengubah nama file yang diunduh", "E. Menggunakan keyboard nirkabel"], ans: 1 }
 ];
 
+// ESAI DENGAN SOAL & KUNCI JAWABAN PERSIS DENGAN PERMINTAAN
 const essayQuestions = [
-  { q: "ESAI 1 :\nLab komputer rendering 4K: CPU Usage 100%, RAM 98%, SSD 4%. Analisis masalah dan tentukan solusi upgrade paling efektif!", rubrik: "Rubrik Nilai (Maks 6): Bottleneck di CPU & RAM. Upgrade RAM (32GB) + CPU multi-core." },
-  { q: "ESAI 2 :\nLayar No Signal dan BIP 3 kali saat POST. Tentukan masalah & penangannya!", rubrik: "Rubrik Nilai (Maks 6): Masalah RAM/VGA. Lepas & bersihkan pin emas RAM dengan penghapus." },
-  { q: "ESAI 3 :\nServer ujian crash saat ribuan siswa login. Jelaskan penanganan CPU Scheduling & Paging OS!", rubrik: "Rubrik Nilai (Maks 6): Beban antrean CPU & Thrashing. Solusi: Rate Limiting & Load Balancing." },
-  { q: "ESAI 4 :\nEvaluasi keterbatasan Von Neumann Bottleneck dan solusi Arsitektur Harvard / Cache!", rubrik: "Rubrik Nilai (Maks 6): Bus tunggal memicu antrean. Solusi: Cache simpan data lokal, Harvard pisahkan bus." },
-  { q: "ESAI 5 :\nJelaskan peran Access Control List (Read, Write, Execute) dan prosedur penanganan Ransomware!", rubrik: "Rubrik Nilai (Maks 6): Hak akses batasi eksekusi. Prosedur: Isolasi -> Reset ACL -> Restore Backup Offline." }
+  { 
+    q: "SOAL ESAI 1 :\nLaboratorium komputer sekolah memiliki 20 PC yang terhubung ke jaringan internet. Siswa sering mengunduh materi tugas, gambar, dan aplikasi dari internet tanpa pengawasan. Setelah satu semester, ruang penyimpanan SSD 256 GB di hampir semua PC tersisa kurang dari 5 GB. Selain itu, komputer sering menampilkan pop-up iklan sendiri, browser sering tertutup tiba-tiba, dan proses booting (menyalakan komputer) menjadi sangat lama.\n\nPertanyaan: Mengapa sisa kapasitas penyimpanan SSD yang sangat menipis (kurang dari 5 GB) dapat menyebabkan proses booting dan kinerja komputer menjadi sangat lambat?", 
+    rubrik: "Kunci Jawaban Resmi:\nSistem operasi membutuhkan ruang kosong pada SSD sebagai memori virtual (paging file) untuk membantu RAM saat memproses data. Jika sisa penyimpanan terlalu sedikit, sistem operasi kesulitan mengelola file sementara (temporary files) dan memori virtual, sehingga performa komputer menurun drastis dan booting menjadi lama." 
+  },
+  { 
+    q: "SOAL ESAI 2 :\nSebutkan apa saja yang dikelola oleh sistem operasi!", 
+    rubrik: "Kunci Jawaban Resmi:\n1. CPU\n2. RAM\n3. PENYIMPANAN\n4. INPUT / OUTPUT\n5. KEAMANAN\n6. ANTARMUKA" 
+  },
+  { 
+    q: "SOAL ESAI 3 :\nBerdasarkan gejala munculnya pop-up iklan dan browser yang tertutup sendiri, jenis perangkat lunak berbahaya (malware) apa yang kemungkinan besar telah menginfeksi PC tersebut, dan bagaimana ia bisa masuk?", 
+    rubrik: "Kunci Jawaban Resmi:\nKomputer terinfeksi Malware jenis Adware/Trojan. Perangkat lunak berbahaya ini masuk akibat tindakan siswa yang mengunduh file atau aplikasi sembarangan dari internet tanpa adanya proteksi firewall atau antivirus yang aktif di dalam sistem operasi." 
+  },
+  { 
+    q: "SOAL ESAI 4 :\nJelaskan perbedaan komputer generasi kedua dan komputer generasi kelima berdasarkan bahan bacaan!", 
+    rubrik: "Kunci Jawaban Resmi:\nKomputer generasi kedua menggunakan transistor sebagai pengganti tube vakum, sedangkan komputer generasi kelima sudah mampu menerima perintah secara lisan dan meniru nalar manusia." 
+  },
+  { 
+    q: "SOAL ESAI 5 :\nJelaskan tiga bagian utama komputer menurut arsitektur Von Neumann dan fungsi masing-masing!", 
+    rubrik: "Kunci Jawaban Resmi:\n1. Input: Memasukkan perintah atau data ke komputer.\n2. Proses: Mengolah data yang telah dimasukkan.\n3. Output: Menampilkan hasil pengolahan data." 
+  }
 ];
 
-// DATA STRUKTUR TTS (10x10 Grid dengan Kunci Jawaban Lengkap)
+// KUNCI JAWABAN & STRUKTUR TTS INTERAKTIF (15 SOAL LENGKAP & MATRIKS GRID 10x10)
 const ttsWords = [
-  { num: 1, word: "MONITOR", r: 0, c: 0, dir: "across" },
-  { num: 2, word: "LINUX", r: 2, c: 0, dir: "across" },
-  { num: 3, word: "CPU", r: 4, c: 0, dir: "across" },
-  { num: 4, word: "RAM", r: 6, c: 0, dir: "across" },
-  { num: 5, word: "SSD", r: 8, c: 0, dir: "across" },
-  { num: 6, word: "BIOS", r: 1, c: 5, dir: "across" },
-  { num: 7, word: "GPU", r: 3, c: 6, dir: "across" },
-  { num: 8, word: "GATEWAY", r: 5, c: 3, dir: "across" },
-  { num: 9, word: "ALU", r: 0, c: 8, dir: "down" },
-  { num: 10, word: "ROM", r: 2, c: 9, dir: "down" },
-  { num: 11, word: "KERNEL", r: 3, c: 1, dir: "down" },
-  { num: 12, word: "INTERRUPT", r: 0, c: 3, dir: "down" },
-  { num: 13, word: "PARTISI", r: 2, c: 5, dir: "down" },
-  { num: 14, word: "FAT32", r: 4, c: 7, dir: "down" },
-  { num: 15, word: "THROTTLING", r: 0, c: 4, dir: "down" }
+  { num: 1, word: "INPUT", r: 0, c: 0, dir: "across" },
+  { num: 3, word: "OUTPUT", r: 2, c: 0, dir: "across" },
+  { num: 5, word: "NEUMANN", r: 4, c: 0, dir: "across" },
+  { num: 7, word: "TRANSISTOR", r: 6, c: 0, dir: "across" },
+  { num: 9, word: "MIKRO", r: 8, c: 0, dir: "across" },
+  { num: 11, word: "MAINFRAME", r: 9, c: 1, dir: "across" },
+  { num: 13, word: "SUPER", r: 1, c: 5, dir: "across" },
+  { num: 15, word: "EKSEKUSI", r: 3, c: 2, dir: "across" },
+  
+  { num: 2, word: "AMBIL", r: 0, c: 8, dir: "down" },
+  { num: 4, word: "DEKODE", r: 2, c: 9, dir: "down" },
+  { num: 6, word: "MAGNETIC", r: 0, c: 5, dir: "down" },
+  { num: 8, word: "CHIP", r: 6, c: 7, dir: "down" },
+  { num: 10, word: "LISAN", r: 4, c: 6, dir: "down" },
+  { num: 12, word: "MINI", r: 6, c: 1, dir: "down" },
+  { num: 14, word: "TITAN", r: 5, c: 3, dir: "down" }
 ];
 
 let currentIdx = 0, pgScore = 0, ttsScore = 0;
@@ -297,7 +314,7 @@ function triggerAutoSubmit(reasonType) {
   if (!isExamActive) return;
   isExamActive = false;
   submitType = reasonType;
-  alert(`🚨 UJIAN DIHENTIKAN!\nAlasan: ${reasonType}. Jawaban langsung dikirim.`);
+  alert(`🚨 UJIAN DIHENTIKAN!\nAlasan: ${reasonType}. Jawaban Anda dikirim secara otomatis.`);
   calculateAndShowResults();
 }
 
@@ -334,10 +351,8 @@ function renderQuestion() {
     const qData = pgQuestions[currentIdx];
     document.getElementById("question-text").textContent = qData.q;
     
-    if(qData.img) {
-      imgContainer.style.display = "block";
-      imgContainer.innerHTML = qData.img;
-    } else { imgContainer.style.display = "none"; imgContainer.innerHTML = ""; }
+    imgContainer.style.display = "none"; 
+    imgContainer.innerHTML = "";
 
     optionsContainer.innerHTML = "";
     qData.options.forEach((opt, oIdx) => {
@@ -366,18 +381,16 @@ function renderQuestion() {
     (currentIdx === totalQ - 1) ? "Lanjut ke Tantangan TTS Bonus 🎮" : "Soal Berikutnya →";
 }
 
-// VALIDASI KETAT SEBELUM PINDAH SOAL
+// VALIDASI STRICT: SOAL MANDATORI TIDAK BOLEH LEWAT JIKA KOSONG
 function nextQuestion() {
   const totalQ = pgQuestions.length + essayQuestions.length;
   const isPg = currentIdx < pgQuestions.length;
   
-  // Wajib memilih PG
   if (isPg && userPgAnswers[currentIdx] === null) {
     document.getElementById("validation-msg").style.display = "block";
     return;
   }
   
-  // Wajib mengisi Esai
   if (!isPg) {
     const eIdx = currentIdx - pgQuestions.length;
     if (!userEssayAnswers[eIdx] || userEssayAnswers[eIdx].trim() === "") {
@@ -390,21 +403,20 @@ function nextQuestion() {
     currentIdx++;
     renderQuestion();
   } else {
-    // Pindah ke Modul TTS Bonus
+    // Pindah ke Tantangan TTS Interaktif
     document.getElementById("exam-screen").style.display = "none";
     document.getElementById("tts-screen").style.display = "block";
     renderInteractiveTTS();
   }
 }
 
-// GENERATE GRID TTS INTERAKTIF 10x10
+// GENERATE MATRIX GRID TTS 10x10 INTERAKTIF
 function renderInteractiveTTS() {
   const board = document.getElementById("tts-grid-board");
   board.innerHTML = "";
   
   let gridData = Array.from({ length: 10 }, () => Array(10).fill(null));
 
-  // Pemetaan Kata & Nomor ke Matriks Grid
   ttsWords.forEach(w => {
     let r = w.r, c = w.c;
     for (let i = 0; i < w.word.length; i++) {
@@ -416,7 +428,6 @@ function renderInteractiveTTS() {
     }
   });
 
-  // Render Sel ke Halaman Web
   for (let r = 0; r < 10; r++) {
     for (let c = 0; c < 10; c++) {
       const cellDiv = document.createElement("div");
@@ -438,7 +449,6 @@ function renderInteractiveTTS() {
         input.dataset.ans = item.letter;
         input.onkeyup = (e) => {
           if(e.target.value.length === 1) {
-            // Pindah fokus otomatis ke kotak setelahnya
             const nextInp = document.querySelector(`input[data-r="${r}"][data-c="${c+1}"]`) || 
                             document.querySelector(`input[data-r="${r+1}"][data-c="${c}"]`);
             if(nextInp) nextInp.focus();
@@ -454,7 +464,6 @@ function renderInteractiveTTS() {
 }
 
 function finishAllAndSubmit() {
-  // Evaluasi Pencocokan Kunci Jawaban TTS
   let correctWords = 0;
   ttsWords.forEach(w => {
     let r = w.r, c = w.c;
@@ -470,7 +479,7 @@ function finishAllAndSubmit() {
     if (wordMatch) correctWords++;
   });
 
-  ttsScore = correctWords * 2; // Maks 30 Poin (15 Soal x 2)
+  ttsScore = correctWords * 2; // Maksimal +30 Poin (15 Soal x 2)
   calculateAndShowResults(correctWords);
 }
 
@@ -492,9 +501,9 @@ function calculateAndShowResults(correctTtsCount = 0) {
   
   const cheatDisplay = document.getElementById("cheat-log-display");
   if (cheatLogs.length > 0) {
-    cheatDisplay.innerHTML = `<b>🚨 Ringkasan Integritas:</b><br>• Tab: ${tabCount}x | Fullscreen: ${fsCount}x<br><br><b>Log Pelanggaran:</b><br>` + cheatLogs.join("<br>");
+    cheatDisplay.innerHTML = `<b>🚨 Ringkasan Integritas Ujian:</b><br>• Pindah Tab: ${tabCount}x | Fullscreen Exit: ${fsCount}x<br><br><b>Detail Log Pelanggaran:</b><br>` + cheatLogs.join("<br>");
   } else {
-    cheatDisplay.innerHTML = `<span style="color:var(--green)">✅ Siswa mengerjakan dengan jujur tanpa pelanggaran.</span>`;
+    cheatDisplay.innerHTML = `<span style="color:var(--green)">✅ Siswa mengerjakan ujian secara jujur tanpa pelanggaran.</span>`;
   }
 
   const essayResultsDiv = document.getElementById("essay-results");
@@ -503,10 +512,10 @@ function calculateAndShowResults(correctTtsCount = 0) {
     const card = document.createElement("div");
     card.className = "card essay-box";
     card.innerHTML = `
-      <h4>${eData.q}</h4>
+      <h4 style="white-space: pre-line;">${eData.q}</h4>
       <p><b>Jawaban Siswa:</b></p>
-      <p style="background:#ffffff0a; padding:10px; border-radius:6px; color:var(--yellow);">${userEssayAnswers[idx] || "<i>(Tidak diisi)</i>"}</p>
-      <div class="rubrik-box">${eData.rubrik}</div>
+      <p style="background:#ffffff0a; padding:12px; border-radius:6px; color:var(--yellow); white-space: pre-line;">${userEssayAnswers[idx] || "<i>(Tidak diisi)</i>"}</p>
+      <div class="rubrik-box" style="white-space: pre-line;">${eData.rubrik}</div>
     `;
     essayResultsDiv.appendChild(card);
   });
@@ -543,7 +552,7 @@ function sendDataToSpreadsheet(correctPgCount, correctTtsCount) {
     statusElem.textContent = "✅ Semua hasil ujian & bonus TTS berhasil terkirim ke Google Spreadsheet!";
     statusElem.style.color = "var(--green)";
   }).catch(() => {
-    statusElem.textContent = "⚠️ Gagal mengirim data. Periksa koneksi internet.";
+    statusElem.textContent = "⚠️ Gagal mengirim data secara otomatis. Periksa koneksi internet.";
     statusElem.style.color = "var(--red)";
   });
 }
