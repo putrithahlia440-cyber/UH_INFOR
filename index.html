@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ULANGAN HARIAN - Sistem Komputer & OS</title>
+<title>Asesmen Sumatif HOTS - Sistem Komputer & OS</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1c2d;--text:#eff8ff;--muted:#aec2d5;--cyan:#48ddff;--violet:#9c7dff;--green:#55e6a5;--yellow:#ffd166;--red:#ff7180;--line:#ffffff1c}
 *{box-sizing:border-box}
@@ -11,70 +11,263 @@ body{margin:0;background:radial-gradient(circle at 10% 10%,#173a5b 0,transparent
 .container{max-width:850px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 15px 35px #0008}
 header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:20px}
 .timer-badge{background:#162c43;padding:8px 15px;border-radius:30px;border:1px solid var(--cyan);color:var(--cyan);font-weight:bold}
-.warn-badge{background:#3b1419;padding:8px 15px;border-radius:30px;border:1px solid var(--red);color:var(--red);font-weight:bold}
 .card{background:#ffffff05;border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:20px}
 .btn{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#000;font-weight:bold;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:16px;width:100%;margin-top:15px}
 .btn:hover{opacity:0.9}
-.option-btn{display:block;width:100%;text-align:left;background:#ffffff08;border:1px solid var(--line);color:var(--text);padding:14px;border-radius:10px;margin:10px 0;cursor:pointer;transition:.2s}
+.option-btn{display:block;width:100%;text-align:left;background:#ffffff08;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:8px;margin:8px 0;cursor:pointer;transition:.2s}
 .option-btn:hover{border-color:var(--cyan);background:#ffffff12}
-.option-btn.correct{border-color:var(--green);background:#55e6a518}
-.option-btn.wrong{border-color:var(--red);background:#ff718018}
-.feedback-box{padding:15px;border-radius:10px;margin-top:15px;line-height:1.6;display:none}
-.feedback-box.ok{background:#55e6a512;border:1px solid var(--green);color:#a8ffda}
-.feedback-box.no{background:#ff718012;border:1px solid var(--red);color:#ffc4cb}
-.modal{position:fixed;inset:0;background:#000000dd;display:none;place-items:center;z-index:999;padding:20px}
-.modal-content{background:var(--panel);border:2px solid var(--red);border-radius:15px;padding:25px;max-width:450px;text-align:center}
-input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid var(--line);color:var(--text);border-radius:8px;margin:8px 0 15px;font-size:15px}
+.option-btn.selected{border-color:var(--cyan);background:#48ddff22}
+input[type="text"], textarea{width:100%;padding:12px;background:#162c43;border:1px solid var(--line);color:var(--text);border-radius:8px;margin:8px 0 15px;font-size:15px}
+textarea{min-height:100px;resize:vertical;}
+.essay-box{margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:15px;}
+.rubrik-box{background:#55e6a512;border:1px solid var(--green);color:#a8ffda;padding:12px;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.5;}
 </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- START SCREEN -->
   <div id="start-screen">
     <h2>🚀 Asesmen Sumatif HOTS Informatika</h2>
-    <p style="color:var(--muted)">Materi: Arsitektur Von Neumann, Hardware, & Sistem Operasi (Durasi: 90 Menit)</p>
+    <p style="color:var(--muted)">Materi: Arsitektur Von Neumann, Hardware, & Sistem Operasi (30 PG + 5 Esai Studi Kasus)</p>
     <div class="card">
       <label>Nama Lengkap Siswa:</label>
-      <input type="text" id="student-name" placeholder="Masukkan nama..." required>
+      <input type="text" id="student-name" placeholder="Masukkan nama lengkap..." required>
       <label>Kelas:</label>
       <input type="text" id="student-class" placeholder="Contoh: X-1" required>
       <button class="btn" type="button" onclick="startExam()">Mulai Ujian</button>
     </div>
   </div>
 
+  <!-- EXAM SCREEN -->
   <div id="exam-screen" style="display:none;">
     <header>
-      <div><b id="q-number">Soal 1/10</b></div>
-      <div class="warn-badge">Pelanggaran Keluar: <span id="warn-count">0</span>/3</div>
+      <div><b id="q-number">Soal 1 / 35</b></div>
       <div class="timer-badge">⏱️ <span id="timer">01:30:00</span></div>
     </header>
 
     <div class="card">
       <h3 id="question-text">Teks Soal...</h3>
       <div id="options-container"></div>
-      <div id="feedback" class="feedback-box"></div>
-      <button id="next-btn" class="btn" style="display:none;" onclick="nextQuestion()">Soal Berikutnya →</button>
+      <div id="essay-container" style="display:none;">
+        <textarea id="essay-answer" placeholder="Tuliskan jawaban analisis studi kasus Anda di sini..."></textarea>
+      </div>
+      <button id="next-btn" class="btn" onclick="nextQuestion()">Soal Berikutnya →</button>
     </div>
   </div>
 
-  <div id="result-screen" style="display:none; text-align:center;">
-    <h2>🏆 Ujian Selesai!</h2>
-    <div class="card">
-      <h1 style="font-size:4rem; color:var(--cyan); margin:10px 0;" id="final-score">0</h1>
-      <p id="submit-status">Nilai berhasil dicatat.</p>
+  <!-- RESULT SCREEN -->
+  <div id="result-screen" style="display:none;">
+    <h2 style="text-align:center;">🏆 Ujian Selesai!</h2>
+    <div class="card" style="text-align:center;">
+      <p>Skor Pilihan Ganda (Maks 70):</p>
+      <h1 style="font-size:3.5rem; color:var(--cyan); margin:5px 0;" id="pg-score">0 / 70</h1>
+      <p id="send-status" style="color:var(--yellow)">⌛ Mengirimkan hasil ujian ke Google Spreadsheet...</p>
     </div>
+
+    <h3>📝 Evaluasi & Kunci Jawaban Esai Studi Kasus</h3>
+    <div id="essay-results"></div>
   </div>
 </div>
 
-<div id="warn-modal" class="modal">
-  <div class="modal-content">
-    <h3 style="color:var(--red); margin-top:0;">⚠️ PERINGATAN PELANGGARAN!</h3>
-    <p>Anda terdeteksi keluar dari aplikasi/pindah tab browser!</p>
-    <p>Pelanggaran Ke: <b id="modal-warn-num" style="color:var(--yellow); font-size:1.2rem;">1</b> / 3</p>
-    <button class="btn" onclick="closeModal()">Saya Mengerti & Lanjutkan</button>
-  </div>
-</div>
+<script>
+// =========================================================================
+// PASTE LINK WEB APP GOOGLE APPS SCRIPT ANDA DI DALAM TANDA PETIK DI BAWAH INI:
+// =========================================================================
+const GOOGLE_SCRIPT_URL = "ISI_LINK_WEB_APP_GOOGLE_SCRIPT_ANDA_DI_SINI";
 
-<script src="script.js"></script>
+const pgQuestions = [
+  { q: "1. Komputer lambat saat multitasking banyak aplikasi. Komponen Von Neumann yang mengelola alokasi instruksi dan jadwal prosesor adalah...", options: ["A. Control Unit & OS", "B. ALU", "C. Harddisk", "D. Power Supply"], ans: 0 },
+  { q: "2. Komputer Generasi Pertama tidak bisa multitasking OS karena...", options: ["A. Belum ada monitor warna", "B. Keterbatasan komponen vakum & pemrosesan sekuensial tunggal", "C. Tidak ada RAM", "D. Menggunakan mouse analog"], ans: 1 },
+  { q: "3. Manakah yang termasuk pengelompokan Input & Output yang TEPAT?", options: ["A. Input: Scanner, Kamera | Output: Monitor, Plotter", "B. Input: Monitor | Output: Barcode", "C. Input: Plotter | Output: Keyboard", "D. Input: Speaker | Output: Mouse"], ans: 0 },
+  { q: "4. Apa yang terjadi jika Control Unit (CU) gagal pada tahap 'Decode'?", options: ["A. Data langsung tersimpan", "B. CPU tidak bisa menerjemahkan instruksi sehingga eksekusi gagal", "C. ALU menghitung otomatis", "D. RAM bertambah"], ans: 1 },
+  { q: "5. Perbankan memilih Mainframe dibanding Komputer Mikro (PC) karena...", options: ["A. Mainframe lebih murah", "B. Mampu melayani ribuan transaksi bersamaan secara stabil", "C. PC tidak punya OS", "D. PC cepat panas"], ans: 1 },
+  { q: "6. Komputer Super dipasangi ribuan prosesor terdistribusi untuk...", options: ["A. Menghemat daya", "B. Menjalankan komputasi matematika paralel intensif", "C. Mengetik dokumen", "D. Mengganti RAM"], ans: 1 },
+  { q: "7. Alur logika interaksi sumber daya OS yang benar saat menekan keyboard adalah...", options: ["A. User -> Input -> OS -> CPU/Aplikasi -> Output", "B. User -> Output -> CPU -> OS", "C. OS -> Harddisk -> User -> Keyboard", "D. Input -> Output -> OS"], ans: 0 },
+  { q: "8. Penyebab utama kelemahan 'Von Neumann Bottleneck' adalah...", options: ["A. Harga CPU mahal", "B. Keterbatasan bus data antara CPU dan Memori Utama", "C. Tidak ada printer", "D. Layar terlalu kecil"], ans: 1 },
+  { q: "9. Lab komputer tanpa harddisk lokal membutuhkan fungsi OS dalam hal...", options: ["A. Format disk otomatis", "B. Manajemen Jaringan & Akses Sumber Daya Terdistribusi", "C. Kecerahan layar", "D. Pendingin CPU"], ans: 1 },
+  { q: "10. Muncul pesan 'Storage Full' saat simpan file. OS sedang menjalankan fungsi...", options: ["A. Penjadwalan CPU", "B. File System & Secondary Storage Management", "C. RAM Allocation", "D. GPU Tuning"], ans: 1 },
+  { q: "11. Komponen Von Neumann yang bertugas melakukan operasi aritmatika dan logika adalah...", options: ["A. ALU", "B. Control Unit", "C. Register", "D. ROM"], ans: 0 },
+  { q: "12. Memori volatil yang menyimpan data sementara saat program berjalan adalah...", options: ["A. ROM", "B. RAM", "C. SSD", "D. Flashdisk"], ans: 1 },
+  { q: "13. Fungsi utama dari BIOS/UEFI pada saat komputer pertama kali dinyalakan adalah...", options: ["A. Mengedit foto", "B. POST (Power-On Self-Test) & Bootstrapping OS", "C. Mematikan listrik", "D. Mengirim email"], ans: 1 },
+  { q: "14. Perangkat lunak yang bertindak sebagai jembatan antara hardware dan pengguna adalah...", options: ["A. Application Software", "B. Operating System", "C. Driver Printer", "D. Antivirus"], ans: 1 },
+  { q: "15. Karakteristik utama arsitektur komputer Von Neumann adalah...", options: ["A. Program dan data disimpan dalam memori utama yang sama", "B. Memori terpisah untuk data dan instruksi", "C. Tanpa memori utama", "D. Hanya bisa membaca data"], ans: 0 },
+  { q: "16. Eksekusi instruksi CPU secara urut terdiri dari siklus...", options: ["A. Fetch -> Decode -> Execute", "B. Read -> Write -> Save", "C. Start -> Run -> Stop", "D. Input -> Process -> Store"], ans: 0 },
+  { q: "17. Komponen hardware yang menyimpan instruksi booting awal yang tidak hilang saat mati listrik adalah...", options: ["A. RAM", "B. ROM", "C. Cache", "D. Virtual Memory"], ans: 1 },
+  { q: "18. Jenis sistem operasi yang dapat melayani banyak pengguna dalam waktu bersamaan adalah...", options: ["A. Single-user", "B. Multi-user", "C. Single-tasking", "D. Standalone"], ans: 1 },
+  { q: "19. Perangkat tambahan seperti Printer dan Barcode Scanner dikategorikan sebagai...", options: ["A. Central Processing Unit", "B. Peripherals Device", "C. Primary Memory", "D. Internal Bus"], ans: 1 },
+  { q: "20. Fungsi 'Virtual Memory' pada sistem operasi adalah...", options: ["A. Menambah daya listrik", "B. Meminjam sebagian ruang Harddisk/SSD saat RAM penuh", "C. Mengganti layar", "D. Mempercepat koneksi internet"], ans: 1 },
+  { q: "21. Struktur file dalam sistem operasi diatur menggunakan...", options: ["A. File System (NTFS/FAT32/ext4)", "B. Control Panel", "C. Task Manager", "D. Device Manager"], ans: 0 },
+  { q: "22. Jenis arsitektur prosesor yang memiliki instruksi lebih ringkas dan hemat energi pada Smartphone adalah...", options: ["A. CISC", "B. RISC (ARM)", "C. Vacuum Tube", "D. Quantum"], ans: 1 },
+  { q: "23. Apa yang dimaksud dengan 'Interrupt' dalam sistem operasi?", options: ["A. Kerusakan harddisk", "B. Sinyal yang menghentikan sementara proses CPU untuk menangani event khusus", "C. Pemadaman listrik", "D. Penghapusan file"], ans: 1 },
+  { q: "24. Komponen memori tercepat yang berada langsung di dalam chip CPU adalah...", options: ["A. Cache Memory & Register", "B. RAM", "C. Harddisk", "D. SSD NVMe"], ans: 0 },
+  { q: "25. Perangkat keras yang berfungsi mengubah sinyal digital menjadi tampilan visual adalah...", options: ["A. Sound Card", "B. GPU / VGA Card", "C. Network Card", "D. Power Supply"], ans: 1 },
+  { q: "26. Teknik sistem operasi menjalankan beberapa proses secara bergantian dengan sangat cepat disebut...", options: ["A. Time Sharing / Multitasking", "B. Formatting", "C. Overclocking", "D. Partitioning"], ans: 0 },
+  { q: "27. Program kecil yang berfungsi memberitahu OS cara berkomunikasi dengan hardware tertentu disebut...", options: ["A. Application", "B. Driver", "C. Firmware", "D. Kernel"], ans: 1 },
+  { q: "28. Bagian inti (core) dari sistem operasi yang mengelola memori, CPU, dan hardware adalah...", options: ["A. Shell", "B. Kernel", "C. GUI", "D. Desktop"], ans: 1 },
+  { q: "29. Media penyimpanan sekunder yang tidak memiliki komponen bergerak dan sangat cepat adalah...", options: ["A. HDD", "B. SSD", "C. Disket", "D. Pita Magnetik"], ans: 1 },
+  { q: "30. Mekanisme OS untuk mencegah satu aplikasi merusak aplikasi lain di RAM disebut...", options: ["A. Memory Protection", "B. Disk Cleanup", "C. Defrag", "D. Compression"], ans: 0 }
+];
+
+const essayQuestions = [
+  {
+    q: "ESAI 1 (Studi Kasus - Bottleneck & Upgrade Hardware):\nSebuah lab komputer sekolah digunakan untuk editing video 4K. Saat pemrosesan render, indikator CPU berada di 100%, RAM terpakai 98%, sedangkan penggunaan SSD hanya 5%. Jelaskan analisis Anda mengenai letak 'bottleneck' sistem tersebut dan berikan saran solusi upgrade yang paling tepat!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Analisis Bottleneck (3 Poin): Bottleneck terjadi pada CPU dan RAM karena terpakai maksimal (100% & 98%), sedangkan SSD tidak bermasalah.\n- Solusi Upgrade (3 Poin): Menambah kapasitas RAM (misal dari 8GB ke 16/32GB) dan meng-upgrade CPU ke generasi lebih tinggi/banyak core."
+  },
+  {
+    q: "ESAI 2 (Studi Kasus - Kegagalan Booting OS):\nSaat komputer dihidupkan, kipas berputar dan lampu menyala, tetapi layar tetap hitam dan terdengar bunyi bip berulang 3 kali dari motherboard. Berdasarkan siklus awal booting hardware & BIOS/UEFI, analisis apa yang sedang terjadi pada komponen komputer tersebut?",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Diagnosis POST (3 Poin): Komputer gagal pada tahap Power-On Self-Test (POST) yang dilakukan BIOS/UEFI.\n- Analisis Hardware (3 Poin): Bunyi bip berulang umumnya menandakan masalah kegagalan pembacaan memori utama (RAM tidak terpasang sempurna/kotor/rusak) atau masalah VGA."
+  },
+  {
+    q: "ESAI 3 (Studi Kasus - Manajemen Sumber Daya OS):\nSebuah server e-commerce mengalami lonjakan pengunjung saat promo. Tiba-tiba server menjadi sangat lambat dan respon berhenti (crash). Jelaskan bagaimana Sistem Operasi mengelola 'Resource Allocation' (CPU & RAM) saat kondisi beban tinggi dan solusi OS untuk mencegah crash!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Pengelolaan OS (3 Poin): OS menggunakan CPU Scheduling dan RAM Virtual Memory untuk membagi antrean proses.\n- Solusi OS/Sistem (3 Poin): OS perlu menerapkan Throttling/Load Balancing, menambah Swap Space, atau membatasi batas maksimum antrean request aplikasi."
+  },
+  {
+    q: "ESAI 4 (Studi Kasus - Arsitektur Von Neumann vs Modern):\nArsitektur Von Neumann menggunakan bus tunggal untuk mentransfer data dan instruksi dari memori ke CPU. Bandingkanlah masalah yang muncul akibat arsitektur ini dengan solusi teknologi arsitektur modern (seperti Cache L1/L2/L3 atau Arsitektur Harvard)!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Kelemahan Von Neumann (3 Poin): Von Neumann Bottleneck, yaitu antrean data akibat jalur (bus) pemrosesan data dan instruksi yang sama.\n- Solusi Modern (3 Poin): Penggunaan Cache Memory bertingkat (L1, L2, L3) di dalam chip CPU serta Arsitektur Harvard yang memisahkan bus data dan instruksi."
+  },
+  {
+    q: "ESAI 5 (Studi Kasus - Keamanan File System OS):\nSebuah perusahaan mengalami serangan Malware yang mengubah semua hak akses berkas (File Permission) menjadi 'Read-Only' dan mengenkripsi drive. Jelaskan peran File System pada Sistem Operasi dalam mengatur Hak Akses (Read/Write/Execute) dan bagaimana cara pemulihannya!",
+    rubrik: "Kunci Jawaban & Rubrik Nilai (Maks 6 Poin):\n- Peran File System (3 Poin): Mengatur metadata berkas termasuk permission (Read, Write, Execute) dan Access Control List (ACL) untuk membatasi eksekusi file.\n- Pemulihan (3 Poin): Melakukan Boot via Live Media/Safe Mode, mereset Access Control Permission melalui Administrator/Root, serta restore data dari Backup Offline."
+  }
+];
+
+let currentIdx = 0, pgScore = 0;
+let userPgAnswers = new Array(pgQuestions.length).fill(null);
+let userEssayAnswers = new Array(essayQuestions.length).fill("");
+let studentInfo = { nama: "", kelas: "" };
+
+function startExam() {
+  const name = document.getElementById("student-name").value.trim();
+  const cls = document.getElementById("student-class").value.trim();
+  if(!name || !cls) {
+    alert("Harap isi Nama dan Kelas!");
+    return;
+  }
+  studentInfo.nama = name; studentInfo.kelas = cls;
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("exam-screen").style.display = "block";
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const totalQ = pgQuestions.length + essayQuestions.length;
+  document.getElementById("q-number").textContent = `Soal ${currentIdx + 1} / ${totalQ}`;
+  
+  const optionsContainer = document.getElementById("options-container");
+  const essayContainer = document.getElementById("essay-container");
+  
+  if(currentIdx < pgQuestions.length) {
+    optionsContainer.style.display = "block";
+    essayContainer.style.display = "none";
+    const qData = pgQuestions[currentIdx];
+    document.getElementById("question-text").textContent = qData.q;
+    optionsContainer.innerHTML = "";
+    
+    qData.options.forEach((opt, oIdx) => {
+      const btn = document.createElement("button");
+      btn.className = "option-btn" + (userPgAnswers[currentIdx] === oIdx ? " selected" : "");
+      btn.textContent = opt;
+      btn.onclick = () => {
+        userPgAnswers[currentIdx] = oIdx;
+        renderQuestion();
+      };
+      optionsContainer.appendChild(btn);
+    });
+  } else {
+    optionsContainer.style.display = "none";
+    essayContainer.style.display = "block";
+    const eIdx = currentIdx - pgQuestions.length;
+    const eData = essayQuestions[eIdx];
+    document.getElementById("question-text").textContent = eData.q;
+    
+    const essayInput = document.getElementById("essay-answer");
+    essayInput.value = userEssayAnswers[eIdx];
+    essayInput.oninput = (e) => {
+      userEssayAnswers[eIdx] = e.target.value;
+    };
+  }
+  
+  document.getElementById("next-btn").textContent = 
+    (currentIdx === totalQ - 1) ? "Selesaikan Ujian & Lihat Nilai 🎉" : "Soal Berikutnya →";
+}
+
+function nextQuestion() {
+  const totalQ = pgQuestions.length + essayQuestions.length;
+  if(currentIdx < totalQ - 1) {
+    currentIdx++;
+    renderQuestion();
+  } else {
+    calculateAndShowResults();
+  }
+}
+
+function calculateAndShowResults() {
+  let correctPgCount = 0;
+  pgQuestions.forEach((q, idx) => {
+    if(userPgAnswers[idx] === q.ans) correctPgCount++;
+  });
+  
+  pgScore = Math.round((correctPgCount / pgQuestions.length) * 70);
+  
+  document.getElementById("exam-screen").style.display = "none";
+  document.getElementById("result-screen").style.display = "block";
+  document.getElementById("pg-score").textContent = `${pgScore} / 70 (${correctPgCount} Benar dari 30 PG)`;
+  
+  // Tampilkan Hasil Esai & Kunci Jawaban
+  const essayResultsDiv = document.getElementById("essay-results");
+  essayResultsDiv.innerHTML = "";
+  
+  essayQuestions.forEach((eData, idx) => {
+    const card = document.createElement("div");
+    card.className = "card essay-box";
+    card.innerHTML = `
+      <h4>${eData.q}</h4>
+      <p><b>Jawaban Siswa (${studentInfo.nama}):</b></p>
+      <p style="background:#ffffff0a; padding:10px; border-radius:6px; color:var(--yellow);">${userEssayAnswers[idx] || "<i>(Tidak diisi)</i>"}</p>
+      <div class="rubrik-box">${eData.rubrik}</div>
+    `;
+    essayResultsDiv.appendChild(card);
+  });
+
+  // Kirim data ke Google Spreadsheet
+  sendDataToSpreadsheet(correctPgCount);
+}
+
+function sendDataToSpreadsheet(correctPgCount) {
+  const statusElem = document.getElementById("send-status");
+  
+  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec")) {
+    statusElem.textContent = "*Nilai tidak terkirim otomatis ke Spreadsheet (URL Google Script belum diatur).";
+    statusElem.style.color = "var(--red)";
+    return;
+  }
+
+  const payload = {
+    nama: studentInfo.nama,
+    kelas: studentInfo.kelas,
+    skorPG: pgScore,
+    benarPG: `${correctPgCount}/30`,
+    esai1: userEssayAnswers[0] || "-",
+    esai2: userEssayAnswers[1] || "-",
+    esai3: userEssayAnswers[2] || "-",
+    esai4: userEssayAnswers[3] || "-",
+    esai5: userEssayAnswers[4] || "-"
+  };
+
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    statusElem.textContent = "✅ Hasil ujian berhasil terkirim dan tersimpan di Google Spreadsheet!";
+    statusElem.style.color = "var(--green)";
+  }).catch(err => {
+    statusElem.textContent = "⚠️ Gagal mengirim ke Spreadsheet. Periksa koneksi internet.";
+    statusElem.style.color = "var(--red)";
+  });
+}
+</script>
 </body>
 </html>
