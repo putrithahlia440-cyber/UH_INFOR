@@ -8,31 +8,32 @@
 :root{--bg:#07111f;--panel:#0d1c2d;--text:#eff8ff;--muted:#aec2d5;--cyan:#48ddff;--violet:#9c7dff;--green:#55e6a5;--yellow:#ffd166;--red:#ff7180;--line:#ffffff1c}
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(circle at 10% 10%,#173a5b 0,transparent 40%),radial-gradient(circle at 90% 90%,#292052 0,transparent 40%),var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding:20px}
-.container{max-width:850px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 15px 35px #0008}
+.container{max-width:900px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 15px 35px #0008}
 header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:20px;flex-wrap:wrap;gap:10px}
 .timer-badge{background:#162c43;padding:8px 15px;border-radius:30px;border:1px solid var(--cyan);color:var(--cyan);font-weight:bold}
 .cheat-badge{background:#431616;padding:8px 15px;border-radius:30px;border:1px solid var(--red);color:var(--red);font-weight:bold;font-size:13px}
 .card{background:#ffffff05;border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:20px}
 .btn{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#000;font-weight:bold;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:16px;width:100%;margin-top:15px;transition:.2s}
 .btn:hover{opacity:0.9}
-.btn:disabled{background:#444;color:#888;cursor:not-allowed;opacity:0.6;}
 .option-btn{display:block;width:100%;text-align:left;background:#ffffff08;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:8px;margin:8px 0;cursor:pointer;transition:.2s}
 .option-btn:hover{border-color:var(--cyan);background:#ffffff12}
 .option-btn.selected{border-color:var(--cyan);background:#48ddff22}
 input[type="text"], textarea{width:100%;padding:12px;background:#162c43;border:1px solid var(--line);color:var(--text);border-radius:8px;margin:8px 0 15px;font-size:15px}
-textarea{min-height:100px;resize:vertical;}
-.essay-box{margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:15px;}
-.rubrik-box{background:#55e6a512;border:1px solid var(--green);color:#a8ffda;padding:12px;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.5;}
+textarea{min-height:100px;resize:vertical}
+.essay-box{margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:15px}
+.rubrik-box{background:#55e6a512;border:1px solid var(--green);color:#a8ffda;padding:12px;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.5}
 .q-image{text-align:center;margin:15px 0;padding:10px;background:#00000033;border-radius:10px;border:1px dashed var(--line)}
 .q-image svg{max-width:100%;height:auto}
-.alert-warning{color:var(--red);font-size:13px;margin-top:5px;display:none;}
+.alert-warning{color:var(--red);font-size:14px;margin-top:10px;display:none;font-weight:bold}
 
-/* STYLING KHUSUS TTS */
-.tts-grid{display:grid;grid-template-columns:repeat(15, 1fr);gap:2px;background:#000;padding:5px;border-radius:8px;max-width:450px;margin:15px auto;}
-.tts-cell{aspect-ratio:1;background:#ffffff15;border:1px solid #ffffff33;position:relative;display:flex;align-items:center;justify-content:center}
-.tts-cell.black{background:#000;border:none}
-.tts-cell input{width:100%;height:100%;background:transparent;border:none;text-align:center;color:var(--cyan);font-weight:bold;font-size:16px;text-transform:uppercase}
-.tts-number{position:absolute;top:1px;left:2px;font-size:8px;color:var(--yellow);pointer-events:none}
+/* GRID STYLING UNTUK TTS */
+.tts-container{display:flex;flex-direction:column;align-items:center;margin:20px 0}
+.tts-grid{display:grid;grid-template-columns:repeat(10, 36px);grid-template-rows:repeat(10, 36px);gap:3px;background:#050c14;padding:10px;border-radius:10px;border:1px solid var(--cyan)}
+.tts-cell{width:36px;height:36px;background:#0d1c2d;border:1px solid #ffffff22;position:relative;border-radius:4px}
+.tts-cell.active{background:#162c43;border-color:var(--cyan)}
+.tts-cell.black{background:#040910;border:none}
+.tts-cell input{width:100%;height:100%;background:transparent;border:none;text-align:center;color:var(--cyan);font-weight:bold;font-size:16px;text-transform:uppercase;outline:none}
+.tts-num{position:absolute;top:2px;left:3px;font-size:9px;color:var(--yellow);font-weight:bold;pointer-events:none}
 </style>
 </head>
 <body>
@@ -41,13 +42,13 @@ textarea{min-height:100px;resize:vertical;}
   <!-- START SCREEN -->
   <div id="start-screen">
     <h2>🚀 ULANGAN HARIAN & CHALLENGE TTS</h2>
-    <p style="color:var(--muted)">Materi: Arsitektur Von Neumann, Hardware, OS & Tantangan TTS Bonus (15 Soal)</p>
+    <p style="color:var(--muted)">Materi: Arsitektur Sistem Komputer, Hardware & OS (Durasi Total: 90 Menit)</p>
     <div class="card">
       <p style="color:var(--yellow); font-size:14px; line-height:1.6;">
-        ⚠️ <b>ATURAN UJIAN & TTS:</b><br>
-        1. Wajib menjawab setiap soal sebelum berpindah ke soal berikutnya.<br>
+        ⚠️ <b>PETUNJUK KELENGKAPAN & ATURAN:</b><br>
+        1. Anda wajib memilih/mengisi jawaban sebelum berpindah ke soal berikutnya.<br>
         2. Batas Pelanggaran Pindah Tab / Keluar Fullscreen masing-masing maksimal <b>3 kali</b>.<br>
-        3. Setelah Esai, Anda dapat mengerjakan <b>Tantangan Bonus TTS (15 Soal)</b> untuk nilai tambahan (Max +30 Poin).
+        3. Setelah Esai, Anda dapat mengerjakan <b>15 Soal TTS Interaktif</b> untuk poin bonus (Maksimal +30 Poin).
       </p>
       <label>Nama Lengkap Siswa:</label>
       <input type="text" id="student-name" placeholder="Masukkan nama lengkap..." required>
@@ -74,7 +75,7 @@ textarea{min-height:100px;resize:vertical;}
       <div id="essay-container" style="display:none;">
         <textarea id="essay-answer" placeholder="Tuliskan jawaban analisis studi kasus Anda di sini..."></textarea>
       </div>
-      <p id="validation-msg" class="alert-warning">⚠️ Silakan jawab atau isi kolom di atas sebelum melanjutkan!</p>
+      <p id="validation-msg" class="alert-warning">⚠️ Silakan isi atau pilih jawaban terlebih dahulu sebelum melanjutkan!</p>
       <button id="next-btn" class="btn" onclick="nextQuestion()">Soal Berikutnya →</button>
     </div>
   </div>
@@ -82,44 +83,68 @@ textarea{min-height:100px;resize:vertical;}
   <!-- TTS BONUS SCREEN -->
   <div id="tts-screen" style="display:none;">
     <header>
-      <div><b>🎮 CHALLENGE BONUS: TEKA-TEKI SILANG (15 SOAL)</b></div>
-      <div class="timer-badge">⏱️ <span id="tts-timer">00:00</span></div>
+      <div><b>🎮 TANTANGAN BONUS: TEKA-TEKI SILANG (15 SOAL)</b></div>
+      <div class="timer-badge">⏱️ <span id="tts-timer">01:30:00</span></div>
     </header>
     <div class="card">
-      <p style="color:var(--green)">Isilah kotak-kotak Teka-Teki Silang di bawah ini berdasarkan petunjuk & visual yang tersedia untuk meraih poin tambahan hingga <b>+30 Poin</b>!</p>
+      <p style="color:var(--green); font-size:14px;">
+        Isilah kotak-kotak TTS di bawah ini untuk mendapatkan nilai tambahan hingga <b>+30 Poin</b>!
+      </p>
       
+      <!-- VISUAL HEADER TTS SVG -->
       <div class="q-image">
-        <!-- SVG VISUAL UTAMA TTS -->
-        <svg width="320" height="90" viewBox="0 0 320 90">
-          <!-- Monitor -->
-          <rect x="10" y="10" width="70" height="45" rx="4" fill="#162c43" stroke="#48ddff" stroke-width="2"/>
-          <path d="M45 55 L45 70 M30 70 L60 70" stroke="#48ddff" stroke-width="2"/>
-          <text x="45" y="37" fill="#48ddff" font-size="9" text-anchor="middle">MONITOR</text>
-          <!-- Linux Tux Logo Simbol -->
-          <circle cx="130" cy="35" r="22" fill="#ffd16622" stroke="#ffd166" stroke-width="2"/>
-          <text x="130" y="39" fill="#ffd166" font-size="10" font-weight="bold" text-anchor="middle">LINUX</text>
-          <!-- CPU Chip -->
-          <rect x="185" y="10" width="50" height="50" rx="6" fill="#162c43" stroke="#55e6a5" stroke-width="2"/>
-          <text x="210" y="39" fill="#55e6a5" font-size="10" text-anchor="middle">CPU</text>
-          <!-- RAM Stick -->
-          <rect x="255" y="20" width="55" height="20" rx="2" fill="#9c7dff33" stroke="#9c7dff" stroke-width="2"/>
-          <text x="282" y="34" fill="#9c7dff" font-size="9" text-anchor="middle">RAM</text>
+        <svg width="340" height="80" viewBox="0 0 340 80">
+          <rect x="10" y="10" width="60" height="40" rx="4" fill="#162c43" stroke="#48ddff" stroke-width="2"/>
+          <path d="M40 50 L40 65 M25 65 L55 65" stroke="#48ddff" stroke-width="2"/>
+          <text x="40" y="34" fill="#48ddff" font-size="8" text-anchor="middle">MONITOR</text>
+          
+          <circle cx="110" cy="30" r="20" fill="#ffd16622" stroke="#ffd166" stroke-width="2"/>
+          <text x="110" y="34" fill="#ffd166" font-size="9" font-weight="bold" text-anchor="middle">LINUX</text>
+          
+          <rect x="160" y="10" width="45" height="45" rx="5" fill="#162c43" stroke="#55e6a5" stroke-width="2"/>
+          <text x="182" y="36" fill="#55e6a5" font-size="9" text-anchor="middle">CPU</text>
+
+          <rect x="230" y="20" width="50" height="20" rx="2" fill="#9c7dff33" stroke="#9c7dff" stroke-width="2"/>
+          <text x="255" y="34" fill="#9c7dff" font-size="8" text-anchor="middle">RAM</text>
+          
+          <rect x="295" y="20" width="35" height="20" rx="2" fill="#ff718033" stroke="#ff7180" stroke-width="2"/>
+          <text x="312" y="34" fill="#ff7180" font-size="8" text-anchor="middle">SSD</text>
         </svg>
       </div>
 
-      <div style="display:flex; gap:15px; flex-wrap:wrap;">
-        <div style="flex:1; min-width:250px;">
-          <h4 style="color:var(--cyan)">Mendatar (Across):</h4>
-          <ol id="tts-across-clues" style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:20px;"></ol>
-        </div>
-        <div style="flex:1; min-width:250px;">
-          <h4 style="color:var(--violet)">Menurun (Down):</h4>
-          <ol id="tts-down-clues" style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:20px;"></ol>
-        </div>
+      <!-- GRID INTERAKTIF TTS -->
+      <div class="tts-container">
+        <div id="tts-grid-board" class="tts-grid"></div>
       </div>
 
-      <!-- TTS Interactive Grid -->
-      <div id="tts-grid-container" class="tts-grid"></div>
+      <!-- DAFTAR PETUNJUK SOAL TTS -->
+      <div style="display:flex; gap:15px; flex-wrap:wrap; margin-top:15px;">
+        <div style="flex:1; min-width:260px;">
+          <h4 style="color:var(--cyan); margin-bottom:8px;">➡️ Mendatar (Across):</h4>
+          <ol style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:18px;">
+            <li><b>(1)</b> Perangkat penampil visual layar utama</li>
+            <li><b>(2)</b> OS Open Source berlogo Penguin</li>
+            <li><b>(3)</b> Otak pemroses utama sistem komputer</li>
+            <li><b>(4)</b> Memori acak bersifat sementara / volatil</li>
+            <li><b>(5)</b> Media penyimpan flash super cepat modern</li>
+            <li><b>(6)</b> Firmware awal pembaca hardware saat booting</li>
+            <li><b>(7)</b> Prosesor pengolah grafis dan gambar 3D</li>
+            <li><b>(8)</b> Gerbang utama pintu jaringan internet</li>
+          </ol>
+        </div>
+        <div style="flex:1; min-width:260px;">
+          <h4 style="color:var(--violet); margin-bottom:8px;">⬇️ Menurun (Down):</h4>
+          <ol start="9" style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:18px;">
+            <li><b>(9)</b> Unit kalkulasi matematika & logika di CPU</li>
+            <li><b>(10)</b> Memori non-volatil tempat menyimpan BIOS</li>
+            <li><b>(11)</b> Inti terdalam dari sebuah Sistem Operasi</li>
+            <li><b>(12)</b> Sinyal selaan instruksi keras ke CPU</li>
+            <li><b>(13)</b> Proses membagi harddisk jadi drive C & D</li>
+            <li><b>(14)</b> Format berkas flashdisk batas max 4GB</li>
+            <li><b>(15)</b> Penurunan kecepatan CPU akibat panas berlebih</li>
+          </ol>
+        </div>
+      </div>
 
       <button class="btn" onclick="finishAllAndSubmit()">Selesaikan Ujian & Kirim Semua Hasil 🎉</button>
     </div>
@@ -129,13 +154,13 @@ textarea{min-height:100px;resize:vertical;}
   <div id="result-screen" style="display:none;">
     <h2 style="text-align:center;">🏆 Ujian Selesai!</h2>
     <div class="card" style="text-align:center;">
-      <p>Skor Pilihan Ganda (Maks 70):</p>
-      <h1 style="font-size:3rem; color:var(--cyan); margin:5px 0;" id="pg-score">0 / 70</h1>
+      <p>Skor Utama Pilihan Ganda (Maks 70):</p>
+      <h1 style="font-size:2.8rem; color:var(--cyan); margin:5px 0;" id="pg-score">0 / 70</h1>
       <p>Nilai Tambahan Bonus TTS (Maks 30):</p>
       <h2 style="font-size:2rem; color:var(--green); margin:5px 0;" id="tts-score">+0 Poin</h2>
       <p id="submit-type-display" style="font-weight:bold; color:var(--violet)"></p>
       <p id="send-status" style="color:var(--yellow)">⌛ Mengirimkan hasil ke Google Spreadsheet...</p>
-      <div id="cheat-log-display" style="color:var(--red); font-size:14px; text-align:left; background:#ffffff08; padding:12px; border-radius:8px; margin-top:15px; line-height:1.5;"></div>
+      <div id="cheat-log-display" style="color:var(--red); font-size:13px; text-align:left; background:#ffffff08; padding:12px; border-radius:8px; margin-top:15px; line-height:1.5;"></div>
     </div>
 
     <h3>📝 Evaluasi Jawaban Esai Anda</h3>
@@ -144,11 +169,11 @@ textarea{min-height:100px;resize:vertical;}
 </div>
 
 <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWaYr3fnMJVM-ubkGH9O2KNIjrG8oa-6F1cXmqDUU5yn-quvlMyCe6ldhQ-fWwyUUa/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec";
 
 const pgQuestions = [
   { q: "1. Seorang teknisi merakit unit PC server untuk sekolah. Saat pengujian, CPU mampu memproses instruksi dengan sangat cepat, namun pergerakan transfer data menuju memori utama mengalami hambatan (delay) karena keterbatasan bus tunggal. Berdasarkan analisis arsitektur Von Neumann, fenomena ini dikenal sebagai...", options: ["A. Thermal Throttling", "B. Von Neumann Bottleneck", "C. Multi-threading Lag", "D. Interrupt Request Conflict", "E. Cache Miss Overload"], ans: 1 },
-  { q: "2. Perhatikan diagram arsitektur Von Neumann di bawah ini. Jika Control Unit (CU) mengalami kegagalan pada tahap 'Decode', dampak utama yang terjadi pada alur pemrosesan instruksi adalah...", img: `<svg width="400" height="120" viewBox="0 0 400 120"><rect x="10" y="10" width="110" height="100" fill="#162c43" stroke="#48ddff" rx="8"/><text x="65" y="35" fill="#fff" font-size="12" text-anchor="middle">CPU</text><rect x="20" y="45" width="90" height="22" fill="#48ddff33" rx="4"/><text x="65" y="60" fill="#48ddff" font-size="10" text-anchor="middle">Control Unit</text><rect x="20" y="75" width="90" height="22" fill="#55e6a533" rx="4"/><text x="65" y="90" fill="#55e6a5" font-size="10" text-anchor="middle">ALU</text><line x1="120" y1="60" x2="170" y2="60" stroke="#ffd166" stroke-width="3"/><rect x="170" y="30" width="100" height="60" fill="#162c43" stroke="#ffd166" rx="8"/><text x="220" y="65" fill="#ffd166" font-size="11" text-anchor="middle">Memori Utama</text></svg>`, options: ["A. ALU akan langsung mengambil alih tugas menerjemahkan biner", "B. CPU tidak dapat mengartikan maksud instruksi sehingga eksekusi gagal", "C. Data otomatis tersimpan langsung ke dalam Secondary Storage", "D. Memori Utama akan otomatis menambah kapasitas RAM secara dinamis", "E. Siklus Fetch akan diulang terus menerus tanpa henti"], ans: 1 },
+  { q: "2. Perhatikan diagram arsitektur Von Neumann di bawah ini. Jika Control Unit (CU) mengalami kegagalan pada tahap 'Decode', dampak utama yang terjadi pada alur pemrosesan instruksi adalah...", img: `<svg width="360" height="110" viewBox="0 0 360 110"><rect x="10" y="10" width="100" height="90" fill="#162c43" stroke="#48ddff" rx="6"/><text x="60" y="32" fill="#fff" font-size="11" text-anchor="middle">CPU</text><rect x="20" y="40" width="80" height="20" fill="#48ddff33" rx="3"/><text x="60" y="54" fill="#48ddff" font-size="9" text-anchor="middle">Control Unit</text><rect x="20" y="68" width="80" height="20" fill="#55e6a533" rx="3"/><text x="60" y="82" fill="#55e6a5" font-size="9" text-anchor="middle">ALU</text><line x1="110" y1="55" x2="160" y2="55" stroke="#ffd166" stroke-width="3"/><rect x="160" y="25" width="90" height="60" fill="#162c43" stroke="#ffd166" rx="6"/><text x="205" y="60" fill="#ffd166" font-size="10" text-anchor="middle">Memori Utama</text></svg>`, options: ["A. ALU akan langsung mengambil alih tugas menerjemahkan biner", "B. CPU tidak dapat mengartikan maksud instruksi sehingga eksekusi gagal", "C. Data otomatis tersimpan langsung ke dalam Secondary Storage", "D. Memori Utama akan otomatis menambah kapasitas RAM secara dinamis", "E. Siklus Fetch akan diulang terus menerus tanpa henti"], ans: 1 },
   { q: "3. Tim robotik SMA sedang merancang robot pemadam api. Komponen CPU yang bertugas melakukan perhitungan matematis dan keputusan logika adalah...", options: ["A. Control Unit (CU)", "B. Register", "C. Arithmetic Logic Unit (ALU)", "D. System Bus", "E. ROM"], ans: 2 },
   { q: "4. Komputer generasi pertama (menggunakan tabung hampa udara) belum mampu menerapkan Multitasking modern karena...", options: ["A. Belum dikembangkannya monitor warna", "B. Ukuran fisik komponen besar & pemrosesan masih sekuensial (batch)", "C. Tidak ada bahasa pemrograman", "D. Belum ada keyboard mekanik", "E. Kipas pendingin kurang"], ans: 1 },
   { q: "5. Sebuah bank nasional memproses jutaan transaksi per detik secara bersamaan. Mengapa pihak bank memilih Mainframe ketimbang PC Desktop?", options: ["A. Mainframe lebih hemat listrik", "B. Mainframe lebih murah", "C. Mainframe dirancang untuk throughput I/O tinggi & reliabilitas tanpa downtime", "D. PC Desktop tidak bisa internet", "E. PC Desktop tidak punya GUI"], ans: 2 },
@@ -187,23 +212,23 @@ const essayQuestions = [
   { q: "ESAI 5 :\nJelaskan peran Access Control List (Read, Write, Execute) dan prosedur penanganan Ransomware!", rubrik: "Rubrik Nilai (Maks 6): Hak akses batasi eksekusi. Prosedur: Isolasi -> Reset ACL -> Restore Backup Offline." }
 ];
 
-// DATA TTS (15 SOAL)
-const ttsQuestions = [
-  { num: 1, type: "across", clue: "Perangkat keras penampil visual utama (7 Huruf)", ans: "MONITOR" },
-  { num: 2, type: "across", clue: "Sistem Operasi Open Source berlogo Penguin (5 Huruf)", ans: "LINUX" },
-  { num: 3, type: "across", clue: "Otak/Prosesor utama komputer (3 Huruf)", ans: "CPU" },
-  { num: 4, type: "across", clue: "Memori utama bersifat sementara/volatil (3 Huruf)", ans: "RAM" },
-  { num: 5, type: "across", clue: "Media simpan permanen berbasis chip tercepat modern (3 Huruf)", ans: "SSD" },
-  { num: 6, type: "across", clue: "Instruksi/Program Firmware awal saat booting (4 Huruf)", ans: "BIOS" },
-  { num: 7, type: "across", clue: "Peranti keras pengolah visual grafis 3D (3 Huruf)", ans: "GPU" },
-  { num: 8, type: "across", clue: "Pintu masuk utama jaringan / Akses internet (7 Huruf)", ans: "GATEWAY" },
-  { num: 9, type: "down", clue: "Bagian CPU penanggung jawab operasi logika & matematika (3 Huruf)", ans: "ALU" },
-  { num: 10, type: "down", clue: "Memori khusus Non-Volatil penyimpan BIOS (3 Huruf)", ans: "ROM" },
-  { num: 11, type: "down", clue: "Inti/Pusat terkecil dari Sistem Operasi (6 Huruf)", ans: "KERNEL" },
-  { num: 12, type: "down", clue: "Sinyal selaan hardware ke CPU (9 Huruf)", ans: "INTERRUPT" },
-  { num: 13, type: "down", clue: "Proses membagi media penyimpanan menjadi drive C & D (8 Huruf)", ans: "PARTISI" },
-  { num: 14, type: "down", clue: "Format file system flashdisk standar maksimum 4GB (5 Huruf)", ans: "FAT32" },
-  { num: 15, type: "down", clue: "Mekanisme penghentian sementara CPU karena panas tinggi (9 Huruf)", ans: "THROTTLING" }
+// DATA STRUKTUR TTS (10x10 Grid dengan Kunci Jawaban Lengkap)
+const ttsWords = [
+  { num: 1, word: "MONITOR", r: 0, c: 0, dir: "across" },
+  { num: 2, word: "LINUX", r: 2, c: 0, dir: "across" },
+  { num: 3, word: "CPU", r: 4, c: 0, dir: "across" },
+  { num: 4, word: "RAM", r: 6, c: 0, dir: "across" },
+  { num: 5, word: "SSD", r: 8, c: 0, dir: "across" },
+  { num: 6, word: "BIOS", r: 1, c: 5, dir: "across" },
+  { num: 7, word: "GPU", r: 3, c: 6, dir: "across" },
+  { num: 8, word: "GATEWAY", r: 5, c: 3, dir: "across" },
+  { num: 9, word: "ALU", r: 0, c: 8, dir: "down" },
+  { num: 10, word: "ROM", r: 2, c: 9, dir: "down" },
+  { num: 11, word: "KERNEL", r: 3, c: 1, dir: "down" },
+  { num: 12, word: "INTERRUPT", r: 0, c: 3, dir: "down" },
+  { num: 13, word: "PARTISI", r: 2, c: 5, dir: "down" },
+  { num: 14, word: "FAT32", r: 4, c: 7, dir: "down" },
+  { num: 15, word: "THROTTLING", r: 0, c: 4, dir: "down" }
 ];
 
 let currentIdx = 0, pgScore = 0, ttsScore = 0;
@@ -211,6 +236,7 @@ let userPgAnswers = new Array(pgQuestions.length).fill(null);
 let userEssayAnswers = new Array(essayQuestions.length).fill("");
 let studentInfo = { nama: "", kelas: "" };
 
+// WAKTU UJIAN 90 MENIT (90 * 60 DETIK)
 let totalTimeInSeconds = 90 * 60;
 let timerInterval = null;
 let submitType = "Manual";
@@ -277,6 +303,8 @@ function triggerAutoSubmit(reasonType) {
 
 function startTimer() {
   const timerElem = document.getElementById("timer");
+  const ttsTimerElem = document.getElementById("tts-timer");
+  
   timerInterval = setInterval(() => {
     if (totalTimeInSeconds <= 0) {
       clearInterval(timerInterval);
@@ -285,7 +313,9 @@ function startTimer() {
     }
     totalTimeInSeconds--;
     const h = Math.floor(totalTimeInSeconds / 3600), m = Math.floor((totalTimeInSeconds % 3600) / 60), s = totalTimeInSeconds % 60;
-    timerElem.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    timerElem.textContent = timeStr;
+    if(ttsTimerElem) ttsTimerElem.textContent = timeStr;
   }, 1000);
 }
 
@@ -336,16 +366,18 @@ function renderQuestion() {
     (currentIdx === totalQ - 1) ? "Lanjut ke Tantangan TTS Bonus 🎮" : "Soal Berikutnya →";
 }
 
-// VALIDASI SEBELUM NEXT
+// VALIDASI KETAT SEBELUM PINDAH SOAL
 function nextQuestion() {
   const totalQ = pgQuestions.length + essayQuestions.length;
   const isPg = currentIdx < pgQuestions.length;
   
+  // Wajib memilih PG
   if (isPg && userPgAnswers[currentIdx] === null) {
     document.getElementById("validation-msg").style.display = "block";
     return;
   }
   
+  // Wajib mengisi Esai
   if (!isPg) {
     const eIdx = currentIdx - pgQuestions.length;
     if (!userEssayAnswers[eIdx] || userEssayAnswers[eIdx].trim() === "") {
@@ -358,58 +390,88 @@ function nextQuestion() {
     currentIdx++;
     renderQuestion();
   } else {
-    // Masuk Modul TTS
+    // Pindah ke Modul TTS Bonus
     document.getElementById("exam-screen").style.display = "none";
     document.getElementById("tts-screen").style.display = "block";
-    renderTTSGrid();
+    renderInteractiveTTS();
   }
 }
 
-// MODUL TEKA TEKI SILANG (TTS)
-function renderTTSGrid() {
-  const acrossOl = document.getElementById("tts-across-clues");
-  const downOl = document.getElementById("tts-down-clues");
-  acrossOl.innerHTML = ""; downOl.innerHTML = "";
+// GENERATE GRID TTS INTERAKTIF 10x10
+function renderInteractiveTTS() {
+  const board = document.getElementById("tts-grid-board");
+  board.innerHTML = "";
+  
+  let gridData = Array.from({ length: 10 }, () => Array(10).fill(null));
 
-  ttsQuestions.forEach(q => {
-    const li = document.createElement("li");
-    li.textContent = `[Soal ${q.num}] ${q.clue}`;
-    if (q.type === "across") acrossOl.appendChild(li);
-    else downOl.appendChild(li);
+  // Pemetaan Kata & Nomor ke Matriks Grid
+  ttsWords.forEach(w => {
+    let r = w.r, c = w.c;
+    for (let i = 0; i < w.word.length; i++) {
+      if (r < 10 && c < 10) {
+        if (!gridData[r][c]) gridData[r][c] = { letter: w.word[i], num: null };
+        if (i === 0) gridData[r][c].num = w.num;
+        if (w.dir === "across") c++; else r++;
+      }
+    }
   });
 
-  const gridContainer = document.getElementById("tts-grid-container");
-  gridContainer.innerHTML = "";
-  
-  // Grid Sederhana 15x15
-  for (let i = 0; i < 225; i++) {
-    const cell = document.createElement("div");
-    cell.className = "tts-cell";
-    
-    // Aktifkan beberapa sel interaktif sederhana
-    if (i % 2 === 0 || i % 3 === 0) {
-      const input = document.createElement("input");
-      input.maxLength = 1;
-      input.dataset.idx = i;
-      cell.appendChild(input);
-    } else {
-      cell.classList.add("black");
+  // Render Sel ke Halaman Web
+  for (let r = 0; r < 10; r++) {
+    for (let c = 0; c < 10; c++) {
+      const cellDiv = document.createElement("div");
+      cellDiv.className = "tts-cell";
+      const item = gridData[r][c];
+
+      if (item) {
+        cellDiv.classList.add("active");
+        if (item.num) {
+          const numSpan = document.createElement("span");
+          numSpan.className = "tts-num";
+          numSpan.textContent = item.num;
+          cellDiv.appendChild(numSpan);
+        }
+        const input = document.createElement("input");
+        input.maxLength = 1;
+        input.dataset.r = r;
+        input.dataset.c = c;
+        input.dataset.ans = item.letter;
+        input.onkeyup = (e) => {
+          if(e.target.value.length === 1) {
+            // Pindah fokus otomatis ke kotak setelahnya
+            const nextInp = document.querySelector(`input[data-r="${r}"][data-c="${c+1}"]`) || 
+                            document.querySelector(`input[data-r="${r+1}"][data-c="${c}"]`);
+            if(nextInp) nextInp.focus();
+          }
+        };
+        cellDiv.appendChild(input);
+      } else {
+        cellDiv.classList.add("black");
+      }
+      board.appendChild(cellDiv);
     }
-    gridContainer.appendChild(cell);
   }
 }
 
 function finishAllAndSubmit() {
-  // Hitung Skor TTS Sederhana (Tiap jawaban terisi dinilai bonus)
-  let filledCells = 0;
-  document.querySelectorAll(".tts-cell input").forEach(inp => {
-    if (inp.value.trim() !== "") filledCells++;
+  // Evaluasi Pencocokan Kunci Jawaban TTS
+  let correctWords = 0;
+  ttsWords.forEach(w => {
+    let r = w.r, c = w.c;
+    let wordMatch = true;
+    for (let i = 0; i < w.word.length; i++) {
+      const inp = document.querySelector(`input[data-r="${r}"][data-c="${c}"]`);
+      if (!inp || inp.value.toUpperCase() !== w.word[i]) {
+        wordMatch = false;
+        break;
+      }
+      if (w.dir === "across") c++; else r++;
+    }
+    if (wordMatch) correctWords++;
   });
-  
-  let correctTtsCount = Math.min(15, Math.floor(filledCells / 3));
-  ttsScore = correctTtsCount * 2; // Maks 30 poin
 
-  calculateAndShowResults(correctTtsCount);
+  ttsScore = correctWords * 2; // Maks 30 Poin (15 Soal x 2)
+  calculateAndShowResults(correctWords);
 }
 
 function calculateAndShowResults(correctTtsCount = 0) {
@@ -425,7 +487,7 @@ function calculateAndShowResults(correctTtsCount = 0) {
   document.getElementById("result-screen").style.display = "block";
   
   document.getElementById("pg-score").textContent = `${pgScore} / 70 (${correctPgCount} Benar)`;
-  document.getElementById("tts-score").textContent = `+${ttsScore} Poin (${correctTtsCount}/15 TTS Benar)`;
+  document.getElementById("tts-score").textContent = `+${ttsScore} Poin (${correctTtsCount}/15 Soal TTS Benar)`;
   document.getElementById("submit-type-display").textContent = `📌 Status Pengiriman: ${submitType}`;
   
   const cheatDisplay = document.getElementById("cheat-log-display");
@@ -454,9 +516,6 @@ function calculateAndShowResults(correctTtsCount = 0) {
 
 function sendDataToSpreadsheet(correctPgCount, correctTtsCount) {
   const statusElem = document.getElementById("send-status");
-  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_")) {
-    // Siap Kirim
-  }
 
   const payload = {
     nama: studentInfo.nama,
@@ -481,10 +540,10 @@ function sendDataToSpreadsheet(correctPgCount, correctTtsCount) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   }).then(() => {
-    statusElem.textContent = "✅ Semua hasil ujian & bonus TTS berhasil terkirim!";
+    statusElem.textContent = "✅ Semua hasil ujian & bonus TTS berhasil terkirim ke Google Spreadsheet!";
     statusElem.style.color = "var(--green)";
   }).catch(() => {
-    statusElem.textContent = "⚠️ Gagal mengirim data. Periksa jaringan internet.";
+    statusElem.textContent = "⚠️ Gagal mengirim data. Periksa koneksi internet.";
     statusElem.style.color = "var(--red)";
   });
 }
