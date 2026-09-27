@@ -39,11 +39,7 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
       <input type="text" id="student-name" placeholder="Masukkan nama..." required>
       <label>Kelas:</label>
       <input type="text" id="student-class" placeholder="Contoh: X-1" required>
-      <button class="btn" onclick="startExam()">Mulai Ujian</button>
-    </div>
-    <div id="offline-alert" style="display:none;" class="card" style="border-color:var(--yellow)">
-      ⚠️ <b>Sistem Mendeteksi Sesi Terputus Sebelumnya!</b><br>
-      Komputer/HP Anda terdeteksi mati/mati daya pada sesi sebelumnya. Silakan hubungi guru pengawas untuk melakukan re-verifikasi ujian.
+      <button class="btn" id="start-btn">Mulai Ujian</button>
     </div>
   </div>
 
@@ -59,7 +55,7 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
       <h3 id="question-text">Teks Soal...</h3>
       <div id="options-container"></div>
       <div id="feedback" class="feedback-box"></div>
-      <button id="next-btn" class="btn" style="display:none;" onclick="nextQuestion()">Soal Berikutnya →</button>
+      <button id="next-btn" class="btn" style="display:none;">Soal Berikutnya →</button>
     </div>
   </div>
 
@@ -68,7 +64,7 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
     <h2>🏆 Ujian Selesai!</h2>
     <div class="card">
       <h1 style="font-size:4rem; color:var(--cyan); margin:10px 0;" id="final-score">0</h1>
-      <p id="submit-status">Mengirimkan nilai ke Google Sheets...</p>
+      <p id="submit-status">Nilai berhasil dicatat.</p>
     </div>
   </div>
 </div>
@@ -80,15 +76,13 @@ input[type="text"]{width:100%;padding:12px;background:#162c43;border:1px solid v
     <p>Anda terdeteksi keluar dari aplikasi/pindah tab browser!</p>
     <p>Pelanggaran Ke: <b id="modal-warn-num" style="color:var(--yellow); font-size:1.2rem;">1</b> / 3</p>
     <p style="font-size:13px; color:var(--muted)">Jika mencapai 3 kali pelanggaran, lembar jawaban akan <b>OTOMATIS TER-SUBMIT</b> secara permanen.</p>
-    <button class="btn" onclick="closeModal()">Saya Mengerti & Lanjutkan</button>
+    <button class="btn" id="close-modal-btn">Saya Mengerti & Lanjutkan</button>
   </div>
 </div>
 
 <script>
-// CONFIGURASI GOOGLE APPS SCRIPT URL (Ganti dengan URL milik Anda)
-const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const GOOGLE_SCRIPT_URL = "";
 
-// DATA SOAL HOTS BERBASIS MATERI BERKAS PDF & HTML
 const questions = [
   {
     q: "Sebuah sistem komputer mikro mengalami kemacetan (lag) parah saat membuka video editor dan browser secara bersamaan. Setelah diperiksa, alokasi memori penuh. Berdasarkan model Arsitektur Von Neumann, bagian sistem manakah yang bertugas mengatur alokasi pemrosesan dan memori agar aplikasi tidak berebut sumber daya?",
@@ -212,25 +206,14 @@ const questions = [
   }
 ];
 
-// STATE APLIKASI
-let currentQ = 0, score = 0, violations = 0, timeRemaining = 5400; // 90 Menit (5400 detik)
+let currentQ = 0, score = 0, violations = 0, timeRemaining = 5400;
 let student = { nama: "", kelas: "" }, timerInterval = null, isSubmitted = false;
 
-// LOGIKA AUTO SAVE/LOAD JIKA HP MATI / TERPUTUS
-window.onload = function() {
-  const savedState = localStorage.getItem("exam_state");
-  if(savedState) {
-    const data = JSON.parse(savedState);
-    if(data.isSubmitted) {
-      document.getElementById("start-screen").style.display = "none";
-      document.getElementById("result-screen").style.display = "block";
-      document.getElementById("final-score").textContent = data.score;
-      document.getElementById("submit-status").textContent = "Status: Ujian telah disubmit sebelumnya.";
-    } else {
-      document.getElementById("offline-alert").style.display = "block";
-    }
-  }
-};
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("start-btn").addEventListener("click", startExam);
+  document.getElementById("next-btn").addEventListener("click", nextQuestion);
+  document.getElementById("close-modal-btn").addEventListener("click", closeModal);
+});
 
 function startExam() {
   const nameInput = document.getElementById("student-name").value.trim();
@@ -239,16 +222,13 @@ function startExam() {
     alert("Harap isi Nama dan Kelas terlebih dahulu!");
     return;
   }
-  student.nama = nameInput; student.kelas = classInput;
+  student.nama = nameInput; 
+  student.kelas = classInput;
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("exam-screen").style.display = "block";
   
-  // Set Timer & Save Initial State
   startTimer();
-  saveLocalState();
   loadQuestion();
-  
-  // Aktifkan Pengawas Anti-Curang
   setupAntiCheat();
 }
 
@@ -298,17 +278,16 @@ function checkAnswer(selectedIdx) {
   if(selectedIdx === qData.answer) {
     buttons[selectedIdx].classList.add("correct");
     fbBox.className = "feedback-box ok";
-    fbBox.innerHTML = `<b>✅ JAWABAN BENAR (PENGUATAN KONSEP):</b><br>${qData.explainCorrect}`;
+    fbBox.innerHTML = `<b>✅ JAWABAN BENAR:</b><br>${qData.explainCorrect}`;
     score += 10;
   } else {
     buttons[selectedIdx].classList.add("wrong");
     buttons[qData.answer].classList.add("correct");
     fbBox.className = "feedback-box no";
-    fbBox.innerHTML = `<b>❌ JAWABAN KURANG TEPAT (PEMBAHASAN ANALISIS):</b><br>${qData.explainWrong}`;
+    fbBox.innerHTML = `<b>❌ JAWABAN KURANG TEPAT:</b><br>${qData.explainWrong}`;
   }
   
   document.getElementById("next-btn").style.display = "block";
-  saveLocalState();
 }
 
 function nextQuestion() {
@@ -320,13 +299,9 @@ function nextQuestion() {
   }
 }
 
-// ANTI CHEAT & MONITORING TAB SWITCHING
 function setupAntiCheat() {
-  let hiddenTime;
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      handleViolation();
-    }
+    if (document.hidden) handleViolation();
   });
   window.addEventListener("blur", () => {
     handleViolation();
@@ -339,63 +314,42 @@ function handleViolation() {
   document.getElementById("warn-count").textContent = violations;
   
   if(violations >= 3) {
-    alert("🚨 Anda telah keluar dari halaman sebanyak 3 kali! Sistem otomatis MEN-SUBMIT ujian Anda sekarang.");
+    alert("🚨 Anda telah keluar dari halaman sebanyak 3 kali! Ujian otomatis ter-submit.");
     forceSubmit("Otomatis Ter-submit (3x Violations)");
   } else {
     document.getElementById("modal-warn-num").textContent = violations;
     document.getElementById("warn-modal").style.display = "grid";
   }
-  saveLocalState();
 }
 
 function closeModal() {
   document.getElementById("warn-modal").style.display = "none";
 }
 
-function saveLocalState() {
-  const state = {
-    student: student,
-    currentQ: currentQ,
-    score: score,
-    violations: violations,
-    isSubmitted: isSubmitted
-  };
-  localStorage.setItem("exam_state", JSON.stringify(state));
-}
-
-// SUBMIT KE GOOGLE SPREADSHEET
 function forceSubmit(statusReason) {
   if(isSubmitted) return;
   isSubmitted = true;
   clearInterval(timerInterval);
-  saveLocalState();
   
   document.getElementById("exam-screen").style.display = "none";
   document.getElementById("warn-modal").style.display = "none";
   document.getElementById("result-screen").style.display = "block";
   document.getElementById("final-score").textContent = score;
   
-  const payload = {
-    nama: student.nama,
-    kelas: student.kelas,
-    skor: score,
-    pelanggaran: violations,
-    status: statusReason
-  };
-
-  // Kirim data via HTTP POST ke Apps Script
-  fetch(https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  }).then(() => {
-    document.getElementById("submit-status").textContent = "✅ Nilai & Catatan Pelanggaran Berhasil Terkirim ke Google Spreadsheet!";
-    document.getElementById("submit-status").style.color = "var(--green)";
-  }).catch(err => {
-    document.getElementById("submit-status").textContent = "⚠️ Gagal terhubung ke server. Nilai tersimpan di lokal browser.";
-    document.getElementById("submit-status").style.color = "var(--red)";
-  });
+  if(GOOGLE_SCRIPT_URL) {
+    fetch(https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nama: student.nama,
+        kelas: student.kelas,
+        skor: score,
+        pelanggaran: violations,
+        status: statusReason
+      })
+    });
+  }
 }
 </script>
 </body>
