@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ULANGAN HARIAN & CHALLENGE TTS - Sistem Komputer & OS</title>
+<title>ULANGAN HARIAN SISTEM KOMPUTER & OS</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1c2d;--text:#eff8ff;--muted:#aec2d5;--cyan:#48ddff;--violet:#9c7dff;--green:#55e6a5;--yellow:#ffd166;--red:#ff7180;--line:#ffffff1c}
 *{box-sizing:border-box}
@@ -15,40 +15,31 @@ header{display:flex;justify-content:space-between;align-items:center;border-bott
 .card{background:#ffffff05;border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:20px}
 .btn{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#000;font-weight:bold;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:16px;width:100%;margin-top:15px;transition:.2s}
 .btn:hover{opacity:0.9}
-.option-btn{display:block;width:100%;text-align:left;background:#ffffff08;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:8px;margin:8px 0;cursor:pointer;transition:.2s;line-height:1.4}
-.option-btn:hover{border-color:var(--cyan);background:#ffffff12}
-.option-btn.selected{border-color:var(--cyan);background:#48ddff22}
-input[type="text"], textarea{width:100%;padding:12px;background:#162c43;border:1px solid var(--line);color:var(--text);border-radius:8px;margin:8px 0 15px;font-size:15px}
-textarea{min-height:110px;resize:vertical}
-.essay-box{margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:15px}
+input[type="text"], textarea, select{width:100%;padding:12px;background:#162c43;border:1px solid var(--line);color:var(--text);border-radius:8px;margin:8px 0 15px;font-size:15px}
+textarea{min-height:120px;resize:vertical}
+select{cursor:pointer}
+select option{background:var(--panel);color:var(--text)}
 .rubrik-box{background:#55e6a512;border:1px solid var(--green);color:#a8ffda;padding:12px;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.5}
-.q-image{text-align:center;margin:15px 0;padding:10px;background:#00000033;border-radius:10px;border:1px dashed var(--line)}
-.q-image svg{max-width:100%;height:auto}
 .alert-warning{color:var(--red);font-size:14px;margin-top:10px;display:none;font-weight:bold}
-
-/* GRID STYLING TEKA TEKI SILANG (TTS) */
-.tts-container{display:flex;flex-direction:column;align-items:center;margin:20px 0;overflow-x:auto}
-.tts-grid{display:grid;grid-template-columns:repeat(10, 36px);grid-template-rows:repeat(10, 36px);gap:3px;background:#050c14;padding:10px;border-radius:10px;border:1px solid var(--cyan)}
-.tts-cell{width:36px;height:36px;background:#0d1c2d;border:1px solid #ffffff22;position:relative;border-radius:4px}
-.tts-cell.active{background:#162c43;border-color:var(--cyan)}
-.tts-cell.black{background:#040910;border:none}
-.tts-cell input{width:100%;height:100%;background:transparent;border:none;text-align:center;color:var(--cyan);font-weight:bold;font-size:16px;text-transform:uppercase;outline:none}
-.tts-num{position:absolute;top:1px;left:2px;font-size:9px;color:var(--yellow);font-weight:bold;pointer-events:none}
+.matching-table{width:100%;border-collapse:collapse;margin-top:10px}
+.matching-table th, .matching-table td{border:1px solid var(--line);padding:10px;text-align:left}
+.matching-table th{background:#ffffff10;color:var(--cyan)}
+.blank-item{background:#ffffff08;padding:10px;border-radius:8px;margin-bottom:10px;border:1px solid var(--line)}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- START SCREEN -->
+  <!-- HALAMAN MULAI -->
   <div id="start-screen">
-    <h2>🚀 ULANGAN HARIAN & CHALLENGE TTS</h2>
-    <p style="color:var(--muted)">Materi: Arsitektur Sistem Komputer, Generasi Komputer & OS (Durasi: 90 Menit)</p>
+    <h2>🚀 ULANGAN HARIAN: SISTEM KOMPUTER & OS</h2>
+    <p style="color:var(--muted)">Materi: Arsitektur Komputer, Hardware, Software, Brainware & OS (Durasi: 90 Menit)</p>
     <div class="card">
       <p style="color:var(--yellow); font-size:14px; line-height:1.6;">
         ⚠️ <b>PETUNJUK KELENGKAPAN & ATURAN UJIAN:</b><br>
-        1. Anda wajib memilih/mengisi jawaban sebelum berpindah ke soal berikutnya.<br>
-        2. Batas Maksimal Pelanggaran Pindah Tab / Keluar Fullscreen adalah <b>3 kali</b>.<br>
-        3. Setelah menyelesaikan Esai, lanjutkan ke <b>15 Soal TTS Interaktif</b> untuk poin bonus (+30 Poin).
+        1. Ujian terdiri dari <b>Soal Esai Analisis</b>, <b>Isian Singkat</b>, dan <b>Menjodohkan</b>.<br>
+        2. Anda wajib mengisi seluruh kolom jawaban sebelum berpindah ke soal berikutnya.<br>
+        3. Batas Maksimal Pelanggaran Pindah Tab / Keluar Fullscreen adalah <b>3 kali</b>.
       </p>
       <label>Nama Lengkap Siswa:</label>
       <input type="text" id="student-name" placeholder="Masukkan nama lengkap..." required>
@@ -58,10 +49,10 @@ textarea{min-height:110px;resize:vertical}
     </div>
   </div>
 
-  <!-- EXAM SCREEN (PG + ESAI) -->
+  <!-- HALAMAN SOAL (ESAI, ISIAN, MENJODOHKAN) -->
   <div id="exam-screen" style="display:none;">
     <header>
-      <div><b id="q-number">Soal 1 / 35</b></div>
+      <div><b id="q-number">Soal 1 / 10</b></div>
       <div class="cheat-badge">
         ⚠️ Tab: <span id="tab-count">0</span>/3 | Fullscreen: <span id="fs-count">0</span>/3
       </div>
@@ -69,191 +60,143 @@ textarea{min-height:110px;resize:vertical}
     </header>
 
     <div class="card">
-      <h3 id="question-text" style="line-height: 1.5;">Teks Soal...</h3>
-      <div id="image-container" class="q-image" style="display:none;"></div>
-      <div id="options-container"></div>
-      <div id="essay-container" style="display:none;">
-        <textarea id="essay-answer" placeholder="Tuliskan jawaban analisis Anda di sini..."></textarea>
-      </div>
-      <p id="validation-msg" class="alert-warning">⚠️ Silakan isi atau pilih jawaban terlebih dahulu sebelum melanjutkan!</p>
+      <h3 id="question-title" style="color:var(--cyan); margin-top:0;">Judul Soal</h3>
+      <p id="question-text" style="line-height: 1.6; white-space: pre-line;">Teks Soal...</p>
+      
+      <!-- CONTROLLER DYNAMIC INPUT -->
+      <div id="input-container"></div>
+
+      <p id="validation-msg" class="alert-warning">⚠️ Silakan lengkapi semua isian jawaban terlebih dahulu sebelum melanjutkan!</p>
       <button id="next-btn" class="btn" onclick="nextQuestion()">Soal Berikutnya →</button>
     </div>
   </div>
 
-  <!-- TTS BONUS SCREEN -->
-  <div id="tts-screen" style="display:none;">
-    <header>
-      <div><b>🎮 TANTANGAN BONUS: TEKA-TEKI SILANG (15 SOAL)</b></div>
-      <div class="timer-badge">⏱️ <span id="tts-timer">01:30:00</span></div>
-    </header>
-    <div class="card">
-      <p style="color:var(--green); font-size:14px;">
-        Isilah kotak TTS di bawah ini berdasarkan bahan bacaan untuk mendapatkan bonus hingga <b>+30 Poin</b>!
-      </p>
-
-      <!-- VISUAL SVG HEADER TTS -->
-      <div class="q-image">
-        <svg width="340" height="70" viewBox="0 0 340 70">
-          <rect x="10" y="10" width="60" height="40" rx="4" fill="#162c43" stroke="#48ddff" stroke-width="2"/>
-          <text x="40" y="34" fill="#48ddff" font-size="8" text-anchor="middle">INPUT</text>
-          
-          <circle cx="110" cy="30" r="20" fill="#ffd16622" stroke="#ffd166" stroke-width="2"/>
-          <text x="110" y="34" fill="#ffd166" font-size="8" font-weight="bold" text-anchor="middle">NEUMANN</text>
-          
-          <rect x="160" y="10" width="45" height="45" rx="5" fill="#162c43" stroke="#55e6a5" stroke-width="2"/>
-          <text x="182" y="36" fill="#55e6a5" font-size="8" text-anchor="middle">CHIP</text>
-
-          <rect x="230" y="20" width="50" height="20" rx="2" fill="#9c7dff33" stroke="#9c7dff" stroke-width="2"/>
-          <text x="255" y="34" fill="#9c7dff" font-size="8" text-anchor="middle">OUTPUT</text>
-          
-          <rect x="295" y="20" width="35" height="20" rx="2" fill="#ff718033" stroke="#ff7180" stroke-width="2"/>
-          <text x="312" y="34" fill="#ff7180" font-size="8" text-anchor="middle">SUPER</text>
-        </svg>
-      </div>
-
-      <!-- GRID TTS INTERAKTIF 10x10 -->
-      <div class="tts-container">
-        <div id="tts-grid-board" class="tts-grid"></div>
-      </div>
-
-      <!-- PETUNJUK SOAL TTS -->
-      <div style="display:flex; gap:15px; flex-wrap:wrap; margin-top:15px;">
-        <div style="flex:1; min-width:260px;">
-          <h4 style="color:var(--cyan); margin-bottom:8px;">➡️ MENDATAR:</h4>
-          <ol style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:18px;">
-            <li><b>(1)</b> Memasukkan perintah ke dalam komputer</li>
-            <li><b>(3)</b> Menampilkan hasil komputasi</li>
-            <li><b>(5)</b> Tokoh penggagas arsitektur komputer</li>
-            <li><b>(7)</b> Pengganti tube vakum generasi kedua</li>
-            <li><b>(9)</b> Komputer ukuran kecil (laptop/smartphone)</li>
-            <li><b>(11)</b> Melayani ratusan pengguna bersamaan</li>
-            <li><b>(13)</b> Komputer perhitungan intensif (cuaca/iklim)</li>
-            <li><b>(15)</b> Tahap CPU melakukan operasi/perhitungan</li>
-          </ol>
-        </div>
-        <div style="flex:1; min-width:260px;">
-          <h4 style="color:var(--violet); margin-bottom:8px;">⬇️ MENURUN:</h4>
-          <ol start="2" style="font-size:13px; line-height:1.6; color:var(--muted); padding-left:18px;">
-            <li><b>(2)</b> Tahap CPU mengambil instruksi dari memori</li>
-            <li><b>(4)</b> Tahap CPU menerjemahkan instruksi</li>
-            <li><b>(6)</b> Komponen penyimpan gen-1: silinder ....</li>
-            <li><b>(8)</b> Komponen gen-3 dipadatkan ke dalam ....</li>
-            <li><b>(10)</b> Komputer gen-5 menerima perintah secara ....</li>
-            <li><b>(12)</b> Ukuran sedikit lebih besar dari mikro</li>
-            <li><b>(14)</b> Contoh komputer super milik Amerika Serikat</li>
-          </ol>
-        </div>
-      </div>
-
-      <button class="btn" onclick="finishAllAndSubmit()">Selesaikan Ujian & Kirim Semua Hasil 🎉</button>
-    </div>
-  </div>
-
-  <!-- RESULT SCREEN -->
+  <!-- HALAMAN HASIL & EVALUASI -->
   <div id="result-screen" style="display:none;">
     <h2 style="text-align:center;">🏆 Ujian Selesai!</h2>
     <div class="card" style="text-align:center;">
-      <p>Skor Utama Pilihan Ganda (Maks 70):</p>
-      <h1 style="font-size:2.8rem; color:var(--cyan); margin:5px 0;" id="pg-score">0 / 70</h1>
-      <p>Nilai Tambahan Bonus TTS (Maks 30):</p>
-      <h2 style="font-size:2rem; color:var(--green); margin:5px 0;" id="tts-score">+0 Poin</h2>
       <p id="submit-type-display" style="font-weight:bold; color:var(--violet)"></p>
       <p id="send-status" style="color:var(--yellow)">⌛ Mengirimkan hasil ke Google Spreadsheet...</p>
       <div id="cheat-log-display" style="color:var(--red); font-size:13px; text-align:left; background:#ffffff08; padding:12px; border-radius:8px; margin-top:15px; line-height:1.5;"></div>
     </div>
 
-    <h3>📝 Evaluasi Jawaban Esai Anda</h3>
-    <div id="essay-results"></div>
+    <h3>📝 Ringkasan Jawaban & Kunci Jawaban Official</h3>
+    <div id="results-list"></div>
   </div>
 </div>
 
 <script>
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3kdEgI_74fyKOlg2VmNNA3vMTNTGa8s77YFuCgp7Pc11hr-WP5Krzv-AdnSEkYFb_/exec";
 
-// SOAL PILIHAN GANDA DENGAN FORMAT CERITA & STUDI KASUS KONTEKSTUAL
-const pgQuestions = [
-  { q: "1. Andi adalah seorang siswa yang sedang menyusun laporan di laptopnya. Ketika ia mengetik tombol pada keyboard, huruf langsung muncul di layar monitor. Berdasarkan arsitektur Von Neumann, komponen yang bertugas menerima ketikan dari Andi disebut...", options: ["A. Output Device", "B. Input Device", "C. Storage Unit", "D. Central Processing Unit", "E. Memory Unit"], ans: 1 },
-  { q: "2. Budi mengamati bahwa komputer sekolah membutuhkan waktu cukup lama saat membuka aplikasi pengolah kata. CPU memanggil data dari memori utama melalui bus yang sama secara bergantian sehingga terjadi hambatan antrean. Fenomena hambatan pada arsitektur Von Neumann ini dikenal dengan istilah...", options: ["A. Cache Overload", "B. Thermal Throttling", "C. Von Neumann Bottleneck", "D. System Interrupt Error", "E. Paging Fault"], ans: 2 },
-  { q: "3. Tim laboratorium sains sekolah membutuhkan komputer yang sanggup melakukan simulasi prediksi cuaca ekstrim dan analisis iklim global dengan triliunan kalkulasi per detik. Jenis komputer yang paling tepat digunakan untuk kebutuhan tersebut adalah...", options: ["A. Mikro Komputer", "B. Mini Komputer", "C. Mainframe", "D. Superkomputer", "E. Workstation"], ans: 3 },
-  { q: "4. Sebuah perusahaan perbankan memiliki sistem pusat yang harus melayani transaksi ATM dari ribuan nasabah secara bersamaan tanpa boleh mengalami krisis lag. Jenis komputer yang dirancang khusus untuk melayani ratusan hingga ribuan pengguna bersamaan ini adalah...", options: ["A. Komputer Mikro", "B. Mainframe", "C. Komputer Mini", "D. Laptop", "E. Embedded System"], ans: 1 },
-  { q: "5. Pak Raden mengenang komputer masa lalu yang ia gunakan pada era 1950-an. Komputer generasi pertama tersebut memiliki ukuran fisik sangat besar hingga memenuhi satu ruangan penuh. Penyebab utama besarnya ukuran komputer generasi pertama adalah penggunaan...", options: ["A. Transistor", "B. Integrated Circuit (IC)", "C. Microprocessor", "D. Tube Vakum", "E. Chip Silicon"], ans: 3 },
-  { q: "6. Pada generasi kedua, teknologi komputer mengalami lompatan besar. Tube vakum yang mudah panas dan berukuran besar mulai digantikan oleh komponen yang lebih kecil dan efisien, yaitu...", options: ["A. Microprocessor", "B. Silicon IC", "C. Transistor", "D. Silinder Magnetic", "E. AI Processor"], ans: 2 },
-  { q: "7. Perkembangan komputer generasi ketiga ditandai dengan ditemukannya cara memadatkan puluhan hingga ratusan komponen elektronik ke dalam satu lempengan kecil yang disebut...", options: ["A. Tube Vakum", "B. Magnetic Drum", "C. Chip (Integrated Circuit)", "D. Harddisk", "E. Motherboard"], ans: 2 },
-  { q: "8. Dewasa ini, Siti cukup mengucapkan kata 'Buka Kamera' pada smartphone-nya, dan aplikasi kamera langsung terbuka. Kemampuan komputer/smartphone menerima perintah secara lisan dan meniru nalar manusia merupakan ciri utama komputer generasi...", options: ["A. Pertama", "B. Kedua", "C. Ketiga", "D. Keempat", "E. Kelima"], ans: 4 },
-  { q: "9. Amerika Serikat pernah mengembangkan salah satu superkomputer paling canggih yang digunakan untuk riset energi dan sains tingkat tinggi yang dinamakan...", options: ["A. ENIAC", "B. IBM PC", "C. TITAN", "D. APPLE II", "E. ALTAIR"], ans: 2 },
-  { q: "10. Saat CPU mengeksekusi sebuah program, langkah awal yang dilakukan oleh CPU adalah mengambil instruksi dari memori utama berdasarkan alamat program yang sedang berjalan. Tahapan ini disebut...", options: ["A. Ambil (Fetch)", "B. Dekode (Decode)", "C. Eksekusi (Execute)", "D. Simpan (Store)", "E. Interrupt"], ans: 0 },
-  { q: "11. Setelah instruksi berhasil diambil dari memori, Control Unit pada CPU akan menerjemahkan kode biner instruksi tersebut serta menyiapkan langkah operasi berikutnya. Tahapan penerjemahan ini dinamakan...", options: ["A. Ambil", "B. Dekode", "C. Eksekusi", "D. Upload", "E. Processing"], ans: 1 },
-  { q: "12. Tahapan terakhir dalam siklus instruksi CPU adalah ketika ALU melakukan perhitungan matematika atau menjalankan perintah logika sesuai instruksi. Tahap ini disebut...", options: ["A. Fetch", "B. Decode", "C. Eksekusi", "D. Booting", "E. Paging"], ans: 2 },
-  { q: "13. Pada komputer generasi pertama, media penyimpan data luar yang berbentuk tabung silinder terbungkus bahan magnetik dinamakan...", options: ["A. Harddisk Drive", "B. Solid State Drive", "C. Silinder Magnetic", "D. Flashdisk", "E. Optical Disc"], ans: 2 },
-  { q: "14. Perangkat seperti Laptop, Desktop PC, dan Smartphone yang sering kita gunakan sehari-hari untuk aktivitas belajar masuk ke dalam kategori komputer...", options: ["A. Mainframe", "B. Superkomputer", "C. Mikro Komputer", "D. Mini Komputer", "E. Quantum Computer"], ans: 2 },
-  { q: "15. Komputer jenis Mini memiliki ukuran dan kapasitas yang berada di tengah-tengah. Ukuran komputer ini sedikit lebih besar daripada komputer mikro, namun digunakan untuk...", options: ["A. Mengontrol mesin pabrik / server skala menengah", "B. Meniru lisan manusia", "C. Prediksi iklim dunia", "D. Pengganti smartphone", "E. Komputer saku"], ans: 0 },
-  { q: "16. Ketika seorang siswa menekan tombol print pada aplikasi Microsoft Word, hasil cetakan dokumen keluar melalui kertas dari mesin printer. Dalam konsep Von Neumann, printer berungsi sebagai...", options: ["A. Input Unit", "B. Output Unit", "C. Processing Unit", "D. Storage Unit", "E. Control Unit"], ans: 1 },
-  { q: "17. Seorang peneliti merancang arsitektur komputer modern. Ia mengacu pada konsep arsitektur di mana instruksi dan data disimpan dalam satu memori yang sama. Tokoh pencetus konsep ini adalah...", options: ["A. Alan Turing", "B. Charles Babbage", "C. John von Neumann", "D. Bill Gates", "E. Steve Jobs"], ans: 2 },
-  { q: "18. Sebuah komputer di ruang sekretariat sekolah dapat melayani 15 komputer client sekaligus untuk berbagi file dan printer. Komputer menengah ini termasuk kategori...", options: ["A. Komputer Mikro", "B. Komputer Mini", "C. Superkomputer", "D. Mainframe", "E. Calculator"], ans: 1 },
-  { q: "19. Sistem Operasi bertugas mengatur giliran penggunaan prosesor agar semua program berjalan lancar. Fungsi ini dinamakan manajemen...", options: ["A. CPU / Proses", "B. Penyimpanan", "C. Keamanan", "D. Antarmuka", "E. Input/Output"], ans: 0 },
-  { q: "20. Ketika RAM fisik komputer hampir penuh saat membuka banyak aplikasi, Sistem Operasi akan memanfaatkan sebagian kecil ruang SSD sebagai memori buatan yang dikenal dengan...", options: ["A. Cache Memory", "B. Virtual Memory (Paging File)", "C. Read Only Memory", "D. Firmware", "E. External Storage"], ans: 1 },
-  { q: "21. Seorang siswa menyambungkan Flashdisk ke komputer lab. Sistem Operasi langsung mengenali perangkat tersebut dan menyiapkan jalur komunikasi data. Fungsi OS yang bekerja adalah...", options: ["A. Manajemen Keamanan", "B. Manajemen Input/Output (I/O)", "C. Antarmuka Pengguna", "D. Manajemen Lisensi", "E. Defragmentasi"], ans: 1 },
-  { q: "22. Layar tampilan Desktop, icon aplikasi, dan tombol menu yang memudahkan pengguna berinteraksi dengan komputer tanpa harus mengetik kode rumit disediakan oleh OS melalui fungsi...", options: ["A. Antarmuka (User Interface)", "B. Manajemen RAM", "C. CPU Scheduling", "D. File System", "E. Access Control"], ans: 0 },
-  { q: "23. Fitur Sistem Operasi yang mewajibkan pengguna memasukkan password saat login agar file pribadi tidak bisa dibaca orang lain merupakan bagian dari manajemen...", options: ["A. RAM", "B. Keamanan (Security)", "C. CPU", "D. Output", "E. Bootloader"], ans: 1 },
-  { q: "24. Mengapa ruang kosong pada SSD/Harddisk tidak boleh benar-benar habis (misalnya tersisa < 5GB)?", options: ["A. Karena komputer tidak bisa terhubung ke WiFi", "B. Karena OS kesulitan membuat file sementara & memori virtual sehingga komputer lambat", "C. Karena monitor akan mati otomatis", "D. Karena keyboard tidak berfungsi", "E. Karena file dokumen akan terhapus otomatis"], ans: 1 },
-  { q: "25. Saat mengunduh file dari website tidak resmi, sering kali komputer tiba-tiba terinstal program iklan yang memunculkan pop-up terus menerus. Jenis malware tersebut adalah...", options: ["A. Ransomware", "B. Adware / Trojan", "C. Boot Virus", "D. Worm Network", "E. Spyware Camera"], ans: 1 },
-  { q: "26. Fungsi Sistem Operasi dalam mengelola penyimpanan (Storage Management) adalah...", options: ["A. Menghapus semua file otomatis setiap minggu", "B. Mengatur struktur direktori, pembuatan file, dan pengalokasian ruang simpan", "C. Mempercepat koneksi internet", "D. Mencegah layar panas", "E. Mengubah berkas menjadi gambar"], ans: 1 },
-  { q: "27. Urutan tiga tahap utama siklus pemrosesan instruksi oleh CPU secara berurutan adalah...", options: ["A. Eksekusi -> Dekode -> Ambil", "B. Ambil -> Dekode -> Eksekusi", "C. Dekode -> Ambil -> Eksekusi", "D. Ambil -> Eksekusi -> Dekode", "E. Simpan -> Ambil -> Eksekusi"], ans: 1 },
-  { q: "28. Salah satu contoh penerapan teknologi komputer generasi kelima dalam kehidupan sehari-hari adalah...", options: ["A. Penggunaan pita magnetik untuk menyimpan lagu", "B. Fitur asisten virtual suara seperti Google Assistant / Siri", "C. Penggunaan lampu tabung vakum pada TV tua", "D. Pengisian data menggunakan kartu berlubang (Punched Card)", "E. Komputer yang hanya bisa menghitung angka"], ans: 1 },
-  { q: "29. Apabila sebuah komputer tidak memiliki Sistem Operasi sama sekali di dalam penyimpanannya, maka hal yang terjadi adalah...", options: ["A. Komputer tetap dapat digunakan untuk mengetik", "B. Komputer tidak dapat booting dan tidak dapat mengelola perangkat keras", "C. Komputer langsung terhubung ke internet", "D. Komputer hanya bisa menampilkan gambar warna merah", "E. Layar akan otomatis berubah jadi touchscreen"], ans: 1 },
-  { q: "30. Tindakan pencegahan terbaik agar komputer lab sekolah tidak mudah terinfeksi malware saat mengunduh file dari internet adalah...", options: ["A. Mematikan monitor saat mengunduh", "B. Mengaktifkan Firewall & Antivirus serta tidak mengunduh dari sumber tidak terpercaya", "C. Mencabut kabel power komputer", "D. Mengubah nama file yang diunduh", "E. Menggunakan keyboard nirkabel"], ans: 1 }
-];
+// BANK SOAL REVISI TOTAL (BAGIAN A, B, C)
+const examQuestions = [
+  // --- A. SOAL ESAI ---
+  {
+    type: "essay",
+    title: "A. SOAL ESAI (1/5) - Sistem Komputer",
+    q: "Rani sedang mengerjakan tugas membuat laporan menggunakan laptop. Ia mengetik laporan menggunakan keyboard, membuka aplikasi pengolah kata, melihat hasil pekerjaannya melalui monitor, dan menyimpan laporan tersebut agar dapat dibuka kembali. Dalam kegiatan tersebut, Rani menggunakan beberapa bagian dari sistem komputer.\n\nBerdasarkan cerita tersebut, analisislah bagaimana hardware, software, dan brainware bekerja sama dalam kegiatan Rani. Jelaskan peran masing-masing!",
+    rubrik: "Kunci Jawaban Resmi:\n- Hardware: Perangkat keras yang digunakan secara langsung, seperti keyboard, monitor, CPU, dan media penyimpanan.\n- Software: Perangkat lunak yang digunakan untuk mengolah tugas, misalnya aplikasi pengolah kata.\n- Brainware: Rani sebagai pengguna yang memberikan perintah dan menggunakan komputer.\nKetiganya bekerja sama agar Rani dapat membuat, melihat, mengolah, dan menyimpan laporan."
+  },
+  {
+    type: "essay",
+    title: "A. SOAL ESAI (2/5) - Input–Process–Output–Storage",
+    q: "Andi membantu gurunya memasukkan nilai siswa ke dalam komputer. Andi mengetik data nilai menggunakan keyboard. Setelah data dimasukkan, komputer mengolah data tersebut menggunakan CPU dan menampilkan hasil pengolahan pada monitor. Setelah selesai, guru menyimpan hasil tersebut agar dapat digunakan kembali.\n\nJelaskan urutan proses yang terjadi pada kegiatan tersebut mulai dari input, process, output, hingga storage!",
+    rubrik: "Kunci Jawaban Resmi:\nUrutan prosesnya adalah: Input → Process → Output → Storage\n- Input: Andi memasukkan data nilai menggunakan keyboard.\n- Process: CPU mengolah data nilai yang telah dimasukkan.\n- Output: Hasil pengolahan ditampilkan melalui monitor.\n- Storage: Hasil tersebut disimpan agar dapat digunakan kembali."
+  },
+  {
+    type: "essay",
+    title: "A. SOAL ESAI (3/5) - Arsitektur Von Neumann",
+    q: "Dika sedang menggunakan komputer untuk menjalankan sebuah aplikasi pembelajaran. Ketika Dika memberikan perintah, instruksi dan data yang diperlukan disimpan di dalam memori. CPU kemudian mengambil instruksi dan data tersebut dari memori untuk diproses hingga menghasilkan keluaran yang dapat dilihat oleh Dika.\n\nBerdasarkan cerita tersebut, jelaskan bagaimana konsep arsitektur Von Neumann memungkinkan komputer menjalankan suatu perintah. Jelaskan hubungan antara memory dan CPU dalam proses tersebut!",
+    rubrik: "Kunci Jawaban Resmi:\nPada arsitektur Von Neumann, data dan instruksi disimpan di dalam memory. CPU mengambil instruksi dan data dari memory, kemudian memprosesnya.\nHubungannya: Memory menyimpan data dan instruksi ↔ CPU mengambil dan memproses data/instruksi → menghasilkan output. CPU menjalankan instruksi secara teratur sehingga komputer dapat melaksanakan perintah yang diberikan pengguna."
+  },
+  {
+    type: "essay",
+    title: "A. SOAL ESAI (4/5) - CPU, ALU, Control Unit, dan Register",
+    q: "Raka menggunakan komputer untuk melakukan sebuah perhitungan. Ketika Raka memberikan perintah, CPU mengatur proses pengolahan data. Perhitungan dilakukan oleh bagian CPU yang menangani operasi aritmatika dan logika, sedangkan data atau instruksi yang sedang digunakan dapat disimpan sementara di dalam CPU.\n\nBerdasarkan cerita tersebut, jelaskan bagaimana CPU bekerja. Kemudian jelaskan perbedaan fungsi ALU, Control Unit (CU), dan Register dalam proses pengolahan data!",
+    rubrik: "Kunci Jawaban Resmi:\nCPU bertugas menjalankan instruksi dan mengolah data.\n- ALU (Arithmetic Logic Unit): Melakukan operasi aritmatika dan logika.\n- Control Unit (CU): Mengatur dan mengendalikan jalannya instruksi dalam proses pengolahan data.\n- Register: Menyimpan data atau instruksi secara sementara ketika sedang diproses oleh CPU.\nSingkatnya: CU mengatur → ALU mengolah → Register menyimpan sementara."
+  },
+  {
+    type: "essay",
+    title: "A. SOAL ESAI (5/5) - RAM dan CPU",
+    q: "Budi membuka browser, aplikasi pengolah kata, pemutar musik, dan beberapa aplikasi lainnya secara bersamaan. Pada awalnya laptop berjalan dengan normal. Namun, setelah semakin banyak aplikasi dibuka, laptop terasa lebih lambat. Setelah Budi menutup beberapa aplikasi, laptop kembali terasa lebih ringan.\n\nBerdasarkan cerita tersebut, analisislah hubungan antara RAM, CPU, dan banyaknya aplikasi yang digunakan. Mengapa laptop Budi dapat terasa lebih lambat?",
+    rubrik: "Kunci Jawaban Resmi:\nSetiap aplikasi yang digunakan membutuhkan RAM untuk menyimpan data dan proses sementara. Semakin banyak aplikasi yang dibuka, semakin besar penggunaan RAM dan beban CPU. Jika sumber daya terbebani, kinerja laptop menjadi lambat. Saat aplikasi ditutup, penggunaan RAM dan beban CPU berkurang sehingga laptop terasa ringan kembali."
+  },
 
-// ESAI DENGAN SOAL & KUNCI JAWABAN PERSIS DENGAN PERMINTAAN
-const essayQuestions = [
-  { 
-    q: "SOAL ESAI 1 :\nLaboratorium komputer sekolah memiliki 20 PC yang terhubung ke jaringan internet. Siswa sering mengunduh materi tugas, gambar, dan aplikasi dari internet tanpa pengawasan. Setelah satu semester, ruang penyimpanan SSD 256 GB di hampir semua PC tersisa kurang dari 5 GB. Selain itu, komputer sering menampilkan pop-up iklan sendiri, browser sering tertutup tiba-tiba, dan proses booting (menyalakan komputer) menjadi sangat lama.\n\nPertanyaan: Mengapa sisa kapasitas penyimpanan SSD yang sangat menipis (kurang dari 5 GB) dapat menyebabkan proses booting dan kinerja komputer menjadi sangat lambat?", 
-    rubrik: "Kunci Jawaban Resmi:\nSistem operasi membutuhkan ruang kosong pada SSD sebagai memori virtual (paging file) untuk membantu RAM saat memproses data. Jika sisa penyimpanan terlalu sedikit, sistem operasi kesulitan mengelola file sementara (temporary files) dan memori virtual, sehingga performa komputer menurun drastis dan booting menjadi lama." 
+  // --- B. SOAL ISIAN SINGKAT ---
+  {
+    type: "blank_fill",
+    title: "B. SOAL ISIAN SINGKAT (1/4) - Input–Process–Output–Storage",
+    q: "Andi membantu gurunya memasukkan nilai siswa ke dalam komputer. Ia mengetik data nilai menggunakan keyboard. Setelah data dimasukkan, komputer mengolah data tersebut menggunakan CPU dan menampilkan hasilnya pada monitor. Setelah selesai, hasil pengolahan nilai disimpan agar dapat digunakan kembali.\n\nBerdasarkan kegiatan tersebut, isilah titik-titik berikut:",
+    blanks: [
+      { label: "Keyboard berfungsi sebagai", key: "Input" },
+      { label: "CPU melakukan", key: "Process" },
+      { label: "Monitor menghasilkan", key: "Output" },
+      { label: "Penyimpanan hasil termasuk", key: "Storage" }
+    ],
+    rubrik: "Kunci Jawaban Resmi: Input — Process — Output — Storage"
   },
-  { 
-    q: "SOAL ESAI 2 :\nSebutkan apa saja yang dikelola oleh sistem operasi!", 
-    rubrik: "Kunci Jawaban Resmi:\n1. CPU\n2. RAM\n3. PENYIMPANAN\n4. INPUT / OUTPUT\n5. KEAMANAN\n6. ANTARMUKA" 
+  {
+    type: "blank_fill",
+    title: "B. SOAL ISIAN SINGKAT (2/4) - Arsitektur Von Neumann",
+    q: "Dika sedang menggunakan komputer untuk menjalankan sebuah aplikasi pembelajaran. Ketika Dika memberikan perintah, instruksi dan data yang diperlukan disimpan terlebih dahulu di memori. CPU kemudian mengambil instruksi dan data tersebut untuk diproses hingga menghasilkan keluaran.\n\nDalam arsitektur Von Neumann, isilah titik-titik berikut:",
+    blanks: [
+      { label: "Instruksi dan data disimpan dalam", key: "Memory" },
+      { label: "CPU mengambilnya untuk melakukan", key: "Processing/Pengolahan" },
+      { label: "Bagian CPU yang mengatur jalannya instruksi adalah", key: "Control Unit (CU)" }
+    ],
+    rubrik: "Kunci Jawaban Resmi: Memory — Processing/pengolahan — Control Unit (CU)"
   },
-  { 
-    q: "SOAL ESAI 3 :\nBerdasarkan gejala munculnya pop-up iklan dan browser yang tertutup sendiri, jenis perangkat lunak berbahaya (malware) apa yang kemungkinan besar telah menginfeksi PC tersebut, dan bagaimana ia bisa masuk?", 
-    rubrik: "Kunci Jawaban Resmi:\nKomputer terinfeksi Malware jenis Adware/Trojan. Perangkat lunak berbahaya ini masuk akibat tindakan siswa yang mengunduh file atau aplikasi sembarangan dari internet tanpa adanya proteksi firewall atau antivirus yang aktif di dalam sistem operasi." 
+  {
+    type: "blank_fill",
+    title: "B. SOAL ISIAN SINGKAT (3/4) - CPU, ALU, CU, dan Register",
+    q: "Raka menggunakan komputer untuk melakukan perhitungan. Saat perintah diberikan, CPU mengatur proses pengolahan data. Perhitungan dilakukan oleh bagian CPU yang menangani operasi aritmatika dan logika, sedangkan data yang sedang diproses dapat disimpan sementara pada tempat penyimpanan kecil di dalam CPU.\n\nBerdasarkan cerita tersebut, isilah titik-titik berikut:",
+    blanks: [
+      { label: "Bagian CPU yang melakukan perhitungan disebut", key: "ALU" },
+      { label: "Bagian yang mengatur jalannya instruksi disebut", key: "Control Unit (CU)" },
+      { label: "Tempat penyimpanan sementara di dalam CPU disebut", key: "Register" }
+    ],
+    rubrik: "Kunci Jawaban Resmi: ALU — Control Unit (CU) — Register"
   },
-  { 
-    q: "SOAL ESAI 4 :\nJelaskan perbedaan komputer generasi kedua dan komputer generasi kelima berdasarkan bahan bacaan!", 
-    rubrik: "Kunci Jawaban Resmi:\nKomputer generasi kedua menggunakan transistor sebagai pengganti tube vakum, sedangkan komputer generasi kelima sudah mampu menerima perintah secara lisan dan meniru nalar manusia." 
+  {
+    type: "blank_fill",
+    title: "B. SOAL ISIAN SINGKAT (4/4) - RAM, CPU, dan Banyak Aplikasi",
+    q: "Budi membuka browser, aplikasi pengolah kata, pemutar musik, dan beberapa aplikasi lainnya secara bersamaan. RAM digunakan sebagai ruang kerja sementara untuk menyimpan data dan program yang sedang digunakan. CPU mengerjakan instruksi dari berbagai proses tersebut. Ketika terlalu banyak aplikasi aktif, penggunaan sumber daya meningkat sehingga komputer dapat terasa lebih lambat.\n\nBerdasarkan cerita tersebut, isilah titik-titik berikut:",
+    blanks: [
+      { label: "RAM berfungsi sebagai", key: "Ruang kerja sementara" },
+      { label: "CPU berfungsi sebagai", key: "Pengolah instruksi" },
+      { label: "Jika banyak aplikasi digunakan bersamaan, penggunaan sumber daya komputer dapat", key: "Meningkat" },
+      { label: "Dan komputer dapat terasa lebih", key: "Lambat" }
+    ],
+    rubrik: "Kunci Jawaban Resmi: Ruang kerja sementara | Pengolah instruksi | Meningkat | Lambat"
   },
-  { 
-    q: "SOAL ESAI 5 :\nJelaskan tiga bagian utama komputer menurut arsitektur Von Neumann dan fungsi masing-masing!", 
-    rubrik: "Kunci Jawaban Resmi:\n1. Input: Memasukkan perintah atau data ke komputer.\n2. Proses: Mengolah data yang telah dimasukkan.\n3. Output: Menampilkan hasil pengolahan data." 
+
+  // --- C. SOAL MENJODOHKAN ---
+  {
+    type: "matching",
+    title: "C. SOAL MENJODOHKAN - Sistem Operasi",
+    q: "Petunjuk: Pasangkan pernyataan pada Kolom A dengan jawaban yang tepat pada Kolom B.",
+    pairs: [
+      { id: 1, text: "1. Sistem operasi yang banyak digunakan pada komputer dan laptop.", correct: "C" },
+      { id: 2, text: "2. Sistem operasi yang banyak digunakan pada smartphone.", correct: "A" },
+      { id: 3, text: "3. Sistem operasi yang digunakan pada komputer Mac.", correct: "D" },
+      { id: 4, text: "4. Sistem operasi yang banyak digunakan pada server dan dapat dikonfigurasi sesuai kebutuhan.", correct: "B" },
+      { id: 5, text: "5. Perangkat lunak yang mengatur CPU, RAM, file, perangkat, dan aplikasi.", correct: "E" }
+    ],
+    options: [
+      { code: "A", name: "A. Android" },
+      { code: "B", name: "B. Linux" },
+      { code: "C", name: "C. Windows" },
+      { code: "D", name: "D. macOS" },
+      { code: "E", name: "E. Sistem Operasi" }
+    ],
+    rubrik: "Kunci Jawaban Resmi:\n1 -> C. Windows\n2 -> A. Android\n3 -> D. macOS\n4 -> B. Linux\n5 -> E. Sistem Operasi"
   }
 ];
 
-// KUNCI JAWABAN & STRUKTUR TTS INTERAKTIF (15 SOAL LENGKAP & MATRIKS GRID 10x10)
-const ttsWords = [
-  { num: 1, word: "INPUT", r: 0, c: 0, dir: "across" },
-  { num: 3, word: "OUTPUT", r: 2, c: 0, dir: "across" },
-  { num: 5, word: "NEUMANN", r: 4, c: 0, dir: "across" },
-  { num: 7, word: "TRANSISTOR", r: 6, c: 0, dir: "across" },
-  { num: 9, word: "MIKRO", r: 8, c: 0, dir: "across" },
-  { num: 11, word: "MAINFRAME", r: 9, c: 1, dir: "across" },
-  { num: 13, word: "SUPER", r: 1, c: 5, dir: "across" },
-  { num: 15, word: "EKSEKUSI", r: 3, c: 2, dir: "across" },
-  
-  { num: 2, word: "AMBIL", r: 0, c: 8, dir: "down" },
-  { num: 4, word: "DEKODE", r: 2, c: 9, dir: "down" },
-  { num: 6, word: "MAGNETIC", r: 0, c: 5, dir: "down" },
-  { num: 8, word: "CHIP", r: 6, c: 7, dir: "down" },
-  { num: 10, word: "LISAN", r: 4, c: 6, dir: "down" },
-  { num: 12, word: "MINI", r: 6, c: 1, dir: "down" },
-  { num: 14, word: "TITAN", r: 5, c: 3, dir: "down" }
-];
-
-let currentIdx = 0, pgScore = 0, ttsScore = 0;
-let userPgAnswers = new Array(pgQuestions.length).fill(null);
-let userEssayAnswers = new Array(essayQuestions.length).fill("");
+let currentIdx = 0;
+let userAnswers = {};
 let studentInfo = { nama: "", kelas: "" };
 
-// WAKTU UJIAN 90 MENIT (90 * 60 DETIK)
 let totalTimeInSeconds = 90 * 60;
 let timerInterval = null;
 let submitType = "Manual";
@@ -320,8 +263,6 @@ function triggerAutoSubmit(reasonType) {
 
 function startTimer() {
   const timerElem = document.getElementById("timer");
-  const ttsTimerElem = document.getElementById("tts-timer");
-  
   timerInterval = setInterval(() => {
     if (totalTimeInSeconds <= 0) {
       clearInterval(timerInterval);
@@ -330,173 +271,133 @@ function startTimer() {
     }
     totalTimeInSeconds--;
     const h = Math.floor(totalTimeInSeconds / 3600), m = Math.floor((totalTimeInSeconds % 3600) / 60), s = totalTimeInSeconds % 60;
-    const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    timerElem.textContent = timeStr;
-    if(ttsTimerElem) ttsTimerElem.textContent = timeStr;
+    timerElem.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   }, 1000);
 }
 
 function renderQuestion() {
-  const totalQ = pgQuestions.length + essayQuestions.length;
-  document.getElementById("q-number").textContent = `Soal ${currentIdx + 1} / ${totalQ}`;
+  document.getElementById("q-number").textContent = `Soal ${currentIdx + 1} / ${examQuestions.length}`;
   document.getElementById("validation-msg").style.display = "none";
 
-  const optionsContainer = document.getElementById("options-container");
-  const essayContainer = document.getElementById("essay-container");
-  const imgContainer = document.getElementById("image-container");
+  const qData = examQuestions[currentIdx];
+  document.getElementById("question-title").textContent = qData.title;
+  document.getElementById("question-text").textContent = qData.q;
   
-  if(currentIdx < pgQuestions.length) {
-    optionsContainer.style.display = "block";
-    essayContainer.style.display = "none";
-    const qData = pgQuestions[currentIdx];
-    document.getElementById("question-text").textContent = qData.q;
-    
-    imgContainer.style.display = "none"; 
-    imgContainer.innerHTML = "";
+  const container = document.getElementById("input-container");
+  container.innerHTML = "";
 
-    optionsContainer.innerHTML = "";
-    qData.options.forEach((opt, oIdx) => {
-      const btn = document.createElement("button");
-      btn.className = "option-btn" + (userPgAnswers[currentIdx] === oIdx ? " selected" : "");
-      btn.textContent = opt;
-      btn.onclick = () => {
-        userPgAnswers[currentIdx] = oIdx;
-        renderQuestion();
-      };
-      optionsContainer.appendChild(btn);
+  if (qData.type === "essay") {
+    const txt = document.createElement("textarea");
+    txt.placeholder = "Tuliskan jawaban analisis lengkap Anda di sini...";
+    txt.value = userAnswers[currentIdx] || "";
+    txt.oninput = (e) => { userAnswers[currentIdx] = e.target.value; };
+    container.appendChild(txt);
+  } 
+  else if (qData.type === "blank_fill") {
+    if (!userAnswers[currentIdx]) userAnswers[currentIdx] = {};
+    qData.blanks.forEach((b, bIdx) => {
+      const box = document.createElement("div");
+      box.className = "blank-item";
+      box.innerHTML = `<label><b>${bIdx + 1}. ${b.label} :</b></label>`;
+      const inp = document.createElement("input");
+      inp.type = "text";
+      inp.placeholder = "Ketik jawaban...";
+      inp.value = userAnswers[currentIdx][bIdx] || "";
+      inp.oninput = (e) => { userAnswers[currentIdx][bIdx] = e.target.value; };
+      box.appendChild(inp);
+      container.appendChild(box);
     });
-  } else {
-    optionsContainer.style.display = "none";
-    imgContainer.style.display = "none";
-    essayContainer.style.display = "block";
-    const eIdx = currentIdx - pgQuestions.length;
-    document.getElementById("question-text").textContent = essayQuestions[eIdx].q;
+  } 
+  else if (qData.type === "matching") {
+    if (!userAnswers[currentIdx]) userAnswers[currentIdx] = {};
+    const table = document.createElement("table");
+    table.className = "matching-table";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>Kolom A (Pernyataan)</th>
+          <th style="width: 200px;">Kolom B (Pilih Jawaban)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+    const tbody = table.querySelector("tbody");
     
-    const essayInput = document.getElementById("essay-answer");
-    essayInput.value = userEssayAnswers[eIdx];
-    essayInput.oninput = (e) => { userEssayAnswers[eIdx] = e.target.value; };
+    qData.pairs.forEach((p) => {
+      const tr = document.createElement("tr");
+      const selectOptions = qData.options.map(o => `<option value="${o.code}">${o.name}</option>`).join("");
+      tr.innerHTML = `
+        <td>${p.text}</td>
+        <td>
+          <select id="match-select-${p.id}">
+            <option value="">-- Pilih --</option>
+            ${selectOptions}
+          </select>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+    
+    container.appendChild(table);
+
+    // Bind event and restore value
+    qData.pairs.forEach((p) => {
+      const sel = document.getElementById(`match-select-${p.id}`);
+      if (userAnswers[currentIdx][p.id]) sel.value = userAnswers[currentIdx][p.id];
+      sel.onchange = (e) => { userAnswers[currentIdx][p.id] = e.target.value; };
+    });
   }
-  
+
   document.getElementById("next-btn").textContent = 
-    (currentIdx === totalQ - 1) ? "Lanjut ke Tantangan TTS Bonus 🎮" : "Soal Berikutnya →";
+    (currentIdx === examQuestions.length - 1) ? "Selesaikan & Kirim Ujian 🎉" : "Soal Berikutnya →";
 }
 
-// VALIDASI STRICT: SOAL MANDATORI TIDAK BOLEH LEWAT JIKA KOSONG
+// VALIDASI KETAT: SISWA HARUS MENGISI SEMUA ISIAN JAWABAN
+function validateCurrentAnswer() {
+  const qData = examQuestions[currentIdx];
+  const ans = userAnswers[currentIdx];
+
+  if (qData.type === "essay") {
+    return ans && ans.trim() !== "";
+  } 
+  else if (qData.type === "blank_fill") {
+    if (!ans) return false;
+    for (let i = 0; i < qData.blanks.length; i++) {
+      if (!ans[i] || ans[i].trim() === "") return false;
+    }
+    return true;
+  } 
+  else if (qData.type === "matching") {
+    if (!ans) return false;
+    for (let i = 0; i < qData.pairs.length; i++) {
+      const pId = qData.pairs[i].id;
+      if (!ans[pId] || ans[pId] === "") return false;
+    }
+    return true;
+  }
+  return false;
+}
+
 function nextQuestion() {
-  const totalQ = pgQuestions.length + essayQuestions.length;
-  const isPg = currentIdx < pgQuestions.length;
-  
-  if (isPg && userPgAnswers[currentIdx] === null) {
+  if (!validateCurrentAnswer()) {
     document.getElementById("validation-msg").style.display = "block";
     return;
   }
-  
-  if (!isPg) {
-    const eIdx = currentIdx - pgQuestions.length;
-    if (!userEssayAnswers[eIdx] || userEssayAnswers[eIdx].trim() === "") {
-      document.getElementById("validation-msg").style.display = "block";
-      return;
-    }
-  }
 
-  if(currentIdx < totalQ - 1) {
+  if (currentIdx < examQuestions.length - 1) {
     currentIdx++;
     renderQuestion();
   } else {
-    // Pindah ke Tantangan TTS Interaktif
-    document.getElementById("exam-screen").style.display = "none";
-    document.getElementById("tts-screen").style.display = "block";
-    renderInteractiveTTS();
+    calculateAndShowResults();
   }
 }
 
-// GENERATE MATRIX GRID TTS 10x10 INTERAKTIF
-function renderInteractiveTTS() {
-  const board = document.getElementById("tts-grid-board");
-  board.innerHTML = "";
-  
-  let gridData = Array.from({ length: 10 }, () => Array(10).fill(null));
-
-  ttsWords.forEach(w => {
-    let r = w.r, c = w.c;
-    for (let i = 0; i < w.word.length; i++) {
-      if (r < 10 && c < 10) {
-        if (!gridData[r][c]) gridData[r][c] = { letter: w.word[i], num: null };
-        if (i === 0) gridData[r][c].num = w.num;
-        if (w.dir === "across") c++; else r++;
-      }
-    }
-  });
-
-  for (let r = 0; r < 10; r++) {
-    for (let c = 0; c < 10; c++) {
-      const cellDiv = document.createElement("div");
-      cellDiv.className = "tts-cell";
-      const item = gridData[r][c];
-
-      if (item) {
-        cellDiv.classList.add("active");
-        if (item.num) {
-          const numSpan = document.createElement("span");
-          numSpan.className = "tts-num";
-          numSpan.textContent = item.num;
-          cellDiv.appendChild(numSpan);
-        }
-        const input = document.createElement("input");
-        input.maxLength = 1;
-        input.dataset.r = r;
-        input.dataset.c = c;
-        input.dataset.ans = item.letter;
-        input.onkeyup = (e) => {
-          if(e.target.value.length === 1) {
-            const nextInp = document.querySelector(`input[data-r="${r}"][data-c="${c+1}"]`) || 
-                            document.querySelector(`input[data-r="${r+1}"][data-c="${c}"]`);
-            if(nextInp) nextInp.focus();
-          }
-        };
-        cellDiv.appendChild(input);
-      } else {
-        cellDiv.classList.add("black");
-      }
-      board.appendChild(cellDiv);
-    }
-  }
-}
-
-function finishAllAndSubmit() {
-  let correctWords = 0;
-  ttsWords.forEach(w => {
-    let r = w.r, c = w.c;
-    let wordMatch = true;
-    for (let i = 0; i < w.word.length; i++) {
-      const inp = document.querySelector(`input[data-r="${r}"][data-c="${c}"]`);
-      if (!inp || inp.value.toUpperCase() !== w.word[i]) {
-        wordMatch = false;
-        break;
-      }
-      if (w.dir === "across") c++; else r++;
-    }
-    if (wordMatch) correctWords++;
-  });
-
-  ttsScore = correctWords * 2; // Maksimal +30 Poin (15 Soal x 2)
-  calculateAndShowResults(correctWords);
-}
-
-function calculateAndShowResults(correctTtsCount = 0) {
+function calculateAndShowResults() {
   isExamActive = false;
   if (timerInterval) clearInterval(timerInterval);
 
-  let correctPgCount = 0;
-  pgQuestions.forEach((q, idx) => { if(userPgAnswers[idx] === q.ans) correctPgCount++; });
-  pgScore = Math.round((correctPgCount / pgQuestions.length) * 70);
-  
   document.getElementById("exam-screen").style.display = "none";
-  document.getElementById("tts-screen").style.display = "none";
   document.getElementById("result-screen").style.display = "block";
-  
-  document.getElementById("pg-score").textContent = `${pgScore} / 70 (${correctPgCount} Benar)`;
-  document.getElementById("tts-score").textContent = `+${ttsScore} Poin (${correctTtsCount}/15 Soal TTS Benar)`;
   document.getElementById("submit-type-display").textContent = `📌 Status Pengiriman: ${submitType}`;
   
   const cheatDisplay = document.getElementById("cheat-log-display");
@@ -506,41 +407,47 @@ function calculateAndShowResults(correctTtsCount = 0) {
     cheatDisplay.innerHTML = `<span style="color:var(--green)">✅ Siswa mengerjakan ujian secara jujur tanpa pelanggaran.</span>`;
   }
 
-  const essayResultsDiv = document.getElementById("essay-results");
-  essayResultsDiv.innerHTML = "";
-  essayQuestions.forEach((eData, idx) => {
+  const resultsList = document.getElementById("results-list");
+  resultsList.innerHTML = "";
+
+  examQuestions.forEach((qData, idx) => {
     const card = document.createElement("div");
-    card.className = "card essay-box";
+    card.className = "card";
+    
+    let userFormattedAns = "";
+    const uAns = userAnswers[idx];
+
+    if (qData.type === "essay") {
+      userFormattedAns = uAns || "<i>(Tidak diisi)</i>";
+    } else if (qData.type === "blank_fill") {
+      userFormattedAns = qData.blanks.map((b, bIdx) => `<b>${bIdx + 1}.</b> ${uAns ? uAns[bIdx] : '-'}`).join("<br>");
+    } else if (qData.type === "matching") {
+      userFormattedAns = qData.pairs.map(p => `Pernyataan ${p.id} ➡️ Jawaban: <b>${uAns ? uAns[p.id] : '-'}</b>`).join("<br>");
+    }
+
     card.innerHTML = `
-      <h4 style="white-space: pre-line;">${eData.q}</h4>
+      <h4 style="color:var(--cyan); margin-top:0;">${qData.title}</h4>
+      <p style="white-space: pre-line;">${qData.q}</p>
       <p><b>Jawaban Siswa:</b></p>
-      <p style="background:#ffffff0a; padding:12px; border-radius:6px; color:var(--yellow); white-space: pre-line;">${userEssayAnswers[idx] || "<i>(Tidak diisi)</i>"}</p>
-      <div class="rubrik-box" style="white-space: pre-line;">${eData.rubrik}</div>
+      <div style="background:#ffffff0a; padding:12px; border-radius:6px; color:var(--yellow); margin-bottom:10px;">${userFormattedAns}</div>
+      <div class="rubrik-box" style="white-space: pre-line;">${qData.rubrik}</div>
     `;
-    essayResultsDiv.appendChild(card);
+    resultsList.appendChild(card);
   });
 
-  sendDataToSpreadsheet(correctPgCount, correctTtsCount);
+  sendDataToSpreadsheet();
 }
 
-function sendDataToSpreadsheet(correctPgCount, correctTtsCount) {
+function sendDataToSpreadsheet() {
   const statusElem = document.getElementById("send-status");
 
   const payload = {
     nama: studentInfo.nama,
     kelas: studentInfo.kelas,
-    skorPG: pgScore,
-    benarPG: `${correctPgCount}/30`,
-    esai1: userEssayAnswers[0] || "-",
-    esai2: userEssayAnswers[1] || "-",
-    esai3: userEssayAnswers[2] || "-",
-    esai4: userEssayAnswers[3] || "-",
-    esai5: userEssayAnswers[4] || "-",
-    skorTTS: ttsScore,
-    benarTTS: `${correctTtsCount}/15`,
     statusSubmit: submitType,
     detailPelanggaran: `Tab: ${tabCount}x | Fullscreen: ${fsCount}x`,
-    logPelanggaran: cheatLogs.length > 0 ? cheatLogs.join(" | ") : "Jujur"
+    logPelanggaran: cheatLogs.length > 0 ? cheatLogs.join(" | ") : "Jujur",
+    jawabanLengkap: JSON.stringify(userAnswers)
   };
 
   fetch(GOOGLE_SCRIPT_URL, {
@@ -549,7 +456,7 @@ function sendDataToSpreadsheet(correctPgCount, correctTtsCount) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   }).then(() => {
-    statusElem.textContent = "✅ Semua hasil ujian & bonus TTS berhasil terkirim ke Google Spreadsheet!";
+    statusElem.textContent = "✅ Semua jawaban berhasil terkirim ke Google Spreadsheet!";
     statusElem.style.color = "var(--green)";
   }).catch(() => {
     statusElem.textContent = "⚠️ Gagal mengirim data secara otomatis. Periksa koneksi internet.";
