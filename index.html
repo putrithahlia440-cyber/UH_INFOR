@@ -16,30 +16,40 @@ header{display:flex;justify-content:space-between;align-items:center;border-bott
 .btn{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#000;font-weight:bold;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:16px;width:100%;margin-top:15px;transition:.2s}
 .btn:hover{opacity:0.9}
 input[type="text"], textarea, select{width:100%;padding:12px;background:#162c43;border:1px solid var(--line);color:var(--text);border-radius:8px;margin:8px 0 15px;font-size:15px}
-textarea{min-height:120px;resize:vertical}
+textarea{min-height:150px;resize:vertical}
 select{cursor:pointer}
 select option{background:var(--panel);color:var(--text)}
-.rubrik-box{background:#55e6a512;border:1px solid var(--green);color:#a8ffda;padding:12px;border-radius:8px;margin-top:10px;font-size:14px;line-height:1.5}
 .alert-warning{color:var(--red);font-size:14px;margin-top:10px;display:none;font-weight:bold}
 .matching-table{width:100%;border-collapse:collapse;margin-top:10px}
 .matching-table th, .matching-table td{border:1px solid var(--line);padding:10px;text-align:left}
 .matching-table th{background:#ffffff10;color:var(--cyan)}
 .blank-item{background:#ffffff08;padding:10px;border-radius:8px;margin-bottom:10px;border:1px solid var(--line)}
+.lock-screen{text-align:center;padding:40px 20px}
+.lock-screen h2{color:var(--red);margin-bottom:10px}
 </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- HALAMAN TERKUNCI (JIKA SUDAH PERNAH UJIAN) -->
+  <div id="already-submitted-screen" class="card lock-screen" style="display:none;">
+    <h2>🚫 AKSES DITOLAK</h2>
+    <p style="color:var(--muted); font-size:16px;">Anda telah menyelesaikan ujian ini sebelumnya.</p>
+    <p style="color:var(--yellow); font-size:14px;">Setiap siswa hanya memiliki <b>1 kali kesempatan</b> untuk mengerjakan.</p>
+  </div>
+
   <!-- HALAMAN MULAI -->
   <div id="start-screen">
     <h2>🚀 ULANGAN HARIAN: SISTEM KOMPUTER & OS</h2>
     <p style="color:var(--muted)">Materi: Arsitektur Komputer, Hardware, Software, Brainware & OS (Durasi: 90 Menit)</p>
     <div class="card">
       <p style="color:var(--yellow); font-size:14px; line-height:1.6;">
-        ⚠️ <b>PETUNJUK KELENGKAPAN & ATURAN UJIAN:</b><br>
-        1. Ujian terdiri dari <b>Soal Esai Analisis</b>, <b>Isian Singkat</b>, dan <b>Menjodohkan</b>.<br>
-        2. Anda wajib mengisi seluruh kolom jawaban sebelum berpindah ke soal berikutnya.<br>
-        3. Batas Maksimal Pelanggaran Pindah Tab / Keluar Fullscreen adalah <b>3 kali</b>.
+        ⚠️ <b>PETUNJUK & ATURAN UJIAN:</b><br>
+        1. Ujian ini hanya dapat dikerjakan <b>1 KALI PERCOBAAN</b>.<br>
+        2. Waktu pengerjaan adalah <b>90 MENIT</b>.<br>
+        3. Seluruh isian/jawaban wajib diisi sebelum lanjut ke soal berikutnya.<br>
+        4. Batas maksimal pelanggaran pindah tab / keluar fullscreen adalah <b>3 kali</b>. Jika melanggar, jawaban akan terkirim otomatis.<br>
+        5. Nilai dan hasil evaluasi hanya akan diolah oleh guru melalui Spreadsheet.
       </p>
       <label>Nama Lengkap Siswa:</label>
       <input type="text" id="student-name" placeholder="Masukkan nama lengkap..." required>
@@ -49,7 +59,7 @@ select option{background:var(--panel);color:var(--text)}
     </div>
   </div>
 
-  <!-- HALAMAN SOAL (ESAI, ISIAN, MENJODOHKAN) -->
+  <!-- HALAMAN SOAL -->
   <div id="exam-screen" style="display:none;">
     <header>
       <div><b id="q-number">Soal 1 / 10</b></div>
@@ -71,55 +81,57 @@ select option{background:var(--panel);color:var(--text)}
     </div>
   </div>
 
-  <!-- HALAMAN HASIL & EVALUASI -->
+  <!-- HALAMAN SELESAI (TANPA MENAMPILKAN KUNCI/NILAI) -->
   <div id="result-screen" style="display:none;">
-    <h2 style="text-align:center;">🏆 Ujian Selesai!</h2>
-    <div class="card" style="text-align:center;">
-      <p id="submit-type-display" style="font-weight:bold; color:var(--violet)"></p>
-      <p id="send-status" style="color:var(--yellow)">⌛ Mengirimkan hasil ke Google Spreadsheet...</p>
-      <div id="cheat-log-display" style="color:var(--red); font-size:13px; text-align:left; background:#ffffff08; padding:12px; border-radius:8px; margin-top:15px; line-height:1.5;"></div>
+    <div class="card" style="text-align:center; padding:40px 20px;">
+      <h2 style="color:var(--green); margin-top:0;">🎉 Ujian Telah Selesai!</h2>
+      <p style="color:var(--muted); font-size:16px;">Jawaban Anda telah berhasil direkam oleh sistem.</p>
+      <p id="submit-type-display" style="font-weight:bold; color:var(--violet); margin-top:15px;"></p>
+      <p id="send-status" style="color:var(--yellow); font-weight:bold; margin-top:10px;">⌛ Mengirimkan hasil ke Google Spreadsheet...</p>
+      <hr style="border:0; border-top:1px solid var(--line); margin:25px 0;">
+      <p style="color:var(--muted); font-size:13px;">Penilaian dan rekapitulasi nilai akhir akan diproses secara langsung oleh guru melalui Spreadsheet.</p>
     </div>
-
-    <h3>📝 Ringkasan Jawaban & Kunci Jawaban Official</h3>
-    <div id="results-list"></div>
   </div>
 </div>
 
 <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyQ7XL_JLDtJz0vC30kggt7XS7rmvIKhhhQZUhNbfJfNTXOUOKs3NtSrJv_yFkDrSDp/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHlew5UFgf0ubO01P6mAcT0WiTkwR6Qr9U9ifVT7t90lcVZdaOgDFuStx6AeQ5eM-w/exec";
 
-// BANK SOAL REVISI TOTAL (BAGIAN A, B, C)
+// CEK PERCOBAAN UJIAN (1 KALI PERCOBAAN VIA LOCALSTORAGE)
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("exam_submitted_sistem_komputer") === "true") {
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("already-submitted-screen").style.display = "block";
+  }
+});
+
+// BANK SOAL
 const examQuestions = [
   // --- A. SOAL ESAI ---
   {
     type: "essay",
     title: "A. SOAL ESAI (1/5) - Sistem Komputer",
-    q: "Rani sedang mengerjakan tugas membuat laporan menggunakan laptop. Ia mengetik laporan menggunakan keyboard, membuka aplikasi pengolah kata, melihat hasil pekerjaannya melalui monitor, dan menyimpan laporan tersebut agar dapat dibuka kembali. Dalam kegiatan tersebut, Rani menggunakan beberapa bagian dari sistem komputer.\n\nBerdasarkan cerita tersebut, analisislah bagaimana hardware, software, dan brainware bekerja sama dalam kegiatan Rani. Jelaskan peran masing-masing!",
-    rubrik: "Kunci Jawaban Resmi:\n- Hardware: Perangkat keras yang digunakan secara langsung, seperti keyboard, monitor, CPU, dan media penyimpanan.\n- Software: Perangkat lunak yang digunakan untuk mengolah tugas, misalnya aplikasi pengolah kata.\n- Brainware: Rani sebagai pengguna yang memberikan perintah dan menggunakan komputer.\nKetiganya bekerja sama agar Rani dapat membuat, melihat, mengolah, dan menyimpan laporan."
+    q: "Rani sedang mengerjakan tugas membuat laporan menggunakan laptop. Ia mengetik laporan menggunakan keyboard, membuka aplikasi pengolah kata, melihat hasil pekerjaannya melalui monitor, dan menyimpan laporan tersebut agar dapat dibuka kembali. Dalam kegiatan tersebut, Rani menggunakan beberapa bagian dari sistem komputer.\n\nBerdasarkan cerita tersebut, analisislah bagaimana hardware, software, dan brainware bekerja sama dalam kegiatan Rani. Jelaskan peran masing-masing secara rinci!"
   },
   {
     type: "essay",
     title: "A. SOAL ESAI (2/5) - Input–Process–Output–Storage",
-    q: "Andi membantu gurunya memasukkan nilai siswa ke dalam komputer. Andi mengetik data nilai menggunakan keyboard. Setelah data dimasukkan, komputer mengolah data tersebut menggunakan CPU dan menampilkan hasil pengolahan pada monitor. Setelah selesai, guru menyimpan hasil tersebut agar dapat digunakan kembali.\n\nJelaskan urutan proses yang terjadi pada kegiatan tersebut mulai dari input, process, output, hingga storage!",
-    rubrik: "Kunci Jawaban Resmi:\nUrutan prosesnya adalah: Input → Process → Output → Storage\n- Input: Andi memasukkan data nilai menggunakan keyboard.\n- Process: CPU mengolah data nilai yang telah dimasukkan.\n- Output: Hasil pengolahan ditampilkan melalui monitor.\n- Storage: Hasil tersebut disimpan agar dapat digunakan kembali."
+    q: "Andi membantu gurunya memasukkan nilai siswa ke dalam komputer. Andi mengetik data nilai menggunakan keyboard. Setelah data dimasukkan, komputer mengolah data tersebut menggunakan CPU dan menampilkan hasil pengolahan pada monitor. Setelah selesai, guru menyimpan hasil tersebut agar dapat digunakan kembali.\n\nJelaskan urutan proses yang terjadi pada kegiatan tersebut mulai dari input, process, output, hingga storage!"
   },
   {
     type: "essay",
     title: "A. SOAL ESAI (3/5) - Arsitektur Von Neumann",
-    q: "Dika sedang menggunakan komputer untuk menjalankan sebuah aplikasi pembelajaran. Ketika Dika memberikan perintah, instruksi dan data yang diperlukan disimpan di dalam memori. CPU kemudian mengambil instruksi dan data tersebut dari memori untuk diproses hingga menghasilkan keluaran yang dapat dilihat oleh Dika.\n\nBerdasarkan cerita tersebut, jelaskan bagaimana konsep arsitektur Von Neumann memungkinkan komputer menjalankan suatu perintah. Jelaskan hubungan antara memory dan CPU dalam proses tersebut!",
-    rubrik: "Kunci Jawaban Resmi:\nPada arsitektur Von Neumann, data dan instruksi disimpan di dalam memory. CPU mengambil instruksi dan data dari memory, kemudian memprosesnya.\nHubungannya: Memory menyimpan data dan instruksi ↔ CPU mengambil dan memproses data/instruksi → menghasilkan output. CPU menjalankan instruksi secara teratur sehingga komputer dapat melaksanakan perintah yang diberikan pengguna."
+    q: "Dika sedang menggunakan komputer untuk menjalankan sebuah aplikasi pembelajaran. Ketika Dika memberikan perintah, instruksi dan data yang diperlukan disimpan di dalam memori. CPU kemudian mengambil instruksi dan data tersebut dari memori untuk diproses hingga menghasilkan keluaran yang dapat dilihat oleh Dika.\n\nBerdasarkan cerita tersebut, jelaskan bagaimana konsep arsitektur Von Neumann memungkinkan komputer menjalankan suatu perintah. Jelaskan hubungan antara memory dan CPU dalam proses tersebut!"
   },
   {
     type: "essay",
     title: "A. SOAL ESAI (4/5) - CPU, ALU, Control Unit, dan Register",
-    q: "Raka menggunakan komputer untuk melakukan sebuah perhitungan. Ketika Raka memberikan perintah, CPU mengatur proses pengolahan data. Perhitungan dilakukan oleh bagian CPU yang menangani operasi aritmatika dan logika, sedangkan data atau instruksi yang sedang digunakan dapat disimpan sementara di dalam CPU.\n\nBerdasarkan cerita tersebut, jelaskan bagaimana CPU bekerja. Kemudian jelaskan perbedaan fungsi ALU, Control Unit (CU), dan Register dalam proses pengolahan data!",
-    rubrik: "Kunci Jawaban Resmi:\nCPU bertugas menjalankan instruksi dan mengolah data.\n- ALU (Arithmetic Logic Unit): Melakukan operasi aritmatika dan logika.\n- Control Unit (CU): Mengatur dan mengendalikan jalannya instruksi dalam proses pengolahan data.\n- Register: Menyimpan data atau instruksi secara sementara ketika sedang diproses oleh CPU.\nSingkatnya: CU mengatur → ALU mengolah → Register menyimpan sementara."
+    q: "Raka menggunakan komputer untuk melakukan sebuah perhitungan. Ketika Raka memberikan perintah, CPU mengatur proses pengolahan data. Perhitungan dilakukan oleh bagian CPU yang menangani operasi aritmatika dan logika, sedangkan data atau instruksi yang sedang digunakan dapat disimpan sementara di dalam CPU.\n\nBerdasarkan cerita tersebut, jelaskan bagaimana CPU bekerja. Kemudian jelaskan perbedaan fungsi ALU, Control Unit (CU), dan Register dalam proses pengolahan data!"
   },
   {
     type: "essay",
     title: "A. SOAL ESAI (5/5) - RAM dan CPU",
-    q: "Budi membuka browser, aplikasi pengolah kata, pemutar musik, dan beberapa aplikasi lainnya secara bersamaan. Pada awalnya laptop berjalan dengan normal. Namun, setelah semakin banyak aplikasi dibuka, laptop terasa lebih lambat. Setelah Budi menutup beberapa aplikasi, laptop kembali terasa lebih ringan.\n\nBerdasarkan cerita tersebut, analisislah hubungan antara RAM, CPU, dan banyaknya aplikasi yang digunakan. Mengapa laptop Budi dapat terasa lebih lambat?",
-    rubrik: "Kunci Jawaban Resmi:\nSetiap aplikasi yang digunakan membutuhkan RAM untuk menyimpan data dan proses sementara. Semakin banyak aplikasi yang dibuka, semakin besar penggunaan RAM dan beban CPU. Jika sumber daya terbebani, kinerja laptop menjadi lambat. Saat aplikasi ditutup, penggunaan RAM dan beban CPU berkurang sehingga laptop terasa ringan kembali."
+    q: "Budi membuka browser, aplikasi pengolah kata, pemutar musik, dan beberapa aplikasi lainnya secara bersamaan. Pada awalnya laptop berjalan dengan normal. Namun, setelah semakin banyak aplikasi dibuka, laptop terasa lebih lambat. Setelah Budi menutup beberapa aplikasi, laptop kembali terasa lebih ringan.\n\nBerdasarkan cerita tersebut, analisislah hubungan antara RAM, CPU, dan banyaknya aplikasi yang digunakan. Mengapa laptop Budi dapat terasa lebih lambat?"
   },
 
   // --- B. SOAL ISIAN SINGKAT ---
@@ -128,46 +140,42 @@ const examQuestions = [
     title: "B. SOAL ISIAN SINGKAT (1/4) - Input–Process–Output–Storage",
     q: "Andi membantu gurunya memasukkan nilai siswa ke dalam komputer. Ia mengetik data nilai menggunakan keyboard. Setelah data dimasukkan, komputer mengolah data tersebut menggunakan CPU dan menampilkan hasilnya pada monitor. Setelah selesai, hasil pengolahan nilai disimpan agar dapat digunakan kembali.\n\nBerdasarkan kegiatan tersebut, isilah titik-titik berikut:",
     blanks: [
-      { label: "Keyboard berfungsi sebagai", key: "Input" },
-      { label: "CPU melakukan", key: "Process" },
-      { label: "Monitor menghasilkan", key: "Output" },
-      { label: "Penyimpanan hasil termasuk", key: "Storage" }
-    ],
-    rubrik: "Kunci Jawaban Resmi: Input — Process — Output — Storage"
+      { label: "Keyboard berfungsi sebagai" },
+      { label: "CPU melakukan" },
+      { label: "Monitor menghasilkan" },
+      { label: "Penyimpanan hasil termasuk" }
+    ]
   },
   {
     type: "blank_fill",
     title: "B. SOAL ISIAN SINGKAT (2/4) - Arsitektur Von Neumann",
     q: "Dika sedang menggunakan komputer untuk menjalankan sebuah aplikasi pembelajaran. Ketika Dika memberikan perintah, instruksi dan data yang diperlukan disimpan terlebih dahulu di memori. CPU kemudian mengambil instruksi dan data tersebut untuk diproses hingga menghasilkan keluaran.\n\nDalam arsitektur Von Neumann, isilah titik-titik berikut:",
     blanks: [
-      { label: "Instruksi dan data disimpan dalam", key: "Memory" },
-      { label: "CPU mengambilnya untuk melakukan", key: "Processing/Pengolahan" },
-      { label: "Bagian CPU yang mengatur jalannya instruksi adalah", key: "Control Unit (CU)" }
-    ],
-    rubrik: "Kunci Jawaban Resmi: Memory — Processing/pengolahan — Control Unit (CU)"
+      { label: "Instruksi dan data disimpan dalam" },
+      { label: "CPU mengambilnya untuk melakukan" },
+      { label: "Bagian CPU yang mengatur jalannya instruksi adalah" }
+    ]
   },
   {
     type: "blank_fill",
     title: "B. SOAL ISIAN SINGKAT (3/4) - CPU, ALU, CU, dan Register",
     q: "Raka menggunakan komputer untuk melakukan perhitungan. Saat perintah diberikan, CPU mengatur proses pengolahan data. Perhitungan dilakukan oleh bagian CPU yang menangani operasi aritmatika dan logika, sedangkan data yang sedang diproses dapat disimpan sementara pada tempat penyimpanan kecil di dalam CPU.\n\nBerdasarkan cerita tersebut, isilah titik-titik berikut:",
     blanks: [
-      { label: "Bagian CPU yang melakukan perhitungan disebut", key: "ALU" },
-      { label: "Bagian yang mengatur jalannya instruksi disebut", key: "Control Unit (CU)" },
-      { label: "Tempat penyimpanan sementara di dalam CPU disebut", key: "Register" }
-    ],
-    rubrik: "Kunci Jawaban Resmi: ALU — Control Unit (CU) — Register"
+      { label: "Bagian CPU yang melakukan perhitungan disebut" },
+      { label: "Bagian yang mengatur jalannya instruksi disebut" },
+      { label: "Tempat penyimpanan sementara di dalam CPU disebut" }
+    ]
   },
   {
     type: "blank_fill",
     title: "B. SOAL ISIAN SINGKAT (4/4) - RAM, CPU, dan Banyak Aplikasi",
     q: "Budi membuka browser, aplikasi pengolah kata, pemutar musik, dan beberapa aplikasi lainnya secara bersamaan. RAM digunakan sebagai ruang kerja sementara untuk menyimpan data dan program yang sedang digunakan. CPU mengerjakan instruksi dari berbagai proses tersebut. Ketika terlalu banyak aplikasi aktif, penggunaan sumber daya meningkat sehingga komputer dapat terasa lebih lambat.\n\nBerdasarkan cerita tersebut, isilah titik-titik berikut:",
     blanks: [
-      { label: "RAM berfungsi sebagai", key: "Ruang kerja sementara" },
-      { label: "CPU berfungsi sebagai", key: "Pengolah instruksi" },
-      { label: "Jika banyak aplikasi digunakan bersamaan, penggunaan sumber daya komputer dapat", key: "Meningkat" },
-      { label: "Dan komputer dapat terasa lebih", key: "Lambat" }
-    ],
-    rubrik: "Kunci Jawaban Resmi: Ruang kerja sementara | Pengolah instruksi | Meningkat | Lambat"
+      { label: "RAM berfungsi sebagai" },
+      { label: "CPU berfungsi sebagai" },
+      { label: "Jika banyak aplikasi digunakan bersamaan, penggunaan sumber daya komputer dapat" },
+      { label: "Dan komputer dapat terasa lebih" }
+    ]
   },
 
   // --- C. SOAL MENJODOHKAN ---
@@ -176,11 +184,11 @@ const examQuestions = [
     title: "C. SOAL MENJODOHKAN - Sistem Operasi",
     q: "Petunjuk: Pasangkan pernyataan pada Kolom A dengan jawaban yang tepat pada Kolom B.",
     pairs: [
-      { id: 1, text: "1. Sistem operasi yang banyak digunakan pada komputer dan laptop.", correct: "C" },
-      { id: 2, text: "2. Sistem operasi yang banyak digunakan pada smartphone.", correct: "A" },
-      { id: 3, text: "3. Sistem operasi yang digunakan pada komputer Mac.", correct: "D" },
-      { id: 4, text: "4. Sistem operasi yang banyak digunakan pada server dan dapat dikonfigurasi sesuai kebutuhan.", correct: "B" },
-      { id: 5, text: "5. Perangkat lunak yang mengatur CPU, RAM, file, perangkat, dan aplikasi.", correct: "E" }
+      { id: 1, text: "1. Sistem operasi yang banyak digunakan pada komputer dan laptop." },
+      { id: 2, text: "2. Sistem operasi yang banyak digunakan pada smartphone." },
+      { id: 3, text: "3. Sistem operasi yang digunakan pada komputer Mac." },
+      { id: 4, text: "4. Sistem operasi yang banyak digunakan pada server dan dapat dikonfigurasi sesuai kebutuhan." },
+      { id: 5, text: "5. Perangkat lunak yang mengatur CPU, RAM, file, perangkat, dan aplikasi." }
     ],
     options: [
       { code: "A", name: "A. Android" },
@@ -188,8 +196,7 @@ const examQuestions = [
       { code: "C", name: "C. Windows" },
       { code: "D", name: "D. macOS" },
       { code: "E", name: "E. Sistem Operasi" }
-    ],
-    rubrik: "Kunci Jawaban Resmi:\n1 -> C. Windows\n2 -> A. Android\n3 -> D. macOS\n4 -> B. Linux\n5 -> E. Sistem Operasi"
+    ]
   }
 ];
 
@@ -197,9 +204,9 @@ let currentIdx = 0;
 let userAnswers = {};
 let studentInfo = { nama: "", kelas: "" };
 
-let totalTimeInSeconds = 90 * 60;
+let totalTimeInSeconds = 90 * 60; // Exact 90 Minutes
 let timerInterval = null;
-let submitType = "Manual";
+let submitType = "Manual (Selesai Tepat Waktu)";
 
 let tabCount = 0, fsCount = 0;
 const MAX_VIOLATION = 3;
@@ -233,7 +240,7 @@ function setupAntiCheatListeners() {
     if (isExamActive && document.hidden) {
       tabCount++;
       document.getElementById("tab-count").textContent = tabCount;
-      recordCheat(`Pindah Tab (Ke-${tabCount})`);
+      recordCheat(`Pindah Tab Ke-${tabCount}`);
       if (tabCount >= MAX_VIOLATION) triggerAutoSubmit("Otomatis (Pelanggaran: Pindah Tab > 3x)");
     }
   });
@@ -242,7 +249,7 @@ function setupAntiCheatListeners() {
     if (isExamActive && !document.fullscreenElement) {
       fsCount++;
       document.getElementById("fs-count").textContent = fsCount;
-      recordCheat(`Keluar Fullscreen (Ke-${fsCount})`);
+      recordCheat(`Keluar Fullscreen Ke-${fsCount}`);
       if (fsCount >= MAX_VIOLATION) triggerAutoSubmit("Otomatis (Pelanggaran: Keluar Fullscreen > 3x)");
       else { alert(`⚠️ PERINGATAN: Keluar Fullscreen (${fsCount}/3)!`); requestFullscreen(); }
     }
@@ -250,7 +257,7 @@ function setupAntiCheatListeners() {
 }
 
 function recordCheat(reason) {
-  cheatLogs.push(`[${new Date().toLocaleTimeString()}] ${reason}`);
+  cheatLogs.push(`[${new Date().toLocaleTimeString('id-ID')}] ${reason}`);
 }
 
 function triggerAutoSubmit(reasonType) {
@@ -258,7 +265,7 @@ function triggerAutoSubmit(reasonType) {
   isExamActive = false;
   submitType = reasonType;
   alert(`🚨 UJIAN DIHENTIKAN!\nAlasan: ${reasonType}. Jawaban Anda dikirim secara otomatis.`);
-  calculateAndShowResults();
+  finishExam();
 }
 
 function startTimer() {
@@ -266,7 +273,7 @@ function startTimer() {
   timerInterval = setInterval(() => {
     if (totalTimeInSeconds <= 0) {
       clearInterval(timerInterval);
-      triggerAutoSubmit("Otomatis (Waktu Habis)");
+      triggerAutoSubmit("Otomatis (Waktu 90 Menit Habis)");
       return;
     }
     totalTimeInSeconds--;
@@ -316,7 +323,7 @@ function renderQuestion() {
       <thead>
         <tr>
           <th>Kolom A (Pernyataan)</th>
-          <th style="width: 200px;">Kolom B (Pilih Jawaban)</th>
+          <th style="width: 220px;">Kolom B (Pilih Jawaban)</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -325,12 +332,12 @@ function renderQuestion() {
     
     qData.pairs.forEach((p) => {
       const tr = document.createElement("tr");
-      const selectOptions = qData.options.map(o => `<option value="${o.code}">${o.name}</option>`).join("");
+      const selectOptions = qData.options.map(o => `<option value="${o.name}">${o.name}</option>`).join("");
       tr.innerHTML = `
         <td>${p.text}</td>
         <td>
           <select id="match-select-${p.id}">
-            <option value="">-- Pilih --</option>
+            <option value="">-- Pilih Pasangan --</option>
             ${selectOptions}
           </select>
         </td>
@@ -340,7 +347,6 @@ function renderQuestion() {
     
     container.appendChild(table);
 
-    // Bind event and restore value
     qData.pairs.forEach((p) => {
       const sel = document.getElementById(`match-select-${p.id}`);
       if (userAnswers[currentIdx][p.id]) sel.value = userAnswers[currentIdx][p.id];
@@ -352,7 +358,6 @@ function renderQuestion() {
     (currentIdx === examQuestions.length - 1) ? "Selesaikan & Kirim Ujian 🎉" : "Soal Berikutnya →";
 }
 
-// VALIDASI KETAT: SISWA HARUS MENGISI SEMUA ISIAN JAWABAN
 function validateCurrentAnswer() {
   const qData = examQuestions[currentIdx];
   const ans = userAnswers[currentIdx];
@@ -388,54 +393,47 @@ function nextQuestion() {
     currentIdx++;
     renderQuestion();
   } else {
-    calculateAndShowResults();
+    finishExam();
   }
 }
 
-function calculateAndShowResults() {
+function finishExam() {
   isExamActive = false;
   if (timerInterval) clearInterval(timerInterval);
+
+  // SIMPAN TANDA BAHWA SISWA SUDAH PERNAH UJIAN (1x PERCOBAAN)
+  localStorage.setItem("exam_submitted_sistem_komputer", "true");
 
   document.getElementById("exam-screen").style.display = "none";
   document.getElementById("result-screen").style.display = "block";
   document.getElementById("submit-type-display").textContent = `📌 Status Pengiriman: ${submitType}`;
-  
-  const cheatDisplay = document.getElementById("cheat-log-display");
-  if (cheatLogs.length > 0) {
-    cheatDisplay.innerHTML = `<b>🚨 Ringkasan Integritas Ujian:</b><br>• Pindah Tab: ${tabCount}x | Fullscreen Exit: ${fsCount}x<br><br><b>Detail Log Pelanggaran:</b><br>` + cheatLogs.join("<br>");
-  } else {
-    cheatDisplay.innerHTML = `<span style="color:var(--green)">✅ Siswa mengerjakan ujian secara jujur tanpa pelanggaran.</span>`;
-  }
-
-  const resultsList = document.getElementById("results-list");
-  resultsList.innerHTML = "";
-
-  examQuestions.forEach((qData, idx) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    
-    let userFormattedAns = "";
-    const uAns = userAnswers[idx];
-
-    if (qData.type === "essay") {
-      userFormattedAns = uAns || "<i>(Tidak diisi)</i>";
-    } else if (qData.type === "blank_fill") {
-      userFormattedAns = qData.blanks.map((b, bIdx) => `<b>${bIdx + 1}.</b> ${uAns ? uAns[bIdx] : '-'}`).join("<br>");
-    } else if (qData.type === "matching") {
-      userFormattedAns = qData.pairs.map(p => `Pernyataan ${p.id} ➡️ Jawaban: <b>${uAns ? uAns[p.id] : '-'}</b>`).join("<br>");
-    }
-
-    card.innerHTML = `
-      <h4 style="color:var(--cyan); margin-top:0;">${qData.title}</h4>
-      <p style="white-space: pre-line;">${qData.q}</p>
-      <p><b>Jawaban Siswa:</b></p>
-      <div style="background:#ffffff0a; padding:12px; border-radius:6px; color:var(--yellow); margin-bottom:10px;">${userFormattedAns}</div>
-      <div class="rubrik-box" style="white-space: pre-line;">${qData.rubrik}</div>
-    `;
-    resultsList.appendChild(card);
-  });
 
   sendDataToSpreadsheet();
+}
+
+function formatFullTextAnswers() {
+  let textOutput = "";
+
+  examQuestions.forEach((q, idx) => {
+    textOutput += `=== ${q.title} ===\n`;
+    const ans = userAnswers[idx];
+
+    if (q.type === "essay") {
+      textOutput += `Jawaban: ${ans || '(Tidak diisi)'}\n\n`;
+    } else if (q.type === "blank_fill") {
+      q.blanks.forEach((b, bIdx) => {
+        textOutput += `[Isian ${bIdx+1}] ${b.label}: ${ans ? ans[bIdx] : '-'}\n`;
+      });
+      textOutput += `\n`;
+    } else if (q.type === "matching") {
+      q.pairs.forEach((p) => {
+        textOutput += `Pernyataan ${p.id} -> Pasangan: ${ans ? ans[p.id] : '-'}\n`;
+      });
+      textOutput += `\n`;
+    }
+  });
+
+  return textOutput;
 }
 
 function sendDataToSpreadsheet() {
@@ -445,9 +443,10 @@ function sendDataToSpreadsheet() {
     nama: studentInfo.nama,
     kelas: studentInfo.kelas,
     statusSubmit: submitType,
-    detailPelanggaran: `Tab: ${tabCount}x | Fullscreen: ${fsCount}x`,
-    logPelanggaran: cheatLogs.length > 0 ? cheatLogs.join(" | ") : "Jujur",
-    jawabanLengkap: JSON.stringify(userAnswers)
+    totalPindahTab: tabCount,
+    totalExitFullscreen: fsCount,
+    logPelanggaran: cheatLogs.length > 0 ? cheatLogs.join("\n") : "Tidak Ada Pelanggaran (Siswa Jujur)",
+    jawabanTeksPanjang: formatFullTextAnswers()
   };
 
   fetch(GOOGLE_SCRIPT_URL, {
@@ -456,7 +455,7 @@ function sendDataToSpreadsheet() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   }).then(() => {
-    statusElem.textContent = "✅ Semua jawaban berhasil terkirim ke Google Spreadsheet!";
+    statusElem.textContent = "✅ Semua jawaban berhasil terkirim ke Google Spreadsheet Guru!";
     statusElem.style.color = "var(--green)";
   }).catch(() => {
     statusElem.textContent = "⚠️ Gagal mengirim data secara otomatis. Periksa koneksi internet.";
