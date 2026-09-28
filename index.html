@@ -95,7 +95,7 @@ select option{background:var(--panel);color:var(--text)}
 </div>
 
 <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyw-6wHnYJwUm2TRWKCsKzDRg4917tKMzy4j_Z1oer9LAigOdFmVaToEzSmQZKT8Hi0/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyd8jsGk-Za3IuMzzs6A6ljPYG_0Q-hanrlIuJQnW97MMWBz4z7v0E4z7rngErSTEKX/exec";
 
 // CEK PERCOBAAN UJIAN (1 KALI PERCOBAAN VIA LOCALSTORAGE)
 window.addEventListener("DOMContentLoaded", () => {
@@ -447,7 +447,8 @@ function sendDataToSpreadsheet() {
     totalPindahTab: tabCount,
     totalExitFullscreen: fsCount,
     logPelanggaran: cheatLogs.length > 0 ? cheatLogs.join("\n") : "Tidak Ada Pelanggaran (Siswa Jujur)",
-    jawabanTeksPanjang: formatFullTextAnswers()
+    jawabanTeksPanjang: formatFullTextAnswers(),
+    rawAnswers: userAnswers // Kirim data mentah untuk penilaian otomatis di Apps Script
   };
 
   fetch(GOOGLE_SCRIPT_URL, {
