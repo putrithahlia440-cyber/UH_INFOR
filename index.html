@@ -66,7 +66,7 @@ select option{background:var(--panel);color:var(--text)}
       <div class="cheat-badge">
         ⚠️ Tab: <span id="tab-count">0</span>/3 | Fullscreen: <span id="fs-count">0</span>/3
       </div>
-      <div class="timer-badge">⏱️ <span id="timer">01:30:00</span></div>
+      <div class="timer-badge">⏱️ <span id="timer">90:00</span></div>
     </header>
 
     <div class="card">
@@ -277,8 +277,9 @@ function startTimer() {
       return;
     }
     totalTimeInSeconds--;
-    const h = Math.floor(totalTimeInSeconds / 3600), m = Math.floor((totalTimeInSeconds % 3600) / 60), s = totalTimeInSeconds % 60;
-    timerElem.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const m = Math.floor(totalTimeInSeconds / 60);
+    const s = totalTimeInSeconds % 60;
+    timerElem.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   }, 1000);
 }
 
